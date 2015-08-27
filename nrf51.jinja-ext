@@ -1,0 +1,128 @@
+"""
+The MIT License (MIT)
+
+Copyright (c) 2015 Kim Blomqvist
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+"""
+
+from yasha.parsers import Parser
+import xml.etree.ElementTree as ET
+
+class CmsisParser(Parser):
+	file_extension = [".xml"]
+	use_fields = True
+	use_enumvalues = True
+
+	def parse_interrupt(self, element):
+		if not element:
+			return None
+
+		interrupt = {
+			"name": element.find("name"),
+			"value": element.find("value")
+		}
+
+		return interrupt
+
+	def parse_enumvalues(self, element):
+		if not self.use_enumvalues or not element:
+			return []
+
+		enums = []
+		for e in element.findall("enumeratedValue"):
+			d = {
+				"name": e.find("name").text,
+				"value": e.find("value").text,
+			}
+			enums.append(d)
+
+		return enums
+
+	def parse_fields(self, element):
+		if not self.use_fields or not element:
+			return []
+
+		fields = []
+		for f in element.findall("field"):
+			d = {
+				"name": f.find("name").text,
+				"range": {
+					"msb": f.find("msb").text,
+					"lsb": f.find("lsb").text,
+				},
+				"enums": self.parse_enumvalues(f.find("enumeratedValues")),
+			}
+			if d["range"]["msb"] == d["range"]["lsb"]:
+				d["range"]["pattern"] = d["range"]["lsb"]
+			else:
+				d["range"]["pattern"] = d["range"]["lsb"] + ".." + d["range"]["msb"]
+			fields.append(d)
+
+		return fields
+
+	def parse_registers(self, element):
+		if not element:
+			return []
+
+		registers = []
+		for r in element.findall("register"):
+			d = {
+				"name": r.find("name").text,
+				"offset": r.find("addressOffset").text,
+				"fields": self.parse_fields(r.find("fields")),
+			}
+			registers.append(d)
+
+		return registers
+
+	def parse(self, file):
+		tree = ET.parse(file.name)
+		root = tree.getroot()
+
+		periphs = {}
+		periphs_order = []
+		derived_periphs = []
+
+		for p in root.iter("peripheral"):
+			d = {
+				"name": p.find("name").text,
+				"base": p.find("baseAddress").text,
+				"registers": self.parse_registers(p.find("registers")),
+				"interrupt": self.parse_interrupt(p.find("interrupt")),
+			}
+
+			if "derivedFrom" in p.attrib:
+				d["derived_from"] = p.attrib["derivedFrom"]
+				derived_periphs.append(d["name"])
+
+			periphs[d["name"]] = d
+			periphs_order.append(d["name"])
+
+		for p in [periphs[name] for name in derived_periphs]:
+			base_periph = periphs[p["derived_from"]].copy()
+			base_periph["name"] = p["name"]
+			base_periph["base"] = p["base"]
+			periphs[p["name"]] = base_periph
+
+		vars = {
+			"peripherals": [periphs[name] for name in periphs_order],
+		}
+		return vars
