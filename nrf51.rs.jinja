@@ -30,7 +30,7 @@ ioregs! ({{ p.name }} @ {{ p.base }}{% if not p.registers %}{% else %} = {
 		{%- for f in r.fields %}
 		{{ f.range.pattern }} => {{ f.name|lower }}{% if not f.enums %},{% else %} {
 			{%- for e in f.enums %}
-			{{ e.value }} => {{ e.name }}
+			{{ e.value }} => {{ e.name }},
 			{%- endfor %}
 		}{% endif %}
 		{%- endfor %}
