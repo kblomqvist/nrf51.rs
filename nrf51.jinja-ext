@@ -26,20 +26,36 @@ THE SOFTWARE.
 from yasha.parsers import Parser
 import xml.etree.ElementTree as ET
 
+def element_text(element, default=None):
+	if element == None:
+		return default
+	return element.text
+
 class CmsisParser(Parser):
 	file_extension = [".xml"]
 	use_fields = True
 	use_enumvalues = True
 
+	def parse_size(self, element, default=None):
+		return element_text(element, default)
+
+	def parse_access(self, element, default=None):
+		access = element_text(element, default)
+		if access == "read-only":
+			return "ro"
+		if access == "write-only":
+			return "wo"
+		if access == "read-write":
+			return "rw"
+		return access
+
 	def parse_interrupt(self, element):
 		if not element:
 			return None
-
 		interrupt = {
 			"name": element.find("name"),
 			"value": element.find("value")
 		}
-
 		return interrupt
 
 	def parse_enumvalues(self, element):
@@ -56,40 +72,46 @@ class CmsisParser(Parser):
 
 		return enums
 
-	def parse_fields(self, element):
+	def parse_fields(self, element, register):
 		if not self.use_fields or not element:
 			return []
 
 		fields = []
 		for f in element.findall("field"):
-			d = {
+			field = {
 				"name": f.find("name").text,
 				"range": {
 					"msb": f.find("msb").text,
 					"lsb": f.find("lsb").text,
 				},
 				"enums": self.parse_enumvalues(f.find("enumeratedValues")),
+				"access": self.parse_access(f.find("access"), register["access"])
 			}
-			if d["range"]["msb"] == d["range"]["lsb"]:
-				d["range"]["pattern"] = d["range"]["lsb"]
+			if field["range"]["msb"] == field["range"]["lsb"]:
+				field["range"]["pattern"] = field["range"]["lsb"]
 			else:
-				d["range"]["pattern"] = d["range"]["lsb"] + ".." + d["range"]["msb"]
-			fields.append(d)
+				field["range"]["pattern"] = field["range"]["lsb"] + ".." + field["range"]["msb"]
+			fields.append(field)
 
 		return fields
 
-	def parse_registers(self, element):
+	def parse_registers(self, element, peripheral):
 		if not element:
 			return []
 
 		registers = []
 		for r in element.findall("register"):
-			d = {
-				"name": r.find("name").text,
+			register = {
+				"name"  : r.find("name").text,
 				"offset": r.find("addressOffset").text,
-				"fields": self.parse_fields(r.find("fields")),
+				"size"  : self.parse_size(r.find("size"), peripheral["size"]),
+				"access": self.parse_access(r.find("access"), peripheral["access"]),
 			}
-			registers.append(d)
+
+			fields = self.parse_fields(r.find("fields"), register)
+			register["fields"] = fields
+
+			registers.append(register)
 
 		return registers
 
@@ -101,26 +123,35 @@ class CmsisParser(Parser):
 		periphs_order = []
 		derived_periphs = []
 
-		for p in root.iter("peripheral"):
-			d = {
-				"name": p.find("name").text,
-				"base": p.find("baseAddress").text,
-				"registers": self.parse_registers(p.find("registers")),
-				"interrupt": self.parse_interrupt(p.find("interrupt")),
+		device = {
+			"size": element_text(root.find("size")),
+			"access": element_text(root.find("access")),
+		}
+
+		for elem in root.iter("peripheral"):
+			periph = {
+				"name"   : elem.find("name").text,
+				"baseadr": elem.find("baseAddress").text,
+				"size"   : self.parse_size(elem.find("size"), device["size"]),
+				"access" : self.parse_access(elem.find("access"), device["access"]),
+				"interrupt": self.parse_interrupt(elem.find("interrupt")),
 			}
 
-			if "derivedFrom" in p.attrib:
-				d["derived_from"] = p.attrib["derivedFrom"]
-				derived_periphs.append(d["name"])
+			if "derivedFrom" in elem.attrib:
+				periph["derived_from"] = elem.attrib["derivedFrom"]
+				derived_periphs.append(periph["name"])
 
-			periphs[d["name"]] = d
-			periphs_order.append(d["name"])
+			registers = self.parse_registers(elem.find("registers"), periph)
+			periph["registers"] = registers
 
-		for p in [periphs[name] for name in derived_periphs]:
-			base_periph = periphs[p["derived_from"]].copy()
-			base_periph["name"] = p["name"]
-			base_periph["base"] = p["base"]
-			periphs[p["name"]] = base_periph
+			periphs[periph["name"]] = periph
+			periphs_order.append(periph["name"])
+
+		for derived in [periphs[name] for name in derived_periphs]:
+			base = periphs[derived["derived_from"]].copy()
+			base["name"] = derived["name"]
+			base["baseadr"] = derived["baseadr"]
+			periphs[derived["name"]] = base
 
 		vars = {
 			"peripherals": [periphs[name] for name in periphs_order],

@@ -24,11 +24,11 @@ use volatile_cell::VolatileCell;
 use core::ops::Drop
 
 {% for p in peripherals %}
-ioregs! ({{ p.name }} @ {{ p.base }}{% if not p.registers %}{% else %} = {
+ioregs! ({{ p.name }} @ {{ p.baseadr }}{% if not p.registers %}{% else %} = {
 	{%- for r in p.registers %}
-	{{ r.offset }} => reg32 {{ r.name|lower }}{% if not r.fields %} {}{% else %} {
+	{{ r.offset }} => reg{{ r.size }} {{ r.name|lower }}{% if not r.fields %} {}{% else %} {
 		{%- for f in r.fields %}
-		{{ f.range.pattern }} => {{ f.name|lower }}{% if not f.enums %},{% else %} {
+		{{ f.range.pattern }} => {{ f.name|lower }}{% if f.access %}: {{ f.access }}{% endif %}{% if not f.enums %},{% else %} {
 			{%- for e in f.enums %}
 			{{ e.value }} => {{ e.name }},
 			{%- endfor %}
