@@ -25,16 +25,16 @@ use core::ops::Drop
 
 {% for p in peripherals %}
 ioregs! ({{ p.name }} @ {{ p.base }}{% if not p.registers %}{% else %} = {
-	{% for r in p.registers -%}
+	{%- for r in p.registers %}
 	{{ r.offset }} => reg32 {{ r.name|lower }}{% if not r.fields %} {}{% else %} {
-		{% for f in r.fields -%}
+		{%- for f in r.fields %}
 		{{ f.range.pattern }} => {{ f.name|lower }}{% if not f.enums %},{% else %} {
-			{% for e in f.enums -%}
+			{%- for e in f.enums %}
 			{{ e.value }} => {{ e.name }}
-			{% endfor %}
+			{%- endfor %}
 		}{% endif %}
-		{% endfor %}
+		{%- endfor %}
 	}{% endif %}
-	{% endfor %}
+	{%- endfor %}
 }{% endif %});
 {% endfor %}
