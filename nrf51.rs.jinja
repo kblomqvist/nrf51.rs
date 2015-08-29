@@ -20,6 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+use volatile_cell::VolatileCell;
+use core::ops::Drop
+
 {% macro eval_register(r) -%}
 {%- set NO_FIELDS = False -%}
 {%- set NO_ENUMES = False -%}
@@ -34,9 +37,6 @@
     {%- endfor %}
 }{% endif %}
 {%- endmacro -%}
-
-use volatile_cell::VolatileCell;
-use core::ops::Drop
 
 {% for p in peripherals %}
 ioregs! ({{ p.name }} @ {{ p.base_address }}{% if not p.registers and not p.clusters %}{% else %} = {
