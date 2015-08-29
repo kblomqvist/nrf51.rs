@@ -20,10 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-{% set NO_FIELDS = False -%}
+{% macro eval_register(r) -%}
+{%- set NO_FIELDS = False -%}
 {%- set NO_ENUMES = False -%}
-
-{%- macro eval_register(r) -%}
 {{ r.offset }} => reg{{ r.size }} {{ r.name|lower }}{% if not r.fields or NO_FIELDS%} {}{% else %} {
     {%- for f in r.fields %}
     {{ f.range.pattern }} => {{ f.name|lower }}{% if f.access %}: {{ f.access }}{% endif %}
