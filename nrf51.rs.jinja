@@ -25,14 +25,14 @@
 
 {%- macro eval_register(r) -%}
 {{ r.offset }} => reg{{ r.size }} {{ r.name|lower }}{% if not r.fields or NO_FIELDS%} {}{% else %} {
-	{%- for f in r.fields %}
-	{{ f.range.pattern }} => {{ f.name|lower }}{% if f.access %}: {{ f.access }}{% endif %}
-	{%- if not f.enums or NO_ENUMES %},{% else %} {
-		{%- for e in f.enums %}
-		{{ e.value }} => {{ e.name }},
-		{%- endfor %}
-	}{% endif %}
-	{%- endfor %}
+    {%- for f in r.fields %}
+    {{ f.range.pattern }} => {{ f.name|lower }}{% if f.access %}: {{ f.access }}{% endif %}
+    {%- if not f.enums or NO_ENUMES %},{% else %} {
+        {%- for e in f.enums %}
+        {{ e.value }} => {{ e.name }},
+        {%- endfor %}
+    }{% endif %}
+    {%- endfor %}
 }{% endif %}
 {%- endmacro -%}
 
@@ -41,15 +41,15 @@ use core::ops::Drop
 
 {% for p in peripherals %}
 ioregs! ({{ p.name }} @ {{ p.base_address }}{% if not p.registers and not p.clusters %}{% else %} = {
-	{%- for r in p.registers %}
-	{{ eval_register(r)|indent }}
-	{%- endfor %}
-	{%- for c in p.clusters %}
-	{{ c.offset }} => group {{ c.name|lower }} {
-		{%- for r in c.registers %}
-		{{ eval_register(r)|indent(8) }}
-		{%- endfor %}
-	}
-	{%- endfor %}
+    {%- for r in p.registers %}
+    {{ eval_register(r)|indent }}
+    {%- endfor %}
+    {%- for c in p.clusters %}
+    {{ c.offset }} => group {{ c.name|lower }} {
+        {%- for r in c.registers %}
+        {{ eval_register(r)|indent(8) }}
+        {%- endfor %}
+    }
+    {%- endfor %}
 }{% endif %});
 {% endfor %}
