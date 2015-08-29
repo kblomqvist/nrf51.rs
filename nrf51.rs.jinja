@@ -20,21 +20,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+{% set NO_FIELDS = False -%}
+{%- set NO_ENUMES = False -%}
+
 use volatile_cell::VolatileCell;
 use core::ops::Drop
 
 {% for p in peripherals %}
-ioregs! ({{ p.name }} @ {{ p.baseadr }}{% if not p.registers %}{% else %} = {
+ioregs! ({{ p.name }} @ {{ p.base_address }}{% if not p.registers and not p.clusters %}{% else %} = {
 	{%- for r in p.registers %}
-	{{ r.offset }} => reg{{ r.size }} {{ r.name|lower }}{% if not r.fields %} {}{% else %} {
+	{{ r.offset }} => reg{{ r.size }} {{ r.name|lower }}
+	{%- if not r.fields or NO_FIELDS %} {}{% else %} {
 		{%- for f in r.fields %}
-		{{ f.range.pattern }} => {{ f.name|lower }}{% if f.access %}: {{ f.access }}{% endif %}{% if not f.enums %},{% else %} {
+		{{ f.range.pattern }} => {{ f.name|lower }}{% if f.access %}: {{ f.access }}{% endif %}
+		{%- if not f.enums or NO_ENUMES %},{% else %} {
 			{%- for e in f.enums %}
 			{{ e.value }} => {{ e.name }},
 			{%- endfor %}
 		}{% endif %}
 		{%- endfor %}
 	}{% endif %}
+	{%- endfor %}
+	{%- for c in p.clusters %}
+	{{ c.offset }} => group {{ c.name|lower }} {
+		{%- for r in c.registers %}
+		{{ r.offset }} => reg{{ r.size }} {{ r.name|lower }}{% if not r.fields or NO_FIELDS%} {}{% else %} {
+			{%- for f in r.fields %}
+			{{ f.range.pattern }} => {{ f.name|lower }}{% if f.access %}: {{ f.access }}{% endif %}
+			{%- if not f.enums or NO_ENUMES %},{% else %} {
+				{%- for e in f.enums %}
+				{{ e.value }} => {{ e.name }},
+				{%- endfor %}
+			}{% endif %}
+			{%- endfor %}
+		}{% endif %}
+		{%- endfor %}
+	}
 	{%- endfor %}
 }{% endif %});
 {% endfor %}

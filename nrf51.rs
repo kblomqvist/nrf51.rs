@@ -635,7 +635,502 @@ ioregs! (MPU @ 0x40000000 = {
 	}
 });
 
-ioregs! (AMLI @ 0x40000000);
+ioregs! (AMLI @ 0x40000000 = {
+	0xE00 => group rampri[0] {
+		0x000 => reg32 cpu0 {
+			0..3 => ram0: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			4..7 => ram1: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			8..11 => ram2: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			12..15 => ram3: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			16..19 => ram4: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			20..23 => ram5: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			24..27 => ram6: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			28..31 => ram7: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+		}
+		0x004 => reg32 spis1 {
+			0..3 => ram0: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			4..7 => ram1: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			8..11 => ram2: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			12..15 => ram3: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			16..19 => ram4: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			20..23 => ram5: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			24..27 => ram6: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			28..31 => ram7: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+		}
+		0x008 => reg32 radio {
+			0..3 => ram0: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			4..7 => ram1: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			8..11 => ram2: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			12..15 => ram3: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			16..19 => ram4: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			20..23 => ram5: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			24..27 => ram6: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			28..31 => ram7: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+		}
+		0x00C => reg32 ecb {
+			0..3 => ram0: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			4..7 => ram1: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			8..11 => ram2: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			12..15 => ram3: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			16..19 => ram4: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			20..23 => ram5: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			24..27 => ram6: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			28..31 => ram7: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+		}
+		0x010 => reg32 ccm {
+			0..3 => ram0: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			4..7 => ram1: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			8..11 => ram2: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			12..15 => ram3: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			16..19 => ram4: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			20..23 => ram5: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			24..27 => ram6: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			28..31 => ram7: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+		}
+		0x014 => reg32 aar {
+			0..3 => ram0: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			4..7 => ram1: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			8..11 => ram2: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			12..15 => ram3: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			16..19 => ram4: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			20..23 => ram5: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			24..27 => ram6: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+			28..31 => ram7: rw {
+				0x0 => Pri0,
+				0x2 => Pri2,
+				0x4 => Pri4,
+				0x6 => Pri6,
+				0x8 => Pri8,
+				0xA => Pri10,
+				0xC => Pri12,
+				0xE => Pri14,
+			}
+		}
+	}
+});
 
 ioregs! (RADIO @ 0x40001000 = {
 	0x000 => reg32 tasks_txen {}
@@ -925,10 +1420,6 @@ ioregs! (RADIO @ 0x40001000 = {
 		0..6 => datawhiteiv: rw,
 	}
 	0x560 => reg32 bcc {}
-	0x600 => reg32 dab[%s] {}
-	0x620 => reg32 dap[%s] {
-		0..15 => dap: rw,
-	}
 	0x640 => reg32 dacnf {
 		0 => ena0: rw {
 			0 => Disabled,
@@ -994,6 +1485,14 @@ ioregs! (RADIO @ 0x40001000 = {
 		0 => power: rw {
 			0 => Disabled,
 			1 => Enabled,
+		}
+	}
+	0x600 => group dab[8] {
+		0x0 => reg32 dab {}
+	}
+	0x620 => group dap[8] {
+		0x0 => reg32 dap {
+			0..15 => dap: rw,
 		}
 	}
 });
@@ -1694,11 +2193,36 @@ ioregs! (SPIM1 @ 0x40004000 = {
 			1 => Enabled,
 		}
 	}
+	0x508 => group psel[0] {
+		0x0 => reg32 sck {}
+		0x4 => reg32 mosi {}
+		0x8 => reg32 miso {}
+	}
+	0x534 => group rxd[0] {
+		0x0 => reg32 ptr {
+			0..31 => ptr: rw,
+		}
+		0x4 => reg32 maxcnt {
+			0..7 => maxcnt: rw,
+		}
+		0x8 => reg32 amount {
+			0..7 => amount: ro,
+		}
+	}
+	0x544 => group txd[0] {
+		0x0 => reg32 ptr {
+			0..31 => ptr: rw,
+		}
+		0x4 => reg32 maxcnt {
+			0..7 => maxcnt: rw,
+		}
+		0x8 => reg32 amount {
+			0..7 => amount: ro,
+		}
+	}
 });
 
 ioregs! (GPIOTE @ 0x40006000 = {
-	0x000 => reg32 tasks_out[%s] {}
-	0x100 => reg32 events_in[%s] {}
 	0x17C => reg32 events_port {}
 	0x304 => reg32 intenset {
 		0 => in0: rw {
@@ -1744,28 +2268,36 @@ ioregs! (GPIOTE @ 0x40006000 = {
 			1 => Enabled,
 		}
 	}
-	0x510 => reg32 config[%s] {
-		0..1 => mode: rw {
-			0x00 => Disabled,
-			0x01 => Event,
-			0x03 => Task,
-		}
-		8..12 => psel: rw,
-		16..17 => polarity: rw {
-			0x00 => None,
-			0x01 => LoToHi,
-			0x02 => HiToLo,
-			0x03 => Toggle,
-		}
-		20 => outinit: rw {
-			0 => Low,
-			1 => High,
-		}
-	}
 	0xFFC => reg32 power {
 		0 => power: rw {
 			0 => Disabled,
 			1 => Enabled,
+		}
+	}
+	0x000 => group tasks_out[4] {
+		0x0 => reg32 tasks_out {}
+	}
+	0x100 => group events_in[4] {
+		0x0 => reg32 events_in {}
+	}
+	0x510 => group config[4] {
+		0x0 => reg32 config {
+			0..1 => mode: rw {
+				0x00 => Disabled,
+				0x01 => Event,
+				0x03 => Task,
+			}
+			8..12 => psel: rw,
+			16..17 => polarity: rw {
+				0x00 => None,
+				0x01 => LoToHi,
+				0x02 => HiToLo,
+				0x03 => Toggle,
+			}
+			20 => outinit: rw {
+				0 => Low,
+				1 => High,
+			}
 		}
 	}
 });
@@ -1851,8 +2383,6 @@ ioregs! (TIMER0 @ 0x40008000 = {
 	0x008 => reg32 tasks_count {}
 	0x00C => reg32 tasks_clear {}
 	0x010 => reg32 tasks_shutdown {}
-	0x040 => reg32 tasks_capture[%s] {}
-	0x140 => reg32 events_compare[%s] {}
 	0x200 => reg32 shorts {
 		0 => compare0_clear: rw {
 			0 => Disabled,
@@ -1940,12 +2470,20 @@ ioregs! (TIMER0 @ 0x40008000 = {
 	0x510 => reg32 prescaler {
 		0..3 => prescaler: rw,
 	}
-	0x540 => reg32 cc[%s] {}
 	0xFFC => reg32 power {
 		0 => power: rw {
 			0 => Disabled,
 			1 => Enabled,
 		}
+	}
+	0x040 => group tasks_capture[4] {
+		0x0 => reg32 tasks_capture {}
+	}
+	0x140 => group events_compare[4] {
+		0x0 => reg32 events_compare {}
+	}
+	0x540 => group cc[4] {
+		0x0 => reg32 cc {}
 	}
 });
 
@@ -1955,8 +2493,6 @@ ioregs! (TIMER1 @ 0x40009000 = {
 	0x008 => reg32 tasks_count {}
 	0x00C => reg32 tasks_clear {}
 	0x010 => reg32 tasks_shutdown {}
-	0x040 => reg32 tasks_capture[%s] {}
-	0x140 => reg32 events_compare[%s] {}
 	0x200 => reg32 shorts {
 		0 => compare0_clear: rw {
 			0 => Disabled,
@@ -2044,12 +2580,20 @@ ioregs! (TIMER1 @ 0x40009000 = {
 	0x510 => reg32 prescaler {
 		0..3 => prescaler: rw,
 	}
-	0x540 => reg32 cc[%s] {}
 	0xFFC => reg32 power {
 		0 => power: rw {
 			0 => Disabled,
 			1 => Enabled,
 		}
+	}
+	0x040 => group tasks_capture[4] {
+		0x0 => reg32 tasks_capture {}
+	}
+	0x140 => group events_compare[4] {
+		0x0 => reg32 events_compare {}
+	}
+	0x540 => group cc[4] {
+		0x0 => reg32 cc {}
 	}
 });
 
@@ -2059,8 +2603,6 @@ ioregs! (TIMER2 @ 0x4000A000 = {
 	0x008 => reg32 tasks_count {}
 	0x00C => reg32 tasks_clear {}
 	0x010 => reg32 tasks_shutdown {}
-	0x040 => reg32 tasks_capture[%s] {}
-	0x140 => reg32 events_compare[%s] {}
 	0x200 => reg32 shorts {
 		0 => compare0_clear: rw {
 			0 => Disabled,
@@ -2148,12 +2690,20 @@ ioregs! (TIMER2 @ 0x4000A000 = {
 	0x510 => reg32 prescaler {
 		0..3 => prescaler: rw,
 	}
-	0x540 => reg32 cc[%s] {}
 	0xFFC => reg32 power {
 		0 => power: rw {
 			0 => Disabled,
 			1 => Enabled,
 		}
+	}
+	0x040 => group tasks_capture[4] {
+		0x0 => reg32 tasks_capture {}
+	}
+	0x140 => group events_compare[4] {
+		0x0 => reg32 events_compare {}
+	}
+	0x540 => group cc[4] {
+		0x0 => reg32 cc {}
 	}
 });
 
@@ -2164,7 +2714,6 @@ ioregs! (RTC0 @ 0x4000B000 = {
 	0x00C => reg32 tasks_trigovrflw {}
 	0x100 => reg32 events_tick {}
 	0x104 => reg32 events_ovrflw {}
-	0x140 => reg32 events_compare[%s] {}
 	0x304 => reg32 intenset {
 		0 => tick: rw {
 			0 => Disabled,
@@ -2301,13 +2850,18 @@ ioregs! (RTC0 @ 0x4000B000 = {
 	0x508 => reg32 prescaler {
 		0..11 => prescaler: rw,
 	}
-	0x540 => reg32 cc[%s] {
-		0..23 => compare: rw,
-	}
 	0xFFC => reg32 power {
 		0 => power: rw {
 			0 => Disabled,
 			1 => Enabled,
+		}
+	}
+	0x140 => group events_compare[4] {
+		0x0 => reg32 events_compare {}
+	}
+	0x540 => group cc[4] {
+		0x0 => reg32 cc {
+			0..23 => compare: rw,
 		}
 	}
 });
@@ -2638,15 +3192,17 @@ ioregs! (WDT @ 0x40010000 = {
 			1 => Run,
 		}
 	}
-	0x600 => reg32 rr[%s] {
-		0..31 => rr: wo {
-			0x6E524635 => Reload,
-		}
-	}
 	0xFFC => reg32 power {
 		0 => power: rw {
 			0 => Disabled,
 			1 => Enabled,
+		}
+	}
+	0x600 => group rr[8] {
+		0x0 => reg32 rr {
+			0..31 => rr: wo {
+				0x6E524635 => Reload,
+			}
 		}
 	}
 });
@@ -2658,7 +3214,6 @@ ioregs! (RTC1 @ 0x40011000 = {
 	0x00C => reg32 tasks_trigovrflw {}
 	0x100 => reg32 events_tick {}
 	0x104 => reg32 events_ovrflw {}
-	0x140 => reg32 events_compare[%s] {}
 	0x304 => reg32 intenset {
 		0 => tick: rw {
 			0 => Disabled,
@@ -2795,13 +3350,18 @@ ioregs! (RTC1 @ 0x40011000 = {
 	0x508 => reg32 prescaler {
 		0..11 => prescaler: rw,
 	}
-	0x540 => reg32 cc[%s] {
-		0..23 => compare: rw,
-	}
 	0xFFC => reg32 power {
 		0 => power: rw {
 			0 => Disabled,
 			1 => Enabled,
+		}
+	}
+	0x140 => group events_compare[4] {
+		0x0 => reg32 events_compare {}
+	}
+	0x540 => group cc[4] {
+		0x0 => reg32 cc {
+			0..23 => compare: rw,
 		}
 	}
 });
@@ -3419,119 +3979,129 @@ ioregs! (PPI @ 0x4001F000 = {
 			1 => Enabled,
 		}
 	}
-	0x800 => reg32 chg[%s] {
-		0 => ch0: rw {
-			0 => Excluded,
-			1 => Included,
+	0x800 => group chg[4] {
+		0x0 => reg32 chg {
+			0 => ch0: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			1 => ch1: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			2 => ch2: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			3 => ch3: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			4 => ch4: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			5 => ch5: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			6 => ch6: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			7 => ch7: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			8 => ch8: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			9 => ch9: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			10 => ch10: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			11 => ch11: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			12 => ch12: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			13 => ch13: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			14 => ch14: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			15 => ch15: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			20 => ch20: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			21 => ch21: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			22 => ch22: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			23 => ch23: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			24 => ch24: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			25 => ch25: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			26 => ch26: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			27 => ch27: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			28 => ch28: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			29 => ch29: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			30 => ch30: rw {
+				0 => Excluded,
+				1 => Included,
+			}
+			31 => ch31: rw {
+				0 => Excluded,
+				1 => Included,
+			}
 		}
-		1 => ch1: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		2 => ch2: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		3 => ch3: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		4 => ch4: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		5 => ch5: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		6 => ch6: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		7 => ch7: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		8 => ch8: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		9 => ch9: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		10 => ch10: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		11 => ch11: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		12 => ch12: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		13 => ch13: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		14 => ch14: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		15 => ch15: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		20 => ch20: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		21 => ch21: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		22 => ch22: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		23 => ch23: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		24 => ch24: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		25 => ch25: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		26 => ch26: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		27 => ch27: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		28 => ch28: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		29 => ch29: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		30 => ch30: rw {
-			0 => Excluded,
-			1 => Included,
-		}
-		31 => ch31: rw {
-			0 => Excluded,
-			1 => Included,
-		}
+	}
+	0x000 => group tasks_chg[4] {
+		0x000 => reg32 en {}
+		0x004 => reg32 dis {}
+	}
+	0x510 => group ch[16] {
+		0x000 => reg32 eep {}
+		0x004 => reg32 tep {}
 	}
 });
 
@@ -3547,21 +4117,16 @@ ioregs! (FICR @ 0x10000000 = {
 	}
 	0x034 => reg32 numramblock {}
 	0x038 => reg32 sizeramblocks {}
-	0x038 => reg32 sizeramblock[%s] {}
 	0x05C => reg32 configid {
 		0..15 => hwid: ro,
 		16..31 => fwid: ro,
 	}
-	0x060 => reg32 deviceid[%s] {}
-	0x080 => reg32 er[%s] {}
-	0x090 => reg32 ir[%s] {}
 	0x0A0 => reg32 deviceaddrtype {
 		0 => deviceaddrtype: ro {
 			0 => Public,
 			1 => Random,
 		}
 	}
-	0x0A4 => reg32 deviceaddr[%s] {}
 	0x0AC => reg32 overrideen {
 		0 => nrf_1mbit: ro {
 			0 => Override,
@@ -3572,8 +4137,27 @@ ioregs! (FICR @ 0x10000000 = {
 			1 => NotOverride,
 		}
 	}
-	0x0B0 => reg32 nrf_1mbit[%s] {}
-	0x0EC => reg32 ble_1mbit[%s] {}
+	0x038 => group sizeramblock[4] {
+		0x0 => reg32 sizeramblock {}
+	}
+	0x060 => group deviceid[2] {
+		0x0 => reg32 deviceid {}
+	}
+	0x080 => group er[4] {
+		0x0 => reg32 er {}
+	}
+	0x090 => group ir[4] {
+		0x0 => reg32 ir {}
+	}
+	0x0A4 => group deviceaddr[2] {
+		0x0 => reg32 deviceaddr {}
+	}
+	0x0B0 => group nrf_1mbit[5] {
+		0x0 => reg32 nrf_1mbit {}
+	}
+	0x0EC => group ble_1mbit[5] {
+		0x0 => reg32 ble_1mbit {}
+	}
 });
 
 ioregs! (UICR @ 0x10001000 = {
@@ -3598,9 +4182,15 @@ ioregs! (UICR @ 0x10001000 = {
 		0..15 => fwid: ro,
 	}
 	0x014 => reg32 bootloaderaddr {}
-	0x014 => reg32 nrffw[%s] {}
-	0x050 => reg32 nrfhw[%s] {}
-	0x080 => reg32 customer[%s] {}
+	0x014 => group nrffw[15] {
+		0x0 => reg32 nrffw {}
+	}
+	0x050 => group nrfhw[12] {
+		0x0 => reg32 nrfhw {}
+	}
+	0x080 => group customer[32] {
+		0x0 => reg32 customer {}
+	}
 });
 
 ioregs! (GPIO @ 0x50000000 = {
@@ -4514,34 +5104,36 @@ ioregs! (GPIO @ 0x50000000 = {
 			1 => Output,
 		}
 	}
-	0x700 => reg32 pin_cnf[%s] {
-		0 => dir: rw {
-			0 => Input,
-			1 => Output,
-		}
-		1 => input: rw {
-			0 => Connect,
-			1 => Disconnect,
-		}
-		2..3 => pull: rw {
-			0x00 => Disabled,
-			0x01 => Pulldown,
-			0x03 => Pullup,
-		}
-		8..10 => drive: rw {
-			0x00 => S0S1,
-			0x01 => H0S1,
-			0x02 => S0H1,
-			0x03 => H0H1,
-			0x04 => D0S1,
-			0x05 => D0H1,
-			0x06 => S0D1,
-			0x07 => H0D1,
-		}
-		16..17 => sense: rw {
-			0x00 => Disabled,
-			0x02 => High,
-			0x03 => Low,
+	0x700 => group pin_cnf[32] {
+		0x0 => reg32 pin_cnf {
+			0 => dir: rw {
+				0 => Input,
+				1 => Output,
+			}
+			1 => input: rw {
+				0 => Connect,
+				1 => Disconnect,
+			}
+			2..3 => pull: rw {
+				0x00 => Disabled,
+				0x01 => Pulldown,
+				0x03 => Pullup,
+			}
+			8..10 => drive: rw {
+				0x00 => S0S1,
+				0x01 => H0S1,
+				0x02 => S0H1,
+				0x03 => H0H1,
+				0x04 => D0S1,
+				0x05 => D0H1,
+				0x06 => S0D1,
+				0x07 => H0D1,
+			}
+			16..17 => sense: rw {
+				0x00 => Disabled,
+				0x02 => High,
+				0x03 => Low,
+			}
 		}
 	}
 });

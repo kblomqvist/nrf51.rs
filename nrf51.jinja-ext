@@ -26,28 +26,26 @@ THE SOFTWARE.
 from yasha.parsers import Parser
 import xml.etree.ElementTree as ET
 
-def element_text(element, default=None):
-	if element == None:
-		return default
-	return element.text
-
 class CmsisParser(Parser):
 	file_extension = [".xml"]
-	use_fields = True
-	use_enumvalues = True
 
-	def parse_size(self, element, default=None):
-		return element_text(element, default)
+	def update_size_and_access(self, element, dest):
+		if element.find("size") != None:
+			size = element.find("size").text
+			dest["size"] = size
+		if element.find("access") != None:
+			access = self.parse_access_element(element.find("access"))
+			dest["access"] = access
 
-	def parse_access(self, element, default=None):
-		access = element_text(element, default)
-		if access == "read-only":
-			return "ro"
-		if access == "write-only":
-			return "wo"
-		if access == "read-write":
-			return "rw"
-		return access
+	def parse_access_element(self, element):
+		possibilities = {
+			"read-only"     : "ro",
+			"write-only"    : "wo",
+			"writeOnce"     : "wo",
+			"read-write"    : "rw",
+			"read-writeOnce": "rw",
+		}
+		return possibilities[element.text]
 
 	def parse_interrupt(self, element):
 		if not element:
@@ -58,62 +56,117 @@ class CmsisParser(Parser):
 		}
 		return interrupt
 
-	def parse_enumvalues(self, element):
-		if not self.use_enumvalues or not element:
-			return []
-
+	def parse_enumvalue_elements(self, elements):
 		enums = []
-		for e in element.findall("enumeratedValue"):
-			d = {
-				"name": e.find("name").text,
-				"value": e.find("value").text,
+		for elem in elements:
+			enum = {
+				"name": elem.find("name").text,
+				"value": elem.find("value").text,
 			}
-			enums.append(d)
-
+			enums.append(enum)
 		return enums
 
-	def parse_fields(self, element, register):
-		if not self.use_fields or not element:
-			return []
-
+	def parse_elements_field(self, elements, access=None):
 		fields = []
-		for f in element.findall("field"):
+		for elem in elements:
 			field = {
-				"name": f.find("name").text,
-				"range": {
-					"msb": f.find("msb").text,
-					"lsb": f.find("lsb").text,
-				},
-				"enums": self.parse_enumvalues(f.find("enumeratedValues")),
-				"access": self.parse_access(f.find("access"), register["access"])
+				"name"  : elem.find("name").text,
+				"range" : {},
+				"enums" : [],
+				"access": access,
 			}
-			if field["range"]["msb"] == field["range"]["lsb"]:
-				field["range"]["pattern"] = field["range"]["lsb"]
-			else:
-				field["range"]["pattern"] = field["range"]["lsb"] + ".." + field["range"]["msb"]
+			self.update_size_and_access(elem, field)
+
+			lsb = 0; msb = 0
+			if elem.find("lsb") != None:
+				lsb = int(elem.find("lsb").text)
+				msb = int(elem.find("msb").text)
+			elif elem.find("bitOffset") != None:
+				lsb = int(elem.find("bitOffset").text)
+				msb = lsb + int(elem.find("bitWidth").text)
+			elif elem.find("bitRange") != None:
+				msb, lsb = elem.find("bitRangePattern").text.split(":")
+
+			pattern = "{}".format(int(lsb))
+			if lsb != msb:
+				pattern = "{}..{}".format(pattern, msb)
+
+			field["range"] = {
+				"lsb": lsb,
+				"msb": msb,
+				"pattern": pattern,
+			}
+
+			if elem.find("enumeratedValues"):
+				enums = elem.find("enumeratedValues")
+				enums = enums.findall("enumeratedValue")
+				enums = self.parse_enumvalue_elements(enums)
+				field["enums"].extend(enums)
+
 			fields.append(field)
 
 		return fields
 
-	def parse_registers(self, element, peripheral):
-		if not element:
-			return []
-
-		registers = []
-		for r in element.findall("register"):
-			register = {
-				"name"  : r.find("name").text,
-				"offset": r.find("addressOffset").text,
-				"size"  : self.parse_size(r.find("size"), peripheral["size"]),
-				"access": self.parse_access(r.find("access"), peripheral["access"]),
+	def parse_elements_cluster(self, elements, size, access, is_regarray=False):
+		clusters = []
+		for elem in elements:
+			cluster = {
+				"name"  : elem.find("name").text,
+				"offset": elem.find("addressOffset").text,
 			}
 
-			fields = self.parse_fields(r.find("fields"), register)
-			register["fields"] = fields
+			registers = elem.findall("register")
+			cluster["registers"], _ = self.parse_elements_register(registers, size, access)
 
-			registers.append(register)
+			if elem.find("dim") != None:
+				dim = elem.find("dim").text
+				cluster["name"] = cluster["name"].replace("%s", dim)
+			else:
+				cluster["name"] += "[0]"
 
-		return registers
+			if is_regarray:
+				cluster["registers"] = [{
+					"name"  : cluster["name"].replace("[%s]" % dim, ""),
+					"offset": "0x0",
+					"fields": [],
+					"size"  : size,
+					"access": access,
+				}]
+				if elem.find("fields") != None:
+					fields = elem.find("fields")
+					fields = self.parse_elements_field(fields.findall("field"), access)
+					cluster["registers"][0]["fields"].extend(fields)
+
+			clusters.append(cluster)
+
+		return clusters
+
+	def parse_elements_register(self, elements, size, access):
+		registers = [];	regarrays = []
+		for e in elements:
+			r = {
+				"name"  : e.find("name").text,
+				"offset": e.find("addressOffset").text,
+				"fields": [],
+				"size"  : size,
+				"access": access,
+			}
+			self.update_size_and_access(e, r)
+
+			if e.find("dim") != None:
+				# Array-of-registers is a single register cluster in ioregs
+				regarray = self.parse_elements_cluster([e], r["size"], r["access"], is_regarray=True)[0]
+				regarrays.append(regarray)
+				continue
+
+			if e.find("fields") != None:
+				fields = e.find("fields").findall("field")
+				fields = self.parse_elements_field(fields, r["access"])
+				r["fields"].extend(fields)
+
+			registers.append(r)
+
+		return (registers, regarrays)
 
 	def parse(self, file):
 		tree = ET.parse(file.name)
@@ -124,33 +177,44 @@ class CmsisParser(Parser):
 		derived_periphs = []
 
 		device = {
-			"size": element_text(root.find("size")),
-			"access": element_text(root.find("access")),
+			"size": None,
+			"access": None,
 		}
+		self.update_size_and_access(root, device)
 
-		for elem in root.iter("peripheral"):
-			periph = {
-				"name"   : elem.find("name").text,
-				"baseadr": elem.find("baseAddress").text,
-				"size"   : self.parse_size(elem.find("size"), device["size"]),
-				"access" : self.parse_access(elem.find("access"), device["access"]),
-				"interrupt": self.parse_interrupt(elem.find("interrupt")),
+		for e in root.iter("peripheral"):
+			p = {
+				"name": e.find("name").text,
+				"base_address": e.find("baseAddress").text,
+				"size"  : device["size"],
+				"access": device["access"],
+				"registers": [],
+				"clusters" : [],
+				#"interrupt": self.parse_interrupt(e.find("interrupt")),
 			}
+			self.update_size_and_access(e, p)
 
-			if "derivedFrom" in elem.attrib:
-				periph["derived_from"] = elem.attrib["derivedFrom"]
-				derived_periphs.append(periph["name"])
+			if "derivedFrom" in e.attrib:
+				p["derived_from"] = e.attrib["derivedFrom"]
+				derived_periphs.append(p["name"])
 
-			registers = self.parse_registers(elem.find("registers"), periph)
-			periph["registers"] = registers
+			if e.find("registers") != None:
+				registers = e.find("registers").findall("register")
+				registers, regarrays = self.parse_elements_register(registers, p["size"], p["access"])
+				p["registers"].extend(registers)
+				p["clusters"].extend(regarrays)
 
-			periphs[periph["name"]] = periph
-			periphs_order.append(periph["name"])
+				clusters = e.find("registers").findall("cluster")
+				clusters = self.parse_elements_cluster(clusters, p["size"], p["access"])
+				p["clusters"].extend(clusters)
+
+			periphs[p["name"]] = p
+			periphs_order.append(p["name"])
 
 		for derived in [periphs[name] for name in derived_periphs]:
 			base = periphs[derived["derived_from"]].copy()
 			base["name"] = derived["name"]
-			base["baseadr"] = derived["baseadr"]
+			base["base_address"] = derived["base_address"]
 			periphs[derived["name"]] = base
 
 		vars = {
