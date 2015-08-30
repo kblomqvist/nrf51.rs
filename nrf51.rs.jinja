@@ -26,9 +26,9 @@ use core::ops::Drop
 {% macro eval_register(r) -%}
 {%- set NO_FIELDS = False -%}
 {%- set NO_ENUMES = False -%}
-{{ r.offset }} => reg{{ r.size }} {{ r.name|lower }}{% if not r.fields or NO_FIELDS%} {}{% else %} {
+{{ r.offset }} => reg{{ r.size }} {{ r.name }}{% if not r.fields or NO_FIELDS%} {}{% else %} {
     {%- for f in r.fields %}
-    {{ f.range.pattern }} => {{ f.name|lower }}{% if f.access %}: {{ f.access }}{% endif %}
+    {{ f.range.pattern }} => {{ f.name }}{% if f.access %}: {{ f.access }}{% endif %}
     {%- if not f.enums or NO_ENUMES %},{% else %} {
         {%- for e in f.enums %}
         {{ e.value }} => {{ e.name }},
@@ -44,7 +44,7 @@ ioregs! ({{ p.name }} @ {{ p.base_address }}{% if not p.registers and not p.clus
     {{ eval_register(r)|indent }}
     {%- endfor %}
     {%- for c in p.clusters %}
-    {{ c.offset }} => group {{ c.name|lower }} {
+    {{ c.offset }} => group {{ c.name }} {
         {%- for r in c.registers %}
         {{ eval_register(r)|indent(8) }}
         {%- endfor %}
