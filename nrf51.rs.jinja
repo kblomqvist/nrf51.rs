@@ -1,4 +1,4 @@
-{# The MIT License (MIT)
+{#- The MIT License (MIT)
 
 Copyright (c) 2015 Kim Blomqvist
 
@@ -18,8 +18,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-#}
+THE SOFTWARE. -#}
 
 use volatile_cell::VolatileCell;
 use core::ops::Drop
@@ -27,7 +26,8 @@ use core::ops::Drop
 {% macro eval_register(r) -%}
 {%- set NO_FIELDS = False -%}
 {%- set NO_ENUMES = False -%}
-{{ "%s => reg%s %s"|format(r.offset, r.size, r.name) }}{% if not r.fields or NO_FIELDS %} {}{% else %} {
+{{ "%s => reg%s %s"|format(r.offset, r.size, r.name) }}
+{%- if not r.fields or NO_FIELDS %} {}{% else %} {
     {%- for f in r.fields %}
     {{ f.range.pattern }} => {{ f.name }}{% if f.access %}: {{ f.access }}{% endif %}
     {%- if not f.enums or NO_ENUMES %},{% else %} {
@@ -40,7 +40,8 @@ use core::ops::Drop
 {%- endmacro -%}
 
 {% for p in peripherals %}
-ioregs! ({{ p.name }} @ {{ p.base_address }}{% if not p.registers and not p.clusters %}{% else %} = {
+{{ "ioregs! (%s @ %s"|format(p.name, p.base_address) }}
+{%- if not p.registers and not p.clusters %}{% else %} = {
     {%- for r in p.registers %}
     {{ eval_register(r)|indent }}
     {%- endfor %}
