@@ -26,7 +26,7 @@ use core::ops::Drop
 {% macro eval_register(r) -%}
 {%- set NO_FIELDS = False -%}
 {%- set NO_ENUMES = False -%}
-{{ "%s => reg%s %s"|format(r.offset, r.size, r.name) }}
+{{ r.offset }} => {{ "reg" + r.size }} {{ r.name }}
 {%- if not r.fields or NO_FIELDS %} {}{% else %} {
     {%- for f in r.fields %}
     {{ f.range.pattern }} => {{ f.name }}{% if f.access %}: {{ f.access }}{% endif %}
@@ -40,7 +40,7 @@ use core::ops::Drop
 {%- endmacro -%}
 
 {% for p in peripherals %}
-{{ "ioregs! (%s @ %s"|format(p.name, p.base_address) }}
+ioregs! ({{ p.name }} @ {{ p.base_address }}
 {%- if not p.registers and not p.clusters %}{% else %} = {
     {%- for r in p.registers %}
     {{ eval_register(r)|indent }}
