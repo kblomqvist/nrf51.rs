@@ -27,7 +27,7 @@ use core::ops::Drop
 {% macro eval_register(r) -%}
 {%- set NO_FIELDS = False -%}
 {%- set NO_ENUMES = False -%}
-{{ r.offset }} => reg{{ r.size }} {{ r.name }}{% if not r.fields or NO_FIELDS%} {}{% else %} {
+{{ "%s => reg%s %s"|format(r.offset, r.size, r.name) }}{% if not r.fields or NO_FIELDS %} {}{% else %} {
     {%- for f in r.fields %}
     {{ f.range.pattern }} => {{ f.name }}{% if f.access %}: {{ f.access }}{% endif %}
     {%- if not f.enums or NO_ENUMES %},{% else %} {
