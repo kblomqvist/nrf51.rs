@@ -1,7 +1,9 @@
 // nRF51 reference description for radio MCU with ARM 32-bit Cortex-M0 Microcontroller at 16MHz CPU clock
 
 use volatile_cell::VolatileCell;
-use core::ops::Drop
+use core::ops::Drop;
+
+
 ioregs! (POWER @ 0x40000000 = {
     0x078 => reg32 TASKS_CONSTLAT {} // Enable constant latency mode.
     0x07C => reg32 TASKS_LOWPWR {} // Enable low power mode (variable latency).
