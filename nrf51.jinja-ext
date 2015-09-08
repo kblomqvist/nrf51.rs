@@ -20,204 +20,46 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
 """
 
 from yasha.parsers import Parser
-import xml.etree.ElementTree as ET
 
-class CmsisParser(Parser):
-	file_extension = [".xml"]
+import sys
+sys.path.append(".")
+import cmsis
 
-	def update_size_and_access(self, element, dest):
-		if element.find("size") != None:
-			size = element.find("size").text
-			dest["size"] = size
-		if element.find("access") != None:
-			access = self.parse_access_element(element.find("access"))
-			dest["access"] = access
-
-	def parse_access_element(self, element):
-		possibilities = {
-			"read-only"     : "ro",
-			"write-only"    : "wo",
-			"writeOnce"     : "wo",
-			"read-write"    : "rw",
-			"read-writeOnce": "rw",
-		}
-		return possibilities[element.text]
-
-	def parse_interrupt(self, element):
-		if not element:
-			return None
-		interrupt = {
-			"name": element.find("name"),
-			"value": element.find("value")
-		}
-		return interrupt
-
-	def parse_enumvalue_elements(self, elements):
-		enums = []
-		for elem in elements:
-			enum = {
-				"name": elem.find("name").text,
-				"value": elem.find("value").text,
-			}
-			enums.append(enum)
-		return enums
-
-	def parse_elements_field(self, elements, access=None):
-		fields = []
-		for elem in elements:
-			field = {
-				"name"  : elem.find("name").text,
-				"range" : {},
-				"enums" : [],
-				"access": access,
-			}
-			self.update_size_and_access(elem, field)
-
-			lsb = 0; msb = 0
-			if elem.find("lsb") != None:
-				lsb = int(elem.find("lsb").text)
-				msb = int(elem.find("msb").text)
-			elif elem.find("bitOffset") != None:
-				lsb = int(elem.find("bitOffset").text)
-				msb = lsb + int(elem.find("bitWidth").text)
-			elif elem.find("bitRange") != None:
-				msb, lsb = elem.find("bitRangePattern").text.split(":")
-
-			pattern = "{}".format(int(lsb))
-			if lsb != msb:
-				pattern = "{}..{}".format(pattern, msb)
-
-			field["range"] = {
-				"lsb": lsb,
-				"msb": msb,
-				"pattern": pattern,
-			}
-
-			if elem.find("enumeratedValues"):
-				enums = elem.find("enumeratedValues")
-				enums = enums.findall("enumeratedValue")
-				enums = self.parse_enumvalue_elements(enums)
-				field["enums"].extend(enums)
-
-			fields.append(field)
-
-		return fields
-
-	def parse_elements_cluster(self, elements, size, access, is_regarray=False):
-		clusters = []
-		for elem in elements:
-			cluster = {
-				"name"  : elem.find("name").text,
-				"offset": elem.find("addressOffset").text,
-			}
-
-			registers = elem.findall("register")
-			cluster["registers"], _ = self.parse_elements_register(registers, size, access)
-
-			if elem.find("dim") != None:
-				dim = elem.find("dim").text
-				cluster["name"] = cluster["name"].replace("%s", dim)
-			else:
-				cluster["name"] += "[0]"
-
-			if is_regarray:
-				cluster["registers"] = [{
-					"name"  : cluster["name"].replace("[%s]" % dim, ""),
-					"offset": "0x0",
-					"fields": [],
-					"size"  : size,
-					"access": access,
-				}]
-				if elem.find("fields") != None:
-					fields = elem.find("fields")
-					fields = self.parse_elements_field(fields.findall("field"), access)
-					cluster["registers"][0]["fields"].extend(fields)
-
-			clusters.append(cluster)
-
-		return clusters
-
-	def parse_elements_register(self, elements, size, access):
-		registers = [];	regarrays = []
-		for e in elements:
-			r = {
-				"name"  : e.find("name").text,
-				"offset": e.find("addressOffset").text,
-				"fields": [],
-				"size"  : size,
-				"access": access,
-			}
-			self.update_size_and_access(e, r)
-
-			if e.find("dim") != None:
-				# Array-of-registers is a single register cluster in ioregs
-				regarray = self.parse_elements_cluster([e], r["size"], r["access"], is_regarray=True)[0]
-				regarrays.append(regarray)
-				continue
-
-			if e.find("fields") != None:
-				fields = e.find("fields").findall("field")
-				fields = self.parse_elements_field(fields, r["access"])
-				r["fields"].extend(fields)
-
-			registers.append(r)
-
-		return (registers, regarrays)
+class CmsisSvdParser(Parser):
+	file_extension = [".svd"]
 
 	def parse(self, file):
-		tree = ET.parse(file.name)
-		root = tree.getroot()
+		svd = cmsis.SvdFile(file)
+		svd.parse()
 
-		periphs = {}
-		periphs_order = []
-		derived_periphs = []
-
-		device = {
-			"size": None,
-			"access": None,
-		}
-		self.update_size_and_access(root, device)
-
-		for e in root.iter("peripheral"):
-			p = {
-				"name": e.find("name").text,
-				"base_address": e.find("baseAddress").text,
-				"size"  : device["size"],
-				"access": device["access"],
-				"registers": [],
-				"clusters" : [],
-				#"interrupt": self.parse_interrupt(e.find("interrupt")),
-			}
-			self.update_size_and_access(e, p)
-
-			if "derivedFrom" in e.attrib:
-				p["derived_from"] = e.attrib["derivedFrom"]
-				derived_periphs.append(p["name"])
-
-			if e.find("registers") != None:
-				registers = e.find("registers").findall("register")
-				registers, regarrays = self.parse_elements_register(registers, p["size"], p["access"])
-				p["registers"].extend(registers)
-				p["clusters"].extend(regarrays)
-
-				clusters = e.find("registers").findall("cluster")
-				clusters = self.parse_elements_cluster(clusters, p["size"], p["access"])
-				p["clusters"].extend(clusters)
-
-			periphs[p["name"]] = p
-			periphs_order.append(p["name"])
-
-		for derived in [periphs[name] for name in derived_periphs]:
-			base = periphs[derived["derived_from"]].copy()
-			base["name"] = derived["name"]
-			base["base_address"] = derived["base_address"]
-			periphs[derived["name"]] = base
+		for p in [svd.periphs[name] for name in svd.derived_periphs]:
+			base = svd.periphs[p["derivedFrom"]].copy()
+			base["name"] = p["name"]
+			base["baseAddress"] = p["baseAddress"]
+			svd.periphs[p["name"]] = base
 
 		vars = {
-			"peripherals": [periphs[name] for name in periphs_order],
+			"cpu": svd.cpu,
+			"device": svd.device,
+			"peripherals": [svd.periphs[name] for name in svd.periphs_order],
 		}
 		return vars
+
+def filter_access(access):
+	return {
+		"read-only": "ro",
+		"write-only": "wo",
+		"writeOnce": "wo",
+		"read-write": "rw",
+		"read-writeOnce": "rw",
+	}[access]
+
+def filter_bitrange(bitrange):
+	msb, lsb = bitrange[1:-1].split(":")
+	if msb == lsb:
+		return "{}".format(lsb)
+	else:
+		return "{}..{}".format(lsb, msb)

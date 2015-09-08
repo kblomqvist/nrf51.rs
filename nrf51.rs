@@ -1,7 +1,7 @@
+// nRF51 reference description for radio MCU with ARM 32-bit Cortex-M0 Microcontroller at 16MHz CPU clock
+
 use volatile_cell::VolatileCell;
 use core::ops::Drop
-
-
 ioregs! (POWER @ 0x40000000 = {
     0x078 => reg32 TASKS_CONSTLAT {}
     0x07C => reg32 TASKS_LOWPWR {}
@@ -1398,6 +1398,14 @@ ioregs! (RADIO @ 0x40001000 = {
         0..6 => DATAWHITEIV: rw,
     }
     0x560 => reg32 BCC {}
+    0x600 => group DAB[8] {
+        0x0 => reg32 DAB {}
+    }
+    0x620 => group DAP[8] {
+        0x0 => reg32 DAP {
+            0..15 => DAP: rw,
+        }
+    }
     0x640 => reg32 DACNF {
         0 => ENA0: rw {
             0 => Disabled,
@@ -1463,14 +1471,6 @@ ioregs! (RADIO @ 0x40001000 = {
         0 => POWER: rw {
             0 => Disabled,
             1 => Enabled,
-        }
-    }
-    0x600 => group DAB[8] {
-        0x0 => reg32 DAB {}
-    }
-    0x620 => group DAP[8] {
-        0x0 => reg32 DAP {
-            0..15 => DAP: rw,
         }
     }
 });
@@ -2137,6 +2137,11 @@ ioregs! (SPIM1 @ 0x40004000 = {
             0x07 => Enabled,
         }
     }
+    0x508 => group PSEL[0] {
+        0x0 => reg32 SCK {}
+        0x4 => reg32 MOSI {}
+        0x8 => reg32 MISO {}
+    }
     0x524 => reg32 FREQUENCY {
         0..31 => FREQUENCY: rw {
             0x02000000 => K125,
@@ -2146,6 +2151,28 @@ ioregs! (SPIM1 @ 0x40004000 = {
             0x20000000 => M2,
             0x40000000 => M4,
             0x80000000 => M8,
+        }
+    }
+    0x534 => group RXD[0] {
+        0x0 => reg32 PTR {
+            0..31 => PTR: rw,
+        }
+        0x4 => reg32 MAXCNT {
+            0..7 => MAXCNT: rw,
+        }
+        0x8 => reg32 AMOUNT {
+            0..7 => AMOUNT: ro,
+        }
+    }
+    0x544 => group TXD[0] {
+        0x0 => reg32 PTR {
+            0..31 => PTR: rw,
+        }
+        0x4 => reg32 MAXCNT {
+            0..7 => MAXCNT: rw,
+        }
+        0x8 => reg32 AMOUNT {
+            0..7 => AMOUNT: ro,
         }
     }
     0x554 => reg32 CONFIG {
@@ -2171,36 +2198,15 @@ ioregs! (SPIM1 @ 0x40004000 = {
             1 => Enabled,
         }
     }
-    0x508 => group PSEL[0] {
-        0x0 => reg32 SCK {}
-        0x4 => reg32 MOSI {}
-        0x8 => reg32 MISO {}
-    }
-    0x534 => group RXD[0] {
-        0x0 => reg32 PTR {
-            0..31 => PTR: rw,
-        }
-        0x4 => reg32 MAXCNT {
-            0..7 => MAXCNT: rw,
-        }
-        0x8 => reg32 AMOUNT {
-            0..7 => AMOUNT: ro,
-        }
-    }
-    0x544 => group TXD[0] {
-        0x0 => reg32 PTR {
-            0..31 => PTR: rw,
-        }
-        0x4 => reg32 MAXCNT {
-            0..7 => MAXCNT: rw,
-        }
-        0x8 => reg32 AMOUNT {
-            0..7 => AMOUNT: ro,
-        }
-    }
 });
 
 ioregs! (GPIOTE @ 0x40006000 = {
+    0x000 => group TASKS_OUT[4] {
+        0x0 => reg32 TASKS_OUT {}
+    }
+    0x100 => group EVENTS_IN[4] {
+        0x0 => reg32 EVENTS_IN {}
+    }
     0x17C => reg32 EVENTS_PORT {}
     0x304 => reg32 INTENSET {
         0 => IN0: rw {
@@ -2246,18 +2252,6 @@ ioregs! (GPIOTE @ 0x40006000 = {
             1 => Enabled,
         }
     }
-    0xFFC => reg32 POWER {
-        0 => POWER: rw {
-            0 => Disabled,
-            1 => Enabled,
-        }
-    }
-    0x000 => group TASKS_OUT[4] {
-        0x0 => reg32 TASKS_OUT {}
-    }
-    0x100 => group EVENTS_IN[4] {
-        0x0 => reg32 EVENTS_IN {}
-    }
     0x510 => group CONFIG[4] {
         0x0 => reg32 CONFIG {
             0..1 => MODE: rw {
@@ -2276,6 +2270,12 @@ ioregs! (GPIOTE @ 0x40006000 = {
                 0 => Low,
                 1 => High,
             }
+        }
+    }
+    0xFFC => reg32 POWER {
+        0 => POWER: rw {
+            0 => Disabled,
+            1 => Enabled,
         }
     }
 });
@@ -2361,6 +2361,12 @@ ioregs! (TIMER0 @ 0x40008000 = {
     0x008 => reg32 TASKS_COUNT {}
     0x00C => reg32 TASKS_CLEAR {}
     0x010 => reg32 TASKS_SHUTDOWN {}
+    0x040 => group TASKS_CAPTURE[4] {
+        0x0 => reg32 TASKS_CAPTURE {}
+    }
+    0x140 => group EVENTS_COMPARE[4] {
+        0x0 => reg32 EVENTS_COMPARE {}
+    }
     0x200 => reg32 SHORTS {
         0 => COMPARE0_CLEAR: rw {
             0 => Disabled,
@@ -2448,20 +2454,14 @@ ioregs! (TIMER0 @ 0x40008000 = {
     0x510 => reg32 PRESCALER {
         0..3 => PRESCALER: rw,
     }
+    0x540 => group CC[4] {
+        0x0 => reg32 CC {}
+    }
     0xFFC => reg32 POWER {
         0 => POWER: rw {
             0 => Disabled,
             1 => Enabled,
         }
-    }
-    0x040 => group TASKS_CAPTURE[4] {
-        0x0 => reg32 TASKS_CAPTURE {}
-    }
-    0x140 => group EVENTS_COMPARE[4] {
-        0x0 => reg32 EVENTS_COMPARE {}
-    }
-    0x540 => group CC[4] {
-        0x0 => reg32 CC {}
     }
 });
 
@@ -2471,6 +2471,12 @@ ioregs! (TIMER1 @ 0x40009000 = {
     0x008 => reg32 TASKS_COUNT {}
     0x00C => reg32 TASKS_CLEAR {}
     0x010 => reg32 TASKS_SHUTDOWN {}
+    0x040 => group TASKS_CAPTURE[4] {
+        0x0 => reg32 TASKS_CAPTURE {}
+    }
+    0x140 => group EVENTS_COMPARE[4] {
+        0x0 => reg32 EVENTS_COMPARE {}
+    }
     0x200 => reg32 SHORTS {
         0 => COMPARE0_CLEAR: rw {
             0 => Disabled,
@@ -2558,20 +2564,14 @@ ioregs! (TIMER1 @ 0x40009000 = {
     0x510 => reg32 PRESCALER {
         0..3 => PRESCALER: rw,
     }
+    0x540 => group CC[4] {
+        0x0 => reg32 CC {}
+    }
     0xFFC => reg32 POWER {
         0 => POWER: rw {
             0 => Disabled,
             1 => Enabled,
         }
-    }
-    0x040 => group TASKS_CAPTURE[4] {
-        0x0 => reg32 TASKS_CAPTURE {}
-    }
-    0x140 => group EVENTS_COMPARE[4] {
-        0x0 => reg32 EVENTS_COMPARE {}
-    }
-    0x540 => group CC[4] {
-        0x0 => reg32 CC {}
     }
 });
 
@@ -2581,6 +2581,12 @@ ioregs! (TIMER2 @ 0x4000A000 = {
     0x008 => reg32 TASKS_COUNT {}
     0x00C => reg32 TASKS_CLEAR {}
     0x010 => reg32 TASKS_SHUTDOWN {}
+    0x040 => group TASKS_CAPTURE[4] {
+        0x0 => reg32 TASKS_CAPTURE {}
+    }
+    0x140 => group EVENTS_COMPARE[4] {
+        0x0 => reg32 EVENTS_COMPARE {}
+    }
     0x200 => reg32 SHORTS {
         0 => COMPARE0_CLEAR: rw {
             0 => Disabled,
@@ -2668,20 +2674,14 @@ ioregs! (TIMER2 @ 0x4000A000 = {
     0x510 => reg32 PRESCALER {
         0..3 => PRESCALER: rw,
     }
+    0x540 => group CC[4] {
+        0x0 => reg32 CC {}
+    }
     0xFFC => reg32 POWER {
         0 => POWER: rw {
             0 => Disabled,
             1 => Enabled,
         }
-    }
-    0x040 => group TASKS_CAPTURE[4] {
-        0x0 => reg32 TASKS_CAPTURE {}
-    }
-    0x140 => group EVENTS_COMPARE[4] {
-        0x0 => reg32 EVENTS_COMPARE {}
-    }
-    0x540 => group CC[4] {
-        0x0 => reg32 CC {}
     }
 });
 
@@ -2692,6 +2692,9 @@ ioregs! (RTC0 @ 0x4000B000 = {
     0x00C => reg32 TASKS_TRIGOVRFLW {}
     0x100 => reg32 EVENTS_TICK {}
     0x104 => reg32 EVENTS_OVRFLW {}
+    0x140 => group EVENTS_COMPARE[4] {
+        0x0 => reg32 EVENTS_COMPARE {}
+    }
     0x304 => reg32 INTENSET {
         0 => TICK: rw {
             0 => Disabled,
@@ -2828,18 +2831,15 @@ ioregs! (RTC0 @ 0x4000B000 = {
     0x508 => reg32 PRESCALER {
         0..11 => PRESCALER: rw,
     }
+    0x540 => group CC[4] {
+        0x0 => reg32 CC {
+            0..23 => COMPARE: rw,
+        }
+    }
     0xFFC => reg32 POWER {
         0 => POWER: rw {
             0 => Disabled,
             1 => Enabled,
-        }
-    }
-    0x140 => group EVENTS_COMPARE[4] {
-        0x0 => reg32 EVENTS_COMPARE {}
-    }
-    0x540 => group CC[4] {
-        0x0 => reg32 CC {
-            0..23 => COMPARE: rw,
         }
     }
 });
@@ -3170,17 +3170,17 @@ ioregs! (WDT @ 0x40010000 = {
             1 => Run,
         }
     }
-    0xFFC => reg32 POWER {
-        0 => POWER: rw {
-            0 => Disabled,
-            1 => Enabled,
-        }
-    }
     0x600 => group RR[8] {
         0x0 => reg32 RR {
             0..31 => RR: wo {
                 0x6E524635 => Reload,
             }
+        }
+    }
+    0xFFC => reg32 POWER {
+        0 => POWER: rw {
+            0 => Disabled,
+            1 => Enabled,
         }
     }
 });
@@ -3192,6 +3192,9 @@ ioregs! (RTC1 @ 0x40011000 = {
     0x00C => reg32 TASKS_TRIGOVRFLW {}
     0x100 => reg32 EVENTS_TICK {}
     0x104 => reg32 EVENTS_OVRFLW {}
+    0x140 => group EVENTS_COMPARE[4] {
+        0x0 => reg32 EVENTS_COMPARE {}
+    }
     0x304 => reg32 INTENSET {
         0 => TICK: rw {
             0 => Disabled,
@@ -3328,18 +3331,15 @@ ioregs! (RTC1 @ 0x40011000 = {
     0x508 => reg32 PRESCALER {
         0..11 => PRESCALER: rw,
     }
+    0x540 => group CC[4] {
+        0x0 => reg32 CC {
+            0..23 => COMPARE: rw,
+        }
+    }
     0xFFC => reg32 POWER {
         0 => POWER: rw {
             0 => Disabled,
             1 => Enabled,
-        }
-    }
-    0x140 => group EVENTS_COMPARE[4] {
-        0x0 => reg32 EVENTS_COMPARE {}
-    }
-    0x540 => group CC[4] {
-        0x0 => reg32 CC {
-            0..23 => COMPARE: rw,
         }
     }
 });
@@ -3615,6 +3615,10 @@ ioregs! (NVMC @ 0x4001E000 = {
 });
 
 ioregs! (PPI @ 0x4001F000 = {
+    0x000 => group TASKS_CHG[4] {
+        0x000 => reg32 EN {}
+        0x004 => reg32 DIS {}
+    }
     0x500 => reg32 CHEN {
         0 => CH0: rw {
             0 => Disabled,
@@ -3957,6 +3961,10 @@ ioregs! (PPI @ 0x4001F000 = {
             1 => Enabled,
         }
     }
+    0x510 => group CH[16] {
+        0x000 => reg32 EEP {}
+        0x004 => reg32 TEP {}
+    }
     0x800 => group CHG[4] {
         0x0 => reg32 CHG {
             0 => CH0: rw {
@@ -4073,14 +4081,6 @@ ioregs! (PPI @ 0x4001F000 = {
             }
         }
     }
-    0x000 => group TASKS_CHG[4] {
-        0x000 => reg32 EN {}
-        0x004 => reg32 DIS {}
-    }
-    0x510 => group CH[16] {
-        0x000 => reg32 EEP {}
-        0x004 => reg32 TEP {}
-    }
 });
 
 ioregs! (FICR @ 0x10000000 = {
@@ -4095,28 +4095,12 @@ ioregs! (FICR @ 0x10000000 = {
     }
     0x034 => reg32 NUMRAMBLOCK {}
     0x038 => reg32 SIZERAMBLOCKS {}
+    0x038 => group SIZERAMBLOCK[4] {
+        0x0 => reg32 SIZERAMBLOCK {}
+    }
     0x05C => reg32 CONFIGID {
         0..15 => HWID: ro,
         16..31 => FWID: ro,
-    }
-    0x0A0 => reg32 DEVICEADDRTYPE {
-        0 => DEVICEADDRTYPE: ro {
-            0 => Public,
-            1 => Random,
-        }
-    }
-    0x0AC => reg32 OVERRIDEEN {
-        0 => NRF_1MBIT: ro {
-            0 => Override,
-            1 => NotOverride,
-        }
-        3 => BLE_1MBIT: ro {
-            0 => Override,
-            1 => NotOverride,
-        }
-    }
-    0x038 => group SIZERAMBLOCK[4] {
-        0x0 => reg32 SIZERAMBLOCK {}
     }
     0x060 => group DEVICEID[2] {
         0x0 => reg32 DEVICEID {}
@@ -4127,8 +4111,24 @@ ioregs! (FICR @ 0x10000000 = {
     0x090 => group IR[4] {
         0x0 => reg32 IR {}
     }
+    0x0A0 => reg32 DEVICEADDRTYPE {
+        0 => DEVICEADDRTYPE: ro {
+            0 => Public,
+            1 => Random,
+        }
+    }
     0x0A4 => group DEVICEADDR[2] {
         0x0 => reg32 DEVICEADDR {}
+    }
+    0x0AC => reg32 OVERRIDEEN {
+        0 => NRF_1MBIT: ro {
+            0 => Override,
+            1 => NotOverride,
+        }
+        3 => BLE_1MBIT: ro {
+            0 => Override,
+            1 => NotOverride,
+        }
     }
     0x0B0 => group NRF_1MBIT[5] {
         0x0 => reg32 NRF_1MBIT {}

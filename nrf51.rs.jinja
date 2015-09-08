@@ -20,37 +20,43 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. -#}
 
+// {{ device.description }}
+
 use volatile_cell::VolatileCell;
 use core::ops::Drop
 
-{% macro eval_register(r) -%}
 {%- set NO_FIELDS = False -%}
 {%- set NO_ENUMES = False -%}
-{{ r.offset }} => {{ "reg" + r.size }} {{ r.name }}
-{%- if not r.fields or NO_FIELDS %} {}{% else %} {
+{%- set NO_DESCRIPTIONS = True -%}
+
+{%- macro description(node) -%}
+{% if not NO_DESCRIPTIONS %} // {{ node.description }}{% endif %}
+{%- endmacro -%}
+
+{% macro register(r) -%}
+{% if r.registers -%} {{ r.addressOffset }} => group {{ r.name }} {{ "{" + description(r) }}
+    {%- for r in r.registers %}
+    {{ register(r)|indent }}
+    {%- endfor %}
+}{% else -%} {{ r.addressOffset }} => {{ "reg" + r.size }} {{ r.name }}
+    {%- if not r.fields or NO_FIELDS %} {{ "{}" + description(r) }}{% else %} {{ "{" + description(r) }}
     {%- for f in r.fields %}
-    {{ f.range.pattern }} => {{ f.name }}{% if f.access %}: {{ f.access }}{% endif %}
-    {%- if not f.enums or NO_ENUMES %},{% else %} {
-        {%- for e in f.enums %}
-        {{ e.value }} => {{ e.name }},
+    {{ f.bitRange|bitrange }} => {{ f.name }}{% if f.access %}: {{ f.access|access }}{% endif %}
+    {%- if not f.enumeratedValues or NO_ENUMES %},{% else %} {{ "{" + description(f) }}
+        {%- for e in f.enumeratedValues %}
+        {{ e.value }} => {{ e.name }},{{ description(e) }}
         {%- endfor %}
-    }{% endif %}
+    }{%- endif %}
     {%- endfor %}
 }{% endif %}
+{%- endif %}
 {%- endmacro -%}
 
 {% for p in peripherals %}
-ioregs! ({{ p.name }} @ {{ p.base_address }}
-{%- if not p.registers and not p.clusters %}{% else %} = {
+ioregs! ({{ p.name }} @ {{ p.baseAddress }}
+{%- if not p.registers %}{% else %} = {
     {%- for r in p.registers %}
-    {{ eval_register(r)|indent }}
-    {%- endfor %}
-    {%- for c in p.clusters %}
-    {{ c.offset }} => group {{ c.name }} {
-        {%- for r in c.registers %}
-        {{ eval_register(r)|indent(8) }}
-        {%- endfor %}
-    }
+    {{ register(r)|indent }}
     {%- endfor %}
 }{% endif %});
 {% endfor %}
