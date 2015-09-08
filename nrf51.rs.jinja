@@ -27,7 +27,7 @@ use core::ops::Drop
 
 {%- set NO_FIELDS = False -%}
 {%- set NO_ENUMES = False -%}
-{%- set NO_DESCRIPTIONS = True -%}
+{%- set NO_DESCRIPTIONS = False -%}
 
 {%- macro description(node) -%}
 {% if not NO_DESCRIPTIONS %} // {{ node.description }}{% endif %}
