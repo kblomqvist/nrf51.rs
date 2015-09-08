@@ -4,7 +4,7 @@ use volatile_cell::VolatileCell;
 use core::ops::Drop;
 
 
-ioregs! (POWER @ 0x40000000 = {
+ioregs! (POWER @ 0x40000000 = { // Power Control.
     0x078 => reg32 TASKS_CONSTLAT {} // Enable constant latency mode.
     0x07C => reg32 TASKS_LOWPWR {} // Enable low power mode (variable latency).
     0x108 => reg32 EVENTS_POFWARN {} // Power failure warning.
@@ -148,7 +148,7 @@ ioregs! (POWER @ 0x40000000 = {
     }
 });
 
-ioregs! (CLOCK @ 0x40000000 = {
+ioregs! (CLOCK @ 0x40000000 = { // Clock control.
     0x000 => reg32 TASKS_HFCLKSTART {} // Start HFCLK clock source.
     0x004 => reg32 TASKS_HFCLKSTOP {} // Stop HFCLK clock source.
     0x008 => reg32 TASKS_LFCLKSTART {} // Start LFCLK clock source.
@@ -254,7 +254,7 @@ ioregs! (CLOCK @ 0x40000000 = {
     }
 });
 
-ioregs! (MPU @ 0x40000000 = {
+ioregs! (MPU @ 0x40000000 = { // Memory Protection Unit.
     0x528 => reg32 PERR0 { // Configuration of peripherals in mpu regions.
         0 => POWER_CLOCK: rw { // POWER_CLOCK region configuration.
             1 => InRegion0, // Peripheral configured in region 0.
@@ -615,7 +615,7 @@ ioregs! (MPU @ 0x40000000 = {
     }
 });
 
-ioregs! (AMLI @ 0x40000000 = {
+ioregs! (AMLI @ 0x40000000 = { // AHB Multi-Layer Interface.
     0xE00 => group RAMPRI[0] { // RAM configurable priority configuration structure.
         0x000 => reg32 CPU0 { // Configurable priority configuration register for CPU0.
             0..3 => RAM0: rw { // Configuration field for RAM block 0.
@@ -1112,7 +1112,7 @@ ioregs! (AMLI @ 0x40000000 = {
     }
 });
 
-ioregs! (RADIO @ 0x40001000 = {
+ioregs! (RADIO @ 0x40001000 = { // The radio.
     0x000 => reg32 TASKS_TXEN {} // Enable radio in TX mode.
     0x004 => reg32 TASKS_RXEN {} // Enable radio in RX mode.
     0x008 => reg32 TASKS_START {} // Start radio.
@@ -1477,7 +1477,7 @@ ioregs! (RADIO @ 0x40001000 = {
     }
 });
 
-ioregs! (UART0 @ 0x40002000 = {
+ioregs! (UART0 @ 0x40002000 = { // Universal Asynchronous Receiver/Transmitter.
     0x000 => reg32 TASKS_STARTRX {} // Start UART receiver.
     0x004 => reg32 TASKS_STOPRX {} // Stop UART receiver.
     0x008 => reg32 TASKS_STARTTX {} // Start UART transmitter.
@@ -1623,7 +1623,7 @@ ioregs! (UART0 @ 0x40002000 = {
     }
 });
 
-ioregs! (SPI0 @ 0x40003000 = {
+ioregs! (SPI0 @ 0x40003000 = { // SPI master 0.
     0x108 => reg32 EVENTS_READY {} // TXD byte sent and RXD byte received.
     0x304 => reg32 INTENSET { // Interrupt enable set register.
         2 => READY: rw { // Enable interrupt on READY event.
@@ -1685,7 +1685,7 @@ ioregs! (SPI0 @ 0x40003000 = {
     }
 });
 
-ioregs! (TWI0 @ 0x40003000 = {
+ioregs! (TWI0 @ 0x40003000 = { // Two-wire interface master 0.
     0x000 => reg32 TASKS_STARTRX {} // Start 2-Wire master receive sequence.
     0x008 => reg32 TASKS_STARTTX {} // Start 2-Wire master transmit sequence.
     0x014 => reg32 TASKS_STOP {} // Stop 2-Wire transaction.
@@ -1805,7 +1805,7 @@ ioregs! (TWI0 @ 0x40003000 = {
     }
 });
 
-ioregs! (SPI1 @ 0x40004000 = {
+ioregs! (SPI1 @ 0x40004000 = { // SPI master 0.
     0x108 => reg32 EVENTS_READY {} // TXD byte sent and RXD byte received.
     0x304 => reg32 INTENSET { // Interrupt enable set register.
         2 => READY: rw { // Enable interrupt on READY event.
@@ -1867,7 +1867,7 @@ ioregs! (SPI1 @ 0x40004000 = {
     }
 });
 
-ioregs! (TWI1 @ 0x40004000 = {
+ioregs! (TWI1 @ 0x40004000 = { // Two-wire interface master 0.
     0x000 => reg32 TASKS_STARTRX {} // Start 2-Wire master receive sequence.
     0x008 => reg32 TASKS_STARTTX {} // Start 2-Wire master transmit sequence.
     0x014 => reg32 TASKS_STOP {} // Stop 2-Wire transaction.
@@ -1987,7 +1987,7 @@ ioregs! (TWI1 @ 0x40004000 = {
     }
 });
 
-ioregs! (SPIS1 @ 0x40004000 = {
+ioregs! (SPIS1 @ 0x40004000 = { // SPI slave 1.
     0x024 => reg32 TASKS_ACQUIRE {} // Acquire SPI semaphore.
     0x028 => reg32 TASKS_RELEASE {} // Release SPI semaphore.
     0x104 => reg32 EVENTS_END {} // Granted transaction completed.
@@ -2088,7 +2088,7 @@ ioregs! (SPIS1 @ 0x40004000 = {
     }
 });
 
-ioregs! (SPIM1 @ 0x40004000 = {
+ioregs! (SPIM1 @ 0x40004000 = { // SPI master with easyDMA 1.
     0x010 => reg32 TASKS_START {} // Start SPI transaction.
     0x014 => reg32 TASKS_STOP {} // Stop SPI transaction.
     0x01C => reg32 TASKS_SUSPEND {} // Suspend SPI transaction.
@@ -2202,7 +2202,7 @@ ioregs! (SPIM1 @ 0x40004000 = {
     }
 });
 
-ioregs! (GPIOTE @ 0x40006000 = {
+ioregs! (GPIOTE @ 0x40006000 = { // GPIO tasks and events.
     0x000 => group TASKS_OUT[4] { // Tasks asssociated with GPIOTE channels.
         0x0 => reg32 TASKS_OUT {} // 
     }
@@ -2282,7 +2282,7 @@ ioregs! (GPIOTE @ 0x40006000 = {
     }
 });
 
-ioregs! (ADC @ 0x40007000 = {
+ioregs! (ADC @ 0x40007000 = { // Analog to digital converter.
     0x000 => reg32 TASKS_START {} // Start an ADC conversion.
     0x004 => reg32 TASKS_STOP {} // Stop ADC.
     0x100 => reg32 EVENTS_END {} // ADC conversion complete.
@@ -2357,7 +2357,7 @@ ioregs! (ADC @ 0x40007000 = {
     }
 });
 
-ioregs! (TIMER0 @ 0x40008000 = {
+ioregs! (TIMER0 @ 0x40008000 = { // Timer 0.
     0x000 => reg32 TASKS_START {} // Start Timer.
     0x004 => reg32 TASKS_STOP {} // Stop Timer.
     0x008 => reg32 TASKS_COUNT {} // Increment Timer (In counter mode).
@@ -2467,7 +2467,7 @@ ioregs! (TIMER0 @ 0x40008000 = {
     }
 });
 
-ioregs! (TIMER1 @ 0x40009000 = {
+ioregs! (TIMER1 @ 0x40009000 = { // Timer 0.
     0x000 => reg32 TASKS_START {} // Start Timer.
     0x004 => reg32 TASKS_STOP {} // Stop Timer.
     0x008 => reg32 TASKS_COUNT {} // Increment Timer (In counter mode).
@@ -2577,7 +2577,7 @@ ioregs! (TIMER1 @ 0x40009000 = {
     }
 });
 
-ioregs! (TIMER2 @ 0x4000A000 = {
+ioregs! (TIMER2 @ 0x4000A000 = { // Timer 0.
     0x000 => reg32 TASKS_START {} // Start Timer.
     0x004 => reg32 TASKS_STOP {} // Stop Timer.
     0x008 => reg32 TASKS_COUNT {} // Increment Timer (In counter mode).
@@ -2687,7 +2687,7 @@ ioregs! (TIMER2 @ 0x4000A000 = {
     }
 });
 
-ioregs! (RTC0 @ 0x4000B000 = {
+ioregs! (RTC0 @ 0x4000B000 = { // Real time counter 0.
     0x000 => reg32 TASKS_START {} // Start RTC Counter.
     0x004 => reg32 TASKS_STOP {} // Stop RTC Counter.
     0x008 => reg32 TASKS_CLEAR {} // Clear RTC Counter.
@@ -2846,7 +2846,7 @@ ioregs! (RTC0 @ 0x4000B000 = {
     }
 });
 
-ioregs! (TEMP @ 0x4000C000 = {
+ioregs! (TEMP @ 0x4000C000 = { // Temperature Sensor.
     0x000 => reg32 TASKS_START {} // Start temperature measurement.
     0x004 => reg32 TASKS_STOP {} // Stop temperature measurement.
     0x100 => reg32 EVENTS_DATARDY {} // Temperature measurement complete, data ready event.
@@ -2871,7 +2871,7 @@ ioregs! (TEMP @ 0x4000C000 = {
     }
 });
 
-ioregs! (RNG @ 0x4000D000 = {
+ioregs! (RNG @ 0x4000D000 = { // Random Number Generator.
     0x000 => reg32 TASKS_START {} // Start the random number generator.
     0x004 => reg32 TASKS_STOP {} // Stop the random number generator.
     0x100 => reg32 EVENTS_VALRDY {} // New random number generated and written to VALUE register.
@@ -2910,7 +2910,7 @@ ioregs! (RNG @ 0x4000D000 = {
     }
 });
 
-ioregs! (ECB @ 0x4000E000 = {
+ioregs! (ECB @ 0x4000E000 = { // AES ECB Mode Encryption.
     0x000 => reg32 TASKS_STARTECB {} // Start ECB block encrypt. If a crypto operation is running, this will not initiate a new encryption and the ERRORECB event will be triggered.
     0x004 => reg32 TASKS_STOPECB {} // Stop current ECB encryption. If a crypto operation is running, this will will trigger the ERRORECB event.
     0x100 => reg32 EVENTS_ENDECB {} // ECB block encrypt complete.
@@ -2944,7 +2944,7 @@ ioregs! (ECB @ 0x4000E000 = {
     }
 });
 
-ioregs! (AAR @ 0x4000F000 = {
+ioregs! (AAR @ 0x4000F000 = { // Accelerated Address Resolver.
     0x000 => reg32 TASKS_START {} // Start resolving addresses based on IRKs specified in the IRK data structure.
     0x008 => reg32 TASKS_STOP {} // Stop resolving addresses.
     0x100 => reg32 EVENTS_END {} // Address resolution procedure completed.
@@ -3001,7 +3001,7 @@ ioregs! (AAR @ 0x4000F000 = {
     }
 });
 
-ioregs! (CCM @ 0x4000F000 = {
+ioregs! (CCM @ 0x4000F000 = { // AES CCM Mode Encryption.
     0x000 => reg32 TASKS_KSGEN {} // Start generation of key-stream. This operation will stop by itself when completed.
     0x004 => reg32 TASKS_CRYPT {} // Start encrypt/decrypt. This operation will stop by itself when completed.
     0x008 => reg32 TASKS_STOP {} // Stop encrypt/decrypt.
@@ -3072,7 +3072,7 @@ ioregs! (CCM @ 0x4000F000 = {
     }
 });
 
-ioregs! (WDT @ 0x40010000 = {
+ioregs! (WDT @ 0x40010000 = { // Watchdog Timer.
     0x000 => reg32 TASKS_START {} // Start the watchdog.
     0x100 => reg32 EVENTS_TIMEOUT {} // Watchdog timeout.
     0x304 => reg32 INTENSET { // Interrupt enable set register.
@@ -3187,7 +3187,7 @@ ioregs! (WDT @ 0x40010000 = {
     }
 });
 
-ioregs! (RTC1 @ 0x40011000 = {
+ioregs! (RTC1 @ 0x40011000 = { // Real time counter 0.
     0x000 => reg32 TASKS_START {} // Start RTC Counter.
     0x004 => reg32 TASKS_STOP {} // Stop RTC Counter.
     0x008 => reg32 TASKS_CLEAR {} // Clear RTC Counter.
@@ -3346,7 +3346,7 @@ ioregs! (RTC1 @ 0x40011000 = {
     }
 });
 
-ioregs! (QDEC @ 0x40012000 = {
+ioregs! (QDEC @ 0x40012000 = { // Rotary decoder.
     0x000 => reg32 TASKS_START {} // Start the quadrature decoder.
     0x004 => reg32 TASKS_STOP {} // Stop the quadrature decoder.
     0x008 => reg32 TASKS_READCLRACC {} // Transfers the content from ACC registers to ACCREAD registers, and clears the ACC registers.
@@ -3458,7 +3458,7 @@ ioregs! (QDEC @ 0x40012000 = {
     }
 });
 
-ioregs! (LPCOMP @ 0x40013000 = {
+ioregs! (LPCOMP @ 0x40013000 = { // Low power comparator.
     0x000 => reg32 TASKS_START {} // Start the comparator.
     0x004 => reg32 TASKS_STOP {} // Stop the comparator.
     0x008 => reg32 TASKS_SAMPLE {} // Sample comparator value.
@@ -3581,11 +3581,11 @@ ioregs! (LPCOMP @ 0x40013000 = {
     }
 });
 
-ioregs! (SWI @ 0x40014000 = {
+ioregs! (SWI @ 0x40014000 = { // SW Interrupts.
     0x000 => reg32 UNUSED {} // Unused.
 });
 
-ioregs! (NVMC @ 0x4001E000 = {
+ioregs! (NVMC @ 0x4001E000 = { // Non Volatile Memory Controller.
     0x400 => reg32 READY { // Ready flag.
         0 => READY: ro { // NVMC ready.
             0 => Busy, // NVMC is busy (on-going write or erase operation).
@@ -3616,7 +3616,7 @@ ioregs! (NVMC @ 0x4001E000 = {
     }
 });
 
-ioregs! (PPI @ 0x4001F000 = {
+ioregs! (PPI @ 0x4001F000 = { // PPI controller.
     0x000 => group TASKS_CHG[4] { // Channel group tasks.
         0x000 => reg32 EN {} // Enable channel group.
         0x004 => reg32 DIS {} // Disable channel group.
@@ -4085,7 +4085,7 @@ ioregs! (PPI @ 0x4001F000 = {
     }
 });
 
-ioregs! (FICR @ 0x10000000 = {
+ioregs! (FICR @ 0x10000000 = { // Factory Information Configuration.
     0x010 => reg32 CODEPAGESIZE {} // Code memory page size in bytes.
     0x014 => reg32 CODESIZE {} // Code memory size in pages.
     0x028 => reg32 CLENR0 {} // Length of code region 0 in bytes.
@@ -4140,7 +4140,7 @@ ioregs! (FICR @ 0x10000000 = {
     }
 });
 
-ioregs! (UICR @ 0x10001000 = {
+ioregs! (UICR @ 0x10001000 = { // User Information Configuration.
     0x000 => reg32 CLENR0 {} // Length of code region 0.
     0x004 => reg32 RBPCONF { // Readback protection configuration.
         0..7 => PR0: rw { // Readback protect region 0. Will be ignored if pre-programmed factory code is present on the chip.
@@ -4173,7 +4173,7 @@ ioregs! (UICR @ 0x10001000 = {
     }
 });
 
-ioregs! (GPIO @ 0x50000000 = {
+ioregs! (GPIO @ 0x50000000 = { // General purpose input and output.
     0x504 => reg32 OUT { // Write GPIO port.
         0 => PIN0: rw { // Pin 0.
             0 => Low, // Pin driver is low.

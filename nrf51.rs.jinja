@@ -25,7 +25,7 @@ THE SOFTWARE. -#}
 use volatile_cell::VolatileCell;
 use core::ops::Drop;
 
-{% set NO_FIELDS = False -%}
+{%  set NO_FIELDS = False -%}
 {%- set NO_ENUMES = False -%}
 {%- set NO_DESCRIPTIONS = False -%}
 
@@ -33,12 +33,8 @@ use core::ops::Drop;
 {% if not NO_DESCRIPTIONS %} // {{ node.description }}{% endif %}
 {%- endmacro -%}
 
-{% macro register(r) -%}
-{% if r.registers -%} {{ r.addressOffset }} => group {{ r.name }} {{ "{" + description(r) }}
-    {%- for r in r.registers %}
-    {{ register(r)|indent }}
-    {%- endfor %}
-}{% else -%} {{ r.addressOffset }} => {{ "reg" + r.size }} {{ r.name }}
+{%- macro register(r) -%}
+{{ r.addressOffset }} => {{ "reg" + r.size }} {{ r.name }}
     {%- if not r.fields or NO_FIELDS %} {{ "{}" + description(r) }}{% else %} {{ "{" + description(r) }}
     {%- for f in r.fields %}
     {{ f.bitRange|bitrange }} => {{ f.name }}{% if f.access %}: {{ f.access|access }}{% endif %}
@@ -49,14 +45,25 @@ use core::ops::Drop;
     }{%- endif %}
     {%- endfor %}
 }{% endif %}
-{%- endif %}
+{%- endmacro -%}
+
+{%- macro cluster(c) -%}
+{{ c.addressOffset }} => group {{ c.name }} {{ "{" + description(c) }}
+    {%- for r in c.registers %}
+    {{ register(r)|indent }}
+    {%- endfor %}
+}
 {%- endmacro -%}
 
 {% for p in peripherals %}
 ioregs! ({{ p.name }} @ {{ p.baseAddress }}
-{%- if not p.registers %}{% else %} = {
+{%- if not p.registers %}{% else %} = {{ "{" + description(p) }}
     {%- for r in p.registers %}
+    {%- if r.registers %}
+    {{ cluster(r)|indent }}
+    {%- else %}
     {{ register(r)|indent }}
+    {%- endif %}
     {%- endfor %}
 }{% endif %});
 {% endfor %}
