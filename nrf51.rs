@@ -616,7 +616,7 @@ ioregs! (MPU @ 0x40000000 = { // Memory Protection Unit.
 });
 
 ioregs! (AMLI @ 0x40000000 = { // AHB Multi-Layer Interface.
-    0xE00 => group RAMPRI[0] { // RAM configurable priority configuration structure.
+    0xE00 => group RAMPRI[1] { // RAM configurable priority configuration structure.
         0x000 => reg32 CPU0 { // Configurable priority configuration register for CPU0.
             0..3 => RAM0: rw { // Configuration field for RAM block 0.
                 0x0 => Pri0, // Priority 0.
@@ -2139,7 +2139,7 @@ ioregs! (SPIM1 @ 0x40004000 = { // SPI master with easyDMA 1.
             0x07 => Enabled, // Enable SPIM.
         }
     }
-    0x508 => group PSEL[0] { // Pin select configuration.
+    0x508 => group PSEL[1] { // Pin select configuration.
         0x0 => reg32 SCK {} // Pin select for SCK.
         0x4 => reg32 MOSI {} // Pin select for MOSI.
         0x8 => reg32 MISO {} // Pin select for MISO.
@@ -2155,7 +2155,7 @@ ioregs! (SPIM1 @ 0x40004000 = { // SPI master with easyDMA 1.
             0x80000000 => M8, // 8 Mbps.
         }
     }
-    0x534 => group RXD[0] { // RXD EasyDMA configuration and status.
+    0x534 => group RXD[1] { // RXD EasyDMA configuration and status.
         0x0 => reg32 PTR { // Data pointer.
             0..31 => PTR: rw,
         }
@@ -2166,7 +2166,7 @@ ioregs! (SPIM1 @ 0x40004000 = { // SPI master with easyDMA 1.
             0..7 => AMOUNT: ro,
         }
     }
-    0x544 => group TXD[0] { // TXD EasyDMA configuration and status.
+    0x544 => group TXD[1] { // TXD EasyDMA configuration and status.
         0x0 => reg32 PTR { // Data pointer.
             0..31 => PTR: rw,
         }

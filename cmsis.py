@@ -135,7 +135,7 @@ class SvdFile():
 		reg["registers"] = []
 
 		if not reg["dim"]:
-			reg["name"] = reg["name"] + "[0]"
+			reg["name"] = reg["name"] + "[1]"
 		else:
 			reg["name"] = reg["name"].replace("%s", reg["dim"])
 
