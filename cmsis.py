@@ -122,6 +122,7 @@ class SvdFile():
 				"addressOffset": "0x0",
 				"size": register["size"],
 				"access": register["access"],
+				"description": register["description"],
 			}]
 			self.parse_fields(register["registers"][0], element.find("fields"))
 			register["name"] = register["name"].replace("%s", register["dim"])

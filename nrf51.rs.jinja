@@ -29,18 +29,18 @@ use core::ops::Drop;
 {%- set NO_ENUMES = False -%}
 {%- set NO_DESCRIPTIONS = False -%}
 
-{%- macro description(node) -%}
-{% if not NO_DESCRIPTIONS %} // {{ node.description }}{% endif %}
+{%- macro description(prefix, node) -%}
+{% if not NO_DESCRIPTIONS %}{{ prefix }} {{ node.description }}{% endif %}
 {%- endmacro -%}
 
 {%- macro register(r) -%}
 {{ r.addressOffset }} => {{ "reg" + r.size }} {{ r.name }}
-    {%- if not r.fields or NO_FIELDS %} {{ "{}" + description(r) }}{% else %} {{ "{" + description(r) }}
+    {%- if not r.fields or NO_FIELDS %} {{ "{} " + description("//!", r) }}{% else %} {{ "{ " + description("//!", r) }}
     {%- for f in r.fields %}
     {{ f.bitRange|bitrange }} => {{ f.name }}{% if f.access %}: {{ f.access|access }}{% endif %}
-    {%- if not f.enumeratedValues or NO_ENUMES %},{% else %} {{ "{" + description(f) }}
+    {%- if not f.enumeratedValues or NO_ENUMES %},{% else %} {{ "{ " + description("//!", f) }}
         {%- for e in f.enumeratedValues %}
-        {{ e.value }} => {{ e.name }},{{ description(e) }}
+        {{ e.value }} => {{ e.name }}, {{ description("//=", e) }}
         {%- endfor %}
     }{%- endif %}
     {%- endfor %}
@@ -48,7 +48,7 @@ use core::ops::Drop;
 {%- endmacro -%}
 
 {%- macro cluster(c) -%}
-{{ c.addressOffset }} => group {{ c.name }} {{ "{" + description(c) }}
+{{ c.addressOffset }} => group {{ c.name }} {{ "{ " + description("//!", c) }}
     {%- for r in c.registers %}
     {{ register(r)|indent }}
     {%- endfor %}
@@ -57,7 +57,8 @@ use core::ops::Drop;
 
 {% for p in peripherals %}
 ioregs! ({{ p.name }} @ {{ p.baseAddress }}
-{%- if not p.registers %}{% else %} = {{ "{" + description(p) }}
+{%- if not p.registers %}{% else %} = {
+    {{ description("///", p) }}
     {%- for r in p.registers %}
     {%- if r.registers %}
     {{ cluster(r)|indent }}

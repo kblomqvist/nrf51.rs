@@ -39,6 +39,7 @@ class CmsisSvdParser(Parser):
 			base = svd.periphs[p["derivedFrom"]].copy()
 			base["name"] = p["name"]
 			base["baseAddress"] = p["baseAddress"]
+			base["description"] = p["description"]
 			svd.periphs[p["name"]] = base
 
 		vars = {
