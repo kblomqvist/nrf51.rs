@@ -1,4 +1,5 @@
-// nRF51 reference description for radio MCU with ARM 32-bit Cortex-M0 Microcontroller at 16MHz CPU clock
+/// nRF51 reference description for radio MCU with ARM 32-bit Cortex-M0
+/// Microcontroller at 16MHz CPU clock
 
 use volatile_cell::VolatileCell;
 use core::ops::Drop;
