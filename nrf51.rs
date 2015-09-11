@@ -88,7 +88,7 @@ ioregs! (POWER @ 0x40000000 = {
         }
     }
     0x51C => reg32 GPREGRET { //! General purpose retention register. This register is a retained register.
-        0..7 => GPREGRET: rw,
+        0..7 => GPREGRET: rw, //! General purpose retention register.
     }
     0x524 => reg32 RAMON { //! Ram on/off.
         0 => ONRAM0: rw { //! RAM block 0 behaviour in ON mode.
@@ -247,7 +247,7 @@ ioregs! (CLOCK @ 0x40000000 = {
         }
     }
     0x538 => reg32 CTIV { //! Calibration timer interval.
-        0..6 => CTIV: rw,
+        0..6 => CTIV: rw, //! Calibration timer interval in 0.25s resolution.
     }
     0x550 => reg32 XTALFREQ { //! Crystal frequency.
         0..7 => XTALFREQ: rw { //! External Xtal frequency selection.
@@ -1254,17 +1254,17 @@ ioregs! (RADIO @ 0x40001000 = {
         }
     }
     0x408 => reg32 RXMATCH { //! Received address.
-        0..2 => RXMATCH: ro,
+        0..2 => RXMATCH: ro, //! Logical address in which previous packet was received.
     }
     0x40C => reg32 RXCRC { //! Received CRC.
-        0..23 => RXCRC: ro,
+        0..23 => RXCRC: ro, //! CRC field of previously received packet.
     }
     0x410 => reg32 DAI { //! Device address match index.
-        0..2 => DAI: ro,
+        0..2 => DAI: ro, //! Index (n) of device address (see DAB[n] and DAP[n]) that obtained an address match.
     }
     0x504 => reg32 PACKETPTR {} //! Packet pointer. Decision point: START task.
     0x508 => reg32 FREQUENCY { //! Frequency.
-        0..6 => FREQUENCY: rw,
+        0..6 => FREQUENCY: rw, //! Radio channel frequency offset in MHz: RF Frequency = 2400 + FREQUENCY (MHz). Decision point: TXEN or RXEN task. 
     }
     0x50C => reg32 TXPOWER { //! Output power.
         0..7 => TXPOWER: rw { //! Radio output power. Decision point: TXEN task.
@@ -1287,14 +1287,14 @@ ioregs! (RADIO @ 0x40001000 = {
         }
     }
     0x514 => reg32 PCNF0 { //! Packet configuration 0.
-        0..3 => LFLEN: rw,
-        8 => S0LEN: rw,
-        16..19 => S1LEN: rw,
+        0..3 => LFLEN: rw, //! Length of length field in number of bits. Decision point: START task.
+        8 => S0LEN: rw, //! Length of S0 field in number of bytes. Decision point: START task.
+        16..19 => S1LEN: rw, //! Length of S1 field in number of bits. Decision point: START task.
     }
     0x518 => reg32 PCNF1 { //! Packet configuration 1.
-        0..7 => MAXLEN: rw,
-        8..15 => STATLEN: rw,
-        16..18 => BALEN: rw,
+        0..7 => MAXLEN: rw, //! Maximum length of packet payload in number of bytes.
+        8..15 => STATLEN: rw, //! Static length in number of bytes. Decision point: START task.
+        16..18 => BALEN: rw, //! Base address length in number of bytes. Decision point: START task.
         24 => ENDIAN: rw { //! On air endianness of packet length field. Decision point: START task.
             0 => Little, //= Least significant bit on air first
             1 => Big, //= Most significant bit on air first
@@ -1307,19 +1307,19 @@ ioregs! (RADIO @ 0x40001000 = {
     0x51C => reg32 BASE0 {} //! Radio base address 0. Decision point: START task.
     0x520 => reg32 BASE1 {} //! Radio base address 1. Decision point: START task.
     0x524 => reg32 PREFIX0 { //! Prefixes bytes for logical addresses 0 to 3.
-        0..7 => AP0: rw,
-        8..15 => AP1: rw,
-        16..23 => AP2: rw,
-        24..31 => AP3: rw,
+        0..7 => AP0: rw, //! Address prefix 0. Decision point: START task.
+        8..15 => AP1: rw, //! Address prefix 1. Decision point: START task.
+        16..23 => AP2: rw, //! Address prefix 2. Decision point: START task.
+        24..31 => AP3: rw, //! Address prefix 3. Decision point: START task.
     }
     0x528 => reg32 PREFIX1 { //! Prefixes bytes for logical addresses 4 to 7.
-        0..7 => AP4: rw,
-        8..15 => AP5: rw,
-        16..23 => AP6: rw,
-        24..31 => AP7: rw,
+        0..7 => AP4: rw, //! Address prefix 4. Decision point: START task.
+        8..15 => AP5: rw, //! Address prefix 5. Decision point: START task.
+        16..23 => AP6: rw, //! Address prefix 6. Decision point: START task.
+        24..31 => AP7: rw, //! Address prefix 7. Decision point: START task.
     }
     0x52C => reg32 TXADDRESS { //! Transmit address select.
-        0..2 => TXADDRESS: rw,
+        0..2 => TXADDRESS: rw, //! Logical address to be used when transmitting a packet. Decision point: START task.
     }
     0x530 => reg32 RXADDRESSES { //! Receive address select.
         0 => ADDR0: rw { //! Enable reception on logical address 0. Decision point: START task.
@@ -1368,10 +1368,10 @@ ioregs! (RADIO @ 0x40001000 = {
         }
     }
     0x538 => reg32 CRCPOLY { //! CRC polynomial.
-        0..23 => CRCPOLY: rw,
+        0..23 => CRCPOLY: rw, //! CRC polynomial. Decision point: START task.
     }
     0x53C => reg32 CRCINIT { //! CRC initial value.
-        0..23 => CRCINIT: rw,
+        0..23 => CRCINIT: rw, //! Initial value for CRC calculation. Decision point: START task.
     }
     0x540 => reg32 TEST { //! Test features enable register.
         0 => CONSTCARRIER: rw { //! Constant carrier. Decision point: TXEN task.
@@ -1384,10 +1384,10 @@ ioregs! (RADIO @ 0x40001000 = {
         }
     }
     0x544 => reg32 TIFS { //! Inter Frame Spacing in microseconds.
-        0..7 => TIFS: rw,
+        0..7 => TIFS: rw, //! Inter frame spacing in microseconds. Decision point: START rask
     }
     0x548 => reg32 RSSISAMPLE { //! RSSI sample.
-        0..6 => RSSISAMPLE: ro,
+        0..6 => RSSISAMPLE: ro, //! RSSI sample result. The result is read as a positive value so that ReceivedSignalStrength = -RSSISAMPLE dBm
     }
     0x550 => reg32 STATE { //! Current radio state.
         0..3 => STATE: ro { //! Current radio state.
@@ -1403,7 +1403,7 @@ ioregs! (RADIO @ 0x40001000 = {
         }
     }
     0x554 => reg32 DATAWHITEIV { //! Data whitening initial value.
-        0..6 => DATAWHITEIV: rw,
+        0..6 => DATAWHITEIV: rw, //! Data whitening initial value. Bit 0 corresponds to Position 0 of the LSFR, Bit 1 to position 5... Decision point: TXEN or RXEN task.
     }
     0x560 => reg32 BCC {} //! Bit counter compare.
     0x600 => group DAB[8] { //! Device address base segment.
@@ -1411,7 +1411,7 @@ ioregs! (RADIO @ 0x40001000 = {
     }
     0x620 => group DAP[8] { //! Device address prefix.
         0x0 => reg32 DAP { //! Device address prefix.
-            0..15 => DAP: rw,
+            0..15 => DAP: rw, //! Device address prefix.
         }
     }
     0x640 => reg32 DACNF { //! Device address match configuration.
@@ -1447,29 +1447,29 @@ ioregs! (RADIO @ 0x40001000 = {
             0 => Disabled, //= Disabled.
             1 => Enabled, //= Enabled.
         }
-        8 => TXADD0: rw,
-        9 => TXADD1: rw,
-        10 => TXADD2: rw,
-        11 => TXADD3: rw,
-        12 => TXADD4: rw,
-        13 => TXADD5: rw,
-        14 => TXADD6: rw,
-        15 => TXADD7: rw,
+        8 => TXADD0: rw, //! TxAdd for device address 0.
+        9 => TXADD1: rw, //! TxAdd for device address 1.
+        10 => TXADD2: rw, //! TxAdd for device address 2.
+        11 => TXADD3: rw, //! TxAdd for device address 3.
+        12 => TXADD4: rw, //! TxAdd for device address 4.
+        13 => TXADD5: rw, //! TxAdd for device address 5.
+        14 => TXADD6: rw, //! TxAdd for device address 6.
+        15 => TXADD7: rw, //! TxAdd for device address 7.
     }
     0x724 => reg32 OVERRIDE0 { //! Trim value override register 0.
-        0..31 => OVERRIDE0: rw,
+        0..31 => OVERRIDE0: rw, //! Trim value override 0.
     }
     0x728 => reg32 OVERRIDE1 { //! Trim value override register 1.
-        0..31 => OVERRIDE1: rw,
+        0..31 => OVERRIDE1: rw, //! Trim value override 1.
     }
     0x72C => reg32 OVERRIDE2 { //! Trim value override register 2.
-        0..31 => OVERRIDE2: rw,
+        0..31 => OVERRIDE2: rw, //! Trim value override 2.
     }
     0x730 => reg32 OVERRIDE3 { //! Trim value override register 3.
-        0..31 => OVERRIDE3: rw,
+        0..31 => OVERRIDE3: rw, //! Trim value override 3.
     }
     0x734 => reg32 OVERRIDE4 { //! Trim value override register 4.
-        0..27 => OVERRIDE4: rw,
+        0..27 => OVERRIDE4: rw, //! Trim value override 4.
         31 => ENABLE: rw { //! Enable or disable override of default trim values.
             0 => Disabled, //= Override trim values disabled.
             1 => Enabled, //= Override trim values enabled.
@@ -1587,10 +1587,10 @@ ioregs! (UART0 @ 0x40002000 = {
     0x510 => reg32 PSELCTS {} //! Pin select for CTS.
     0x514 => reg32 PSELRXD {} //! Pin select for RXD.
     0x518 => reg32 RXD { //! RXD register. On read action the buffer pointer is displaced. Once read the character is consumed. If read when no character available, the UART will stop working.
-        0..7 => RXD: ro,
+        0..7 => RXD: ro, //! RX data from previous transfer. Double buffered.
     }
     0x51C => reg32 TXD { //! TXD register.
-        0..7 => TXD: wo,
+        0..7 => TXD: wo, //! TX data for transfer.
     }
     0x524 => reg32 BAUDRATE { //! UART Baudrate.
         0..31 => BAUDRATE: rw { //! UART baudrate.
@@ -1655,10 +1655,10 @@ ioregs! (SPI0 @ 0x40003000 = {
     0x50C => reg32 PSELMOSI {} //! Pin select for MOSI.
     0x510 => reg32 PSELMISO {} //! Pin select for MISO.
     0x518 => reg32 RXD { //! RX data.
-        0..7 => RXD: ro,
+        0..7 => RXD: ro, //! RX data from last transfer.
     }
     0x51C => reg32 TXD { //! TX data.
-        0..7 => TXD: rw,
+        0..7 => TXD: rw, //! TX data for next transfer.
     }
     0x524 => reg32 FREQUENCY { //! SPI frequency
         0..31 => FREQUENCY: rw { //! SPI data rate.
@@ -1791,10 +1791,10 @@ ioregs! (TWI0 @ 0x40003000 = {
     0x508 => reg32 PSELSCL {} //! Pin select for SCL.
     0x50C => reg32 PSELSDA {} //! Pin select for SDA.
     0x518 => reg32 RXD { //! RX data register.
-        0..7 => RXD: ro,
+        0..7 => RXD: ro, //! RX data from last transfer.
     }
     0x51C => reg32 TXD { //! TX data register.
-        0..7 => TXD: rw,
+        0..7 => TXD: rw, //! TX data for next transfer.
     }
     0x524 => reg32 FREQUENCY { //! Two-wire frequency.
         0..31 => FREQUENCY: rw { //! Two-wire master clock frequency.
@@ -1804,7 +1804,7 @@ ioregs! (TWI0 @ 0x40003000 = {
         }
     }
     0x588 => reg32 ADDRESS { //! Address used in the two-wire transfer.
-        0..6 => ADDRESS: rw,
+        0..6 => ADDRESS: rw, //! Two-wire address.
     }
     0xFFC => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
@@ -1839,10 +1839,10 @@ ioregs! (SPI1 @ 0x40004000 = {
     0x50C => reg32 PSELMOSI {} //! Pin select for MOSI.
     0x510 => reg32 PSELMISO {} //! Pin select for MISO.
     0x518 => reg32 RXD { //! RX data.
-        0..7 => RXD: ro,
+        0..7 => RXD: ro, //! RX data from last transfer.
     }
     0x51C => reg32 TXD { //! TX data.
-        0..7 => TXD: rw,
+        0..7 => TXD: rw, //! TX data for next transfer.
     }
     0x524 => reg32 FREQUENCY { //! SPI frequency
         0..31 => FREQUENCY: rw { //! SPI data rate.
@@ -1975,10 +1975,10 @@ ioregs! (TWI1 @ 0x40004000 = {
     0x508 => reg32 PSELSCL {} //! Pin select for SCL.
     0x50C => reg32 PSELSDA {} //! Pin select for SDA.
     0x518 => reg32 RXD { //! RX data register.
-        0..7 => RXD: ro,
+        0..7 => RXD: ro, //! RX data from last transfer.
     }
     0x51C => reg32 TXD { //! TX data register.
-        0..7 => TXD: rw,
+        0..7 => TXD: rw, //! TX data for next transfer.
     }
     0x524 => reg32 FREQUENCY { //! Two-wire frequency.
         0..31 => FREQUENCY: rw { //! Two-wire master clock frequency.
@@ -1988,7 +1988,7 @@ ioregs! (TWI1 @ 0x40004000 = {
         }
     }
     0x588 => reg32 ADDRESS { //! Address used in the two-wire transfer.
-        0..6 => ADDRESS: rw,
+        0..6 => ADDRESS: rw, //! Two-wire address.
     }
     0xFFC => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
@@ -2060,17 +2060,17 @@ ioregs! (SPIS1 @ 0x40004000 = {
     0x514 => reg32 PSELCSN {} //! Pin select for CSN.
     0x534 => reg32 RXDPTR {} //! RX data pointer.
     0x538 => reg32 MAXRX { //! Maximum number of bytes in the receive buffer.
-        0..7 => MAXRX: rw,
+        0..7 => MAXRX: rw, //! Maximum number of bytes in the receive buffer.
     }
     0x53C => reg32 AMOUNTRX { //! Number of bytes received in last granted transaction.
-        0..7 => AMOUNTRX: ro,
+        0..7 => AMOUNTRX: ro, //! Number of bytes received in last granted transaction.
     }
     0x544 => reg32 TXDPTR {} //! TX data pointer.
     0x548 => reg32 MAXTX { //! Maximum number of bytes in the transmit buffer.
-        0..7 => MAXTX: rw,
+        0..7 => MAXTX: rw, //! Maximum number of bytes in the transmit buffer.
     }
     0x54C => reg32 AMOUNTTX { //! Number of bytes transmitted in last granted transaction.
-        0..7 => AMOUNTTX: ro,
+        0..7 => AMOUNTTX: ro, //! Number of bytes transmitted in last granted transaction.
     }
     0x554 => reg32 CONFIG { //! Configuration register.
         0 => ORDER: rw { //! Bit order.
@@ -2087,10 +2087,10 @@ ioregs! (SPIS1 @ 0x40004000 = {
         }
     }
     0x55C => reg32 DEF { //! Default character.
-        0..7 => DEF: rw,
+        0..7 => DEF: rw, //! Default character.
     }
     0x5C0 => reg32 ORC { //! Over-read character.
-        0..7 => ORC: rw,
+        0..7 => ORC: rw, //! Over-read character.
     }
     0xFFC => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
@@ -2170,24 +2170,24 @@ ioregs! (SPIM1 @ 0x40004000 = {
     }
     0x534 => group RXD[1] { //! RXD EasyDMA configuration and status.
         0x0 => reg32 PTR { //! Data pointer.
-            0..31 => PTR: rw,
+            0..31 => PTR: rw, //! Data pointer.
         }
         0x4 => reg32 MAXCNT { //! Maximum number of buffer bytes to receive.
-            0..7 => MAXCNT: rw,
+            0..7 => MAXCNT: rw, //! Maximum number of buffer bytes to receive.
         }
         0x8 => reg32 AMOUNT { //! Number of bytes received in the last transaction.
-            0..7 => AMOUNT: ro,
+            0..7 => AMOUNT: ro, //! Number of bytes received in the last transaction.
         }
     }
     0x544 => group TXD[1] { //! TXD EasyDMA configuration and status.
         0x0 => reg32 PTR { //! Data pointer.
-            0..31 => PTR: rw,
+            0..31 => PTR: rw, //! Data pointer.
         }
         0x4 => reg32 MAXCNT { //! Maximum number of buffer bytes to send.
-            0..7 => MAXCNT: rw,
+            0..7 => MAXCNT: rw, //! Maximum number of buffer bytes to send.
         }
         0x8 => reg32 AMOUNT { //! Number of bytes sent in the last transaction.
-            0..7 => AMOUNT: ro,
+            0..7 => AMOUNT: ro, //! Number of bytes sent in the last transaction.
         }
     }
     0x554 => reg32 CONFIG { //! Configuration register.
@@ -2205,7 +2205,7 @@ ioregs! (SPIM1 @ 0x40004000 = {
         }
     }
     0x5C0 => reg32 ORC { //! Over-read character.
-        0..7 => ORC: rw,
+        0..7 => ORC: rw, //! Over-read character.
     }
     0xFFC => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
@@ -2275,7 +2275,7 @@ ioregs! (GPIOTE @ 0x40006000 = {
                 0x01 => Event, //= Channel configure in event mode.
                 0x03 => Task, //= Channel configure in task mode.
             }
-            8..12 => PSEL: rw,
+            8..12 => PSEL: rw, //! Pin select.
             16..17 => POLARITY: rw { //! Effects on output when in Task mode, or events on input that generates an event.
                 0x00 => None, //= No task or event.
                 0x01 => LoToHi, //= Low to high.
@@ -2362,7 +2362,7 @@ ioregs! (ADC @ 0x40007000 = {
         }
     }
     0x508 => reg32 RESULT { //! Result of ADC conversion.
-        0..9 => RESULT: ro,
+        0..9 => RESULT: ro, //! Result of ADC conversion.
     }
     0xFFC => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
@@ -2470,7 +2470,7 @@ ioregs! (TIMER0 @ 0x40008000 = {
         }
     }
     0x510 => reg32 PRESCALER { //! 4-bit prescaler to source clock frequency (max value 9). Source clock frequency is divided by 2^SCALE.
-        0..3 => PRESCALER: rw,
+        0..3 => PRESCALER: rw, //! Timer PRESCALER value. Max value is 9.
     }
     0x540 => group CC[4] { //! Capture/compare registers.
         0x0 => reg32 CC {} //! Capture/compare registers.
@@ -2581,7 +2581,7 @@ ioregs! (TIMER1 @ 0x40009000 = {
         }
     }
     0x510 => reg32 PRESCALER { //! 4-bit prescaler to source clock frequency (max value 9). Source clock frequency is divided by 2^SCALE.
-        0..3 => PRESCALER: rw,
+        0..3 => PRESCALER: rw, //! Timer PRESCALER value. Max value is 9.
     }
     0x540 => group CC[4] { //! Capture/compare registers.
         0x0 => reg32 CC {} //! Capture/compare registers.
@@ -2692,7 +2692,7 @@ ioregs! (TIMER2 @ 0x4000A000 = {
         }
     }
     0x510 => reg32 PRESCALER { //! 4-bit prescaler to source clock frequency (max value 9). Source clock frequency is divided by 2^SCALE.
-        0..3 => PRESCALER: rw,
+        0..3 => PRESCALER: rw, //! Timer PRESCALER value. Max value is 9.
     }
     0x540 => group CC[4] { //! Capture/compare registers.
         0x0 => reg32 CC {} //! Capture/compare registers.
@@ -2847,14 +2847,14 @@ ioregs! (RTC0 @ 0x4000B000 = {
         }
     }
     0x504 => reg32 COUNTER { //! Current COUNTER value.
-        0..23 => COUNTER: ro,
+        0..23 => COUNTER: ro, //! Counter value.
     }
     0x508 => reg32 PRESCALER { //! 12-bit prescaler for COUNTER frequency (32768/(PRESCALER+1)). Must be written when RTC is STOPed.
-        0..11 => PRESCALER: rw,
+        0..11 => PRESCALER: rw, //! RTC PRESCALER value.
     }
     0x540 => group CC[4] { //! Capture/compare registers.
         0x0 => reg32 CC { //! Capture/compare registers.
-            0..23 => COMPARE: rw,
+            0..23 => COMPARE: rw, //! Compare value.
         }
     }
     0xFFC => reg32 POWER { //! Peripheral power control.
@@ -2921,7 +2921,7 @@ ioregs! (RNG @ 0x4000D000 = {
         }
     }
     0x508 => reg32 VALUE { //! RNG random number.
-        0..7 => VALUE: ro,
+        0..7 => VALUE: ro, //! Generated random number.
     }
     0xFFC => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
@@ -3002,7 +3002,7 @@ ioregs! (AAR @ 0x4000F000 = {
         }
     }
     0x400 => reg32 STATUS { //! Resolution status.
-        0..3 => STATUS: ro,
+        0..3 => STATUS: ro, //! The IRK used last time an address was resolved.
     }
     0x500 => reg32 ENABLE { //! Enable AAR.
         0..1 => ENABLE: rw { //! Enable AAR.
@@ -3011,7 +3011,7 @@ ioregs! (AAR @ 0x4000F000 = {
         }
     }
     0x504 => reg32 NIRK { //! Number of Identity root Keys in the IRK data structure.
-        0..4 => NIRK: rw,
+        0..4 => NIRK: rw, //! Number of Identity root Keys in the IRK data structure.
     }
     0x508 => reg32 IRKPTR {} //! Pointer to the IRK data structure.
     0x510 => reg32 ADDRPTR {} //! Pointer to the resolvable address (6 bytes).
@@ -3354,14 +3354,14 @@ ioregs! (RTC1 @ 0x40011000 = {
         }
     }
     0x504 => reg32 COUNTER { //! Current COUNTER value.
-        0..23 => COUNTER: ro,
+        0..23 => COUNTER: ro, //! Counter value.
     }
     0x508 => reg32 PRESCALER { //! 12-bit prescaler for COUNTER frequency (32768/(PRESCALER+1)). Must be written when RTC is STOPed.
-        0..11 => PRESCALER: rw,
+        0..11 => PRESCALER: rw, //! RTC PRESCALER value.
     }
     0x540 => group CC[4] { //! Capture/compare registers.
         0x0 => reg32 CC { //! Capture/compare registers.
-            0..23 => COMPARE: rw,
+            0..23 => COMPARE: rw, //! Compare value.
         }
     }
     0xFFC => reg32 POWER { //! Peripheral power control.
@@ -3443,7 +3443,7 @@ ioregs! (QDEC @ 0x40012000 = {
         }
     }
     0x50C => reg32 SAMPLE { //! Motion sample value.
-        0..31 => SAMPLE: ro,
+        0..31 => SAMPLE: ro, //! Last sample taken in compliment to 2.
     }
     0x510 => reg32 REPORTPER { //! Number of samples to generate an EVENT_REPORTRDY.
         0..2 => REPORTPER: rw { //! Number of samples to generate an EVENT_REPORTRDY.
@@ -3469,13 +3469,13 @@ ioregs! (QDEC @ 0x40012000 = {
         }
     }
     0x540 => reg32 LEDPRE { //! Time LED is switched ON before the sample.
-        0..8 => LEDPRE: rw,
+        0..8 => LEDPRE: rw, //! Period in us the LED in switched on prior to sampling.
     }
     0x544 => reg32 ACCDBL { //! Accumulated double (error) transitions register.
-        0..3 => ACCDBL: ro,
+        0..3 => ACCDBL: ro, //! Accumulated double (error) transitions.
     }
     0x548 => reg32 ACCDBLREAD { //! Snapshot of ACCDBL register. Value generated by the TASKS_READCLEACC task.
-        0..3 => ACCDBLREAD: ro,
+        0..3 => ACCDBLREAD: ro, //! Snapshot of accumulated double (error) transitions.
     }
     0xFFC => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
@@ -4133,8 +4133,8 @@ ioregs! (FICR @ 0x10000000 = {
         0x0 => reg32 SIZERAMBLOCK {} //! Deprecated array of size of RAM block in bytes. This name is kept for backward compatinility purposes. Use SIZERAMBLOCKS instead.
     }
     0x05C => reg32 CONFIGID { //! Configuration identifier.
-        0..15 => HWID: ro,
-        16..31 => FWID: ro,
+        0..15 => HWID: ro, //! Hardware Identification Number.
+        16..31 => FWID: ro, //! Firmware Identification Number pre-loaded into the flash.
     }
     0x060 => group DEVICEID[2] { //! Device identifier.
         0x0 => reg32 DEVICEID {} //! Device identifier.
@@ -4192,7 +4192,7 @@ ioregs! (UICR @ 0x10001000 = {
         }
     }
     0x010 => reg32 FWID { //! Firmware ID.
-        0..15 => FWID: ro,
+        0..15 => FWID: ro, //! Identification number for the firmware loaded into the chip.
     }
     0x014 => reg32 BOOTLOADERADDR {} //! Bootloader start address.
     0x014 => group NRFFW[15] { //! Reserved for Nordic firmware design.
