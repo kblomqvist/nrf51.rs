@@ -38,8 +38,8 @@ use core::ops::Drop;
     {%- if not r.fields or NO_FIELDS %} {{ "{} " + description("//!", r) }}{% else %} {{ "{ " + description("//!", r) }}
     {%- for f in r.fields %}
     {{ f.bitRange|bitrange }} => {{ f.name }}{% if f.access %}: {{ f.access|access }}{% endif %}
-    {%- if not f.enumeratedValues or NO_ENUMES %},{{ description(" //!", f) }}{% else %} {{ "{ " + description("//!", f) }}
-        {%- for e in f.enumeratedValues %}
+    {%- if not f.enumeratedValues|enums or NO_ENUMES %},{{ description(" //!", f) }}{% else %} {{ "{ " + description("//!", f) }}
+        {%- for e in f.enumeratedValues|enums %}
         {{ e.value }} => {{ e.name }}, {{ description("//=", e) }}
         {%- endfor %}
     }{%- endif %}
@@ -48,7 +48,7 @@ use core::ops::Drop;
 {%- endmacro -%}
 
 {%- macro cluster(c) -%}
-{{ c.addressOffset }} => group {{ c.name }} {{ "{ " + description("//!", c) }}
+{{ c.addressOffset }} => group {{ c.name|replace("%s", c.dim) }} {{ "{ " + description("//!", c) }}
     {%- for r in c.registers %}
     {{ register(r)|indent }}
     {%- endfor %}

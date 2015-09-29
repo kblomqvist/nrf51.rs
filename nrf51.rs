@@ -1406,13 +1406,9 @@ ioregs! (RADIO @ 0x40001000 = {
         0..6 => DATAWHITEIV: rw, //! Data whitening initial value. Bit 0 corresponds to Position 0 of the LSFR, Bit 1 to position 5... Decision point: TXEN or RXEN task.
     }
     0x560 => reg32 BCC {} //! Bit counter compare.
-    0x600 => group DAB[8] { //! Device address base segment.
-        0x0 => reg32 DAB {} //! Device address base segment.
-    }
-    0x620 => group DAP[8] { //! Device address prefix.
-        0x0 => reg32 DAP { //! Device address prefix.
-            0..15 => DAP: rw, //! Device address prefix.
-        }
+    0x600 => reg32 DAB[%s] {} //! Device address base segment.
+    0x620 => reg32 DAP[%s] { //! Device address prefix.
+        0..15 => DAP: rw, //! Device address prefix.
     }
     0x640 => reg32 DACNF { //! Device address match configuration.
         0 => ENA0: rw { //! Enable or disable device address matching using device address 0.
@@ -2217,12 +2213,8 @@ ioregs! (SPIM1 @ 0x40004000 = {
 
 ioregs! (GPIOTE @ 0x40006000 = {
     /// GPIO tasks and events.
-    0x000 => group TASKS_OUT[4] { //! Tasks asssociated with GPIOTE channels.
-        0x0 => reg32 TASKS_OUT {} //! Tasks asssociated with GPIOTE channels.
-    }
-    0x100 => group EVENTS_IN[4] { //! Tasks asssociated with GPIOTE channels.
-        0x0 => reg32 EVENTS_IN {} //! Tasks asssociated with GPIOTE channels.
-    }
+    0x000 => reg32 TASKS_OUT[%s] {} //! Tasks asssociated with GPIOTE channels.
+    0x100 => reg32 EVENTS_IN[%s] {} //! Tasks asssociated with GPIOTE channels.
     0x17C => reg32 EVENTS_PORT {} //! Event generated from multiple pins.
     0x304 => reg32 INTENSET { //! Interrupt enable set register.
         0 => IN0: rw { //! Enable interrupt on IN[0] event.
@@ -2268,24 +2260,22 @@ ioregs! (GPIOTE @ 0x40006000 = {
             1 => Enabled, //= Interrupt enabled.
         }
     }
-    0x510 => group CONFIG[4] { //! Channel configuration registers.
-        0x0 => reg32 CONFIG { //! Channel configuration registers.
-            0..1 => MODE: rw { //! Mode
-                0x00 => Disabled, //= Disabled.
-                0x01 => Event, //= Channel configure in event mode.
-                0x03 => Task, //= Channel configure in task mode.
-            }
-            8..12 => PSEL: rw, //! Pin select.
-            16..17 => POLARITY: rw { //! Effects on output when in Task mode, or events on input that generates an event.
-                0x00 => None, //= No task or event.
-                0x01 => LoToHi, //= Low to high.
-                0x02 => HiToLo, //= High to low.
-                0x03 => Toggle, //= Toggle.
-            }
-            20 => OUTINIT: rw { //! Initial value of the output when the GPIOTE channel is configured as a Task.
-                0 => Low, //= Initial low output when in task mode.
-                1 => High, //= Initial high output when in task mode.
-            }
+    0x510 => reg32 CONFIG[%s] { //! Channel configuration registers.
+        0..1 => MODE: rw { //! Mode
+            0x00 => Disabled, //= Disabled.
+            0x01 => Event, //= Channel configure in event mode.
+            0x03 => Task, //= Channel configure in task mode.
+        }
+        8..12 => PSEL: rw, //! Pin select.
+        16..17 => POLARITY: rw { //! Effects on output when in Task mode, or events on input that generates an event.
+            0x00 => None, //= No task or event.
+            0x01 => LoToHi, //= Low to high.
+            0x02 => HiToLo, //= High to low.
+            0x03 => Toggle, //= Toggle.
+        }
+        20 => OUTINIT: rw { //! Initial value of the output when the GPIOTE channel is configured as a Task.
+            0 => Low, //= Initial low output when in task mode.
+            1 => High, //= Initial high output when in task mode.
         }
     }
     0xFFC => reg32 POWER { //! Peripheral power control.
@@ -2379,12 +2369,8 @@ ioregs! (TIMER0 @ 0x40008000 = {
     0x008 => reg32 TASKS_COUNT {} //! Increment Timer (In counter mode).
     0x00C => reg32 TASKS_CLEAR {} //! Clear timer.
     0x010 => reg32 TASKS_SHUTDOWN {} //! Shutdown timer.
-    0x040 => group TASKS_CAPTURE[4] { //! Capture Timer value to CC[n] registers.
-        0x0 => reg32 TASKS_CAPTURE {} //! Capture Timer value to CC[n] registers.
-    }
-    0x140 => group EVENTS_COMPARE[4] { //! Compare event on CC[n] match.
-        0x0 => reg32 EVENTS_COMPARE {} //! Compare event on CC[n] match.
-    }
+    0x040 => reg32 TASKS_CAPTURE[%s] {} //! Capture Timer value to CC[n] registers.
+    0x140 => reg32 EVENTS_COMPARE[%s] {} //! Compare event on CC[n] match.
     0x200 => reg32 SHORTS { //! Shortcuts for Timer.
         0 => COMPARE0_CLEAR: rw { //! Shortcut between CC[0] event and the CLEAR task.
             0 => Disabled, //= Shortcut disabled.
@@ -2472,9 +2458,7 @@ ioregs! (TIMER0 @ 0x40008000 = {
     0x510 => reg32 PRESCALER { //! 4-bit prescaler to source clock frequency (max value 9). Source clock frequency is divided by 2^SCALE.
         0..3 => PRESCALER: rw, //! Timer PRESCALER value. Max value is 9.
     }
-    0x540 => group CC[4] { //! Capture/compare registers.
-        0x0 => reg32 CC {} //! Capture/compare registers.
-    }
+    0x540 => reg32 CC[%s] {} //! Capture/compare registers.
     0xFFC => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
@@ -2490,12 +2474,8 @@ ioregs! (TIMER1 @ 0x40009000 = {
     0x008 => reg32 TASKS_COUNT {} //! Increment Timer (In counter mode).
     0x00C => reg32 TASKS_CLEAR {} //! Clear timer.
     0x010 => reg32 TASKS_SHUTDOWN {} //! Shutdown timer.
-    0x040 => group TASKS_CAPTURE[4] { //! Capture Timer value to CC[n] registers.
-        0x0 => reg32 TASKS_CAPTURE {} //! Capture Timer value to CC[n] registers.
-    }
-    0x140 => group EVENTS_COMPARE[4] { //! Compare event on CC[n] match.
-        0x0 => reg32 EVENTS_COMPARE {} //! Compare event on CC[n] match.
-    }
+    0x040 => reg32 TASKS_CAPTURE[%s] {} //! Capture Timer value to CC[n] registers.
+    0x140 => reg32 EVENTS_COMPARE[%s] {} //! Compare event on CC[n] match.
     0x200 => reg32 SHORTS { //! Shortcuts for Timer.
         0 => COMPARE0_CLEAR: rw { //! Shortcut between CC[0] event and the CLEAR task.
             0 => Disabled, //= Shortcut disabled.
@@ -2583,9 +2563,7 @@ ioregs! (TIMER1 @ 0x40009000 = {
     0x510 => reg32 PRESCALER { //! 4-bit prescaler to source clock frequency (max value 9). Source clock frequency is divided by 2^SCALE.
         0..3 => PRESCALER: rw, //! Timer PRESCALER value. Max value is 9.
     }
-    0x540 => group CC[4] { //! Capture/compare registers.
-        0x0 => reg32 CC {} //! Capture/compare registers.
-    }
+    0x540 => reg32 CC[%s] {} //! Capture/compare registers.
     0xFFC => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
@@ -2601,12 +2579,8 @@ ioregs! (TIMER2 @ 0x4000A000 = {
     0x008 => reg32 TASKS_COUNT {} //! Increment Timer (In counter mode).
     0x00C => reg32 TASKS_CLEAR {} //! Clear timer.
     0x010 => reg32 TASKS_SHUTDOWN {} //! Shutdown timer.
-    0x040 => group TASKS_CAPTURE[4] { //! Capture Timer value to CC[n] registers.
-        0x0 => reg32 TASKS_CAPTURE {} //! Capture Timer value to CC[n] registers.
-    }
-    0x140 => group EVENTS_COMPARE[4] { //! Compare event on CC[n] match.
-        0x0 => reg32 EVENTS_COMPARE {} //! Compare event on CC[n] match.
-    }
+    0x040 => reg32 TASKS_CAPTURE[%s] {} //! Capture Timer value to CC[n] registers.
+    0x140 => reg32 EVENTS_COMPARE[%s] {} //! Compare event on CC[n] match.
     0x200 => reg32 SHORTS { //! Shortcuts for Timer.
         0 => COMPARE0_CLEAR: rw { //! Shortcut between CC[0] event and the CLEAR task.
             0 => Disabled, //= Shortcut disabled.
@@ -2694,9 +2668,7 @@ ioregs! (TIMER2 @ 0x4000A000 = {
     0x510 => reg32 PRESCALER { //! 4-bit prescaler to source clock frequency (max value 9). Source clock frequency is divided by 2^SCALE.
         0..3 => PRESCALER: rw, //! Timer PRESCALER value. Max value is 9.
     }
-    0x540 => group CC[4] { //! Capture/compare registers.
-        0x0 => reg32 CC {} //! Capture/compare registers.
-    }
+    0x540 => reg32 CC[%s] {} //! Capture/compare registers.
     0xFFC => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
@@ -2713,9 +2685,7 @@ ioregs! (RTC0 @ 0x4000B000 = {
     0x00C => reg32 TASKS_TRIGOVRFLW {} //! Set COUNTER to 0xFFFFFFF0.
     0x100 => reg32 EVENTS_TICK {} //! Event on COUNTER increment.
     0x104 => reg32 EVENTS_OVRFLW {} //! Event on COUNTER overflow.
-    0x140 => group EVENTS_COMPARE[4] { //! Compare event on CC[n] match.
-        0x0 => reg32 EVENTS_COMPARE {} //! Compare event on CC[n] match.
-    }
+    0x140 => reg32 EVENTS_COMPARE[%s] {} //! Compare event on CC[n] match.
     0x304 => reg32 INTENSET { //! Interrupt enable set register.
         0 => TICK: rw { //! Enable interrupt on TICK event.
             0 => Disabled, //= Interrupt disabled.
@@ -2852,10 +2822,8 @@ ioregs! (RTC0 @ 0x4000B000 = {
     0x508 => reg32 PRESCALER { //! 12-bit prescaler for COUNTER frequency (32768/(PRESCALER+1)). Must be written when RTC is STOPed.
         0..11 => PRESCALER: rw, //! RTC PRESCALER value.
     }
-    0x540 => group CC[4] { //! Capture/compare registers.
-        0x0 => reg32 CC { //! Capture/compare registers.
-            0..23 => COMPARE: rw, //! Compare value.
-        }
+    0x540 => reg32 CC[%s] { //! Capture/compare registers.
+        0..23 => COMPARE: rw, //! Compare value.
     }
     0xFFC => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
@@ -3197,11 +3165,9 @@ ioregs! (WDT @ 0x40010000 = {
             1 => Run, //= Do not pause watchdog while the CPU is halted by the debugger.
         }
     }
-    0x600 => group RR[8] { //! Reload requests registers.
-        0x0 => reg32 RR { //! Reload requests registers.
-            0..31 => RR: wo { //! Reload register.
-                0x6E524635 => Reload, //= Value to request a reload of the watchdog timer.
-            }
+    0x600 => reg32 RR[%s] { //! Reload requests registers.
+        0..31 => RR: wo { //! Reload register.
+            0x6E524635 => Reload, //= Value to request a reload of the watchdog timer.
         }
     }
     0xFFC => reg32 POWER { //! Peripheral power control.
@@ -3220,9 +3186,7 @@ ioregs! (RTC1 @ 0x40011000 = {
     0x00C => reg32 TASKS_TRIGOVRFLW {} //! Set COUNTER to 0xFFFFFFF0.
     0x100 => reg32 EVENTS_TICK {} //! Event on COUNTER increment.
     0x104 => reg32 EVENTS_OVRFLW {} //! Event on COUNTER overflow.
-    0x140 => group EVENTS_COMPARE[4] { //! Compare event on CC[n] match.
-        0x0 => reg32 EVENTS_COMPARE {} //! Compare event on CC[n] match.
-    }
+    0x140 => reg32 EVENTS_COMPARE[%s] {} //! Compare event on CC[n] match.
     0x304 => reg32 INTENSET { //! Interrupt enable set register.
         0 => TICK: rw { //! Enable interrupt on TICK event.
             0 => Disabled, //= Interrupt disabled.
@@ -3359,10 +3323,8 @@ ioregs! (RTC1 @ 0x40011000 = {
     0x508 => reg32 PRESCALER { //! 12-bit prescaler for COUNTER frequency (32768/(PRESCALER+1)). Must be written when RTC is STOPed.
         0..11 => PRESCALER: rw, //! RTC PRESCALER value.
     }
-    0x540 => group CC[4] { //! Capture/compare registers.
-        0x0 => reg32 CC { //! Capture/compare registers.
-            0..23 => COMPARE: rw, //! Compare value.
-        }
+    0x540 => reg32 CC[%s] { //! Capture/compare registers.
+        0..23 => COMPARE: rw, //! Compare value.
     }
     0xFFC => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
@@ -3998,120 +3960,118 @@ ioregs! (PPI @ 0x4001F000 = {
         0x000 => reg32 EEP {} //! Channel event end-point.
         0x004 => reg32 TEP {} //! Channel task end-point.
     }
-    0x800 => group CHG[4] { //! Channel group configuration.
-        0x0 => reg32 CHG { //! Channel group configuration.
-            0 => CH0: rw { //! Include CH0 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            1 => CH1: rw { //! Include CH1 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            2 => CH2: rw { //! Include CH2 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            3 => CH3: rw { //! Include CH3 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            4 => CH4: rw { //! Include CH4 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            5 => CH5: rw { //! Include CH5 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            6 => CH6: rw { //! Include CH6 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            7 => CH7: rw { //! Include CH7 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            8 => CH8: rw { //! Include CH8 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            9 => CH9: rw { //! Include CH9 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            10 => CH10: rw { //! Include CH10 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            11 => CH11: rw { //! Include CH11 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            12 => CH12: rw { //! Include CH12 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            13 => CH13: rw { //! Include CH13 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            14 => CH14: rw { //! Include CH14 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            15 => CH15: rw { //! Include CH15 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            20 => CH20: rw { //! Include CH20 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            21 => CH21: rw { //! Include CH21 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            22 => CH22: rw { //! Include CH22 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            23 => CH23: rw { //! Include CH23 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            24 => CH24: rw { //! Include CH24 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            25 => CH25: rw { //! Include CH25 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            26 => CH26: rw { //! Include CH26 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            27 => CH27: rw { //! Include CH27 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            28 => CH28: rw { //! Include CH28 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            29 => CH29: rw { //! Include CH29 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            30 => CH30: rw { //! Include CH30 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
-            31 => CH31: rw { //! Include CH31 in channel group.
-                0 => Excluded, //= Channel excluded.
-                1 => Included, //= Channel included.
-            }
+    0x800 => reg32 CHG[%s] { //! Channel group configuration.
+        0 => CH0: rw { //! Include CH0 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        1 => CH1: rw { //! Include CH1 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        2 => CH2: rw { //! Include CH2 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        3 => CH3: rw { //! Include CH3 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        4 => CH4: rw { //! Include CH4 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        5 => CH5: rw { //! Include CH5 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        6 => CH6: rw { //! Include CH6 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        7 => CH7: rw { //! Include CH7 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        8 => CH8: rw { //! Include CH8 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        9 => CH9: rw { //! Include CH9 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        10 => CH10: rw { //! Include CH10 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        11 => CH11: rw { //! Include CH11 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        12 => CH12: rw { //! Include CH12 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        13 => CH13: rw { //! Include CH13 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        14 => CH14: rw { //! Include CH14 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        15 => CH15: rw { //! Include CH15 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        20 => CH20: rw { //! Include CH20 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        21 => CH21: rw { //! Include CH21 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        22 => CH22: rw { //! Include CH22 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        23 => CH23: rw { //! Include CH23 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        24 => CH24: rw { //! Include CH24 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        25 => CH25: rw { //! Include CH25 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        26 => CH26: rw { //! Include CH26 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        27 => CH27: rw { //! Include CH27 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        28 => CH28: rw { //! Include CH28 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        29 => CH29: rw { //! Include CH29 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        30 => CH30: rw { //! Include CH30 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
+        }
+        31 => CH31: rw { //! Include CH31 in channel group.
+            0 => Excluded, //= Channel excluded.
+            1 => Included, //= Channel included.
         }
     }
 });
@@ -4129,31 +4089,21 @@ ioregs! (FICR @ 0x10000000 = {
     }
     0x034 => reg32 NUMRAMBLOCK {} //! Number of individualy controllable RAM blocks.
     0x038 => reg32 SIZERAMBLOCKS {} //! Size of RAM blocks in bytes.
-    0x038 => group SIZERAMBLOCK[4] { //! Deprecated array of size of RAM block in bytes. This name is kept for backward compatinility purposes. Use SIZERAMBLOCKS instead.
-        0x0 => reg32 SIZERAMBLOCK {} //! Deprecated array of size of RAM block in bytes. This name is kept for backward compatinility purposes. Use SIZERAMBLOCKS instead.
-    }
+    0x038 => reg32 SIZERAMBLOCK[%s] {} //! Deprecated array of size of RAM block in bytes. This name is kept for backward compatinility purposes. Use SIZERAMBLOCKS instead.
     0x05C => reg32 CONFIGID { //! Configuration identifier.
         0..15 => HWID: ro, //! Hardware Identification Number.
         16..31 => FWID: ro, //! Firmware Identification Number pre-loaded into the flash.
     }
-    0x060 => group DEVICEID[2] { //! Device identifier.
-        0x0 => reg32 DEVICEID {} //! Device identifier.
-    }
-    0x080 => group ER[4] { //! Encryption root.
-        0x0 => reg32 ER {} //! Encryption root.
-    }
-    0x090 => group IR[4] { //! Identity root.
-        0x0 => reg32 IR {} //! Identity root.
-    }
+    0x060 => reg32 DEVICEID[%s] {} //! Device identifier.
+    0x080 => reg32 ER[%s] {} //! Encryption root.
+    0x090 => reg32 IR[%s] {} //! Identity root.
     0x0A0 => reg32 DEVICEADDRTYPE { //! Device address type.
         0 => DEVICEADDRTYPE: ro { //! Device address type.
             0 => Public, //= Public address.
             1 => Random, //= Random address.
         }
     }
-    0x0A4 => group DEVICEADDR[2] { //! Device address.
-        0x0 => reg32 DEVICEADDR {} //! Device address.
-    }
+    0x0A4 => reg32 DEVICEADDR[%s] {} //! Device address.
     0x0AC => reg32 OVERRIDEEN { //! Radio calibration override enable.
         0 => NRF_1MBIT: ro { //! Override default values for NRF_1Mbit mode.
             0 => Override, //= Override the default values for NRF_1Mbit mode.
@@ -4164,12 +4114,8 @@ ioregs! (FICR @ 0x10000000 = {
             1 => NotOverride, //= Do not override the default values for BLE_1Mbit mode.
         }
     }
-    0x0B0 => group NRF_1MBIT[5] { //! Override values for the OVERRIDEn registers in RADIO for NRF_1Mbit mode.
-        0x0 => reg32 NRF_1MBIT {} //! Override values for the OVERRIDEn registers in RADIO for NRF_1Mbit mode.
-    }
-    0x0EC => group BLE_1MBIT[5] { //! Override values for the OVERRIDEn registers in RADIO for BLE_1Mbit mode.
-        0x0 => reg32 BLE_1MBIT {} //! Override values for the OVERRIDEn registers in RADIO for BLE_1Mbit mode.
-    }
+    0x0B0 => reg32 NRF_1MBIT[%s] {} //! Override values for the OVERRIDEn registers in RADIO for NRF_1Mbit mode.
+    0x0EC => reg32 BLE_1MBIT[%s] {} //! Override values for the OVERRIDEn registers in RADIO for BLE_1Mbit mode.
 });
 
 ioregs! (UICR @ 0x10001000 = {
@@ -4195,15 +4141,9 @@ ioregs! (UICR @ 0x10001000 = {
         0..15 => FWID: ro, //! Identification number for the firmware loaded into the chip.
     }
     0x014 => reg32 BOOTLOADERADDR {} //! Bootloader start address.
-    0x014 => group NRFFW[15] { //! Reserved for Nordic firmware design.
-        0x0 => reg32 NRFFW {} //! Reserved for Nordic firmware design.
-    }
-    0x050 => group NRFHW[12] { //! Reserved for Nordic hardware design.
-        0x0 => reg32 NRFHW {} //! Reserved for Nordic hardware design.
-    }
-    0x080 => group CUSTOMER[32] { //! Reserved for customer.
-        0x0 => reg32 CUSTOMER {} //! Reserved for customer.
-    }
+    0x014 => reg32 NRFFW[%s] {} //! Reserved for Nordic firmware design.
+    0x050 => reg32 NRFHW[%s] {} //! Reserved for Nordic hardware design.
+    0x080 => reg32 CUSTOMER[%s] {} //! Reserved for customer.
 });
 
 ioregs! (GPIO @ 0x50000000 = {
@@ -5118,36 +5058,34 @@ ioregs! (GPIO @ 0x50000000 = {
             1 => Output, //= Pin set as output.
         }
     }
-    0x700 => group PIN_CNF[32] { //! Configuration of GPIO pins.
-        0x0 => reg32 PIN_CNF { //! Configuration of GPIO pins.
-            0 => DIR: rw { //! Pin direction.
-                0 => Input, //= Configure pin as an input pin.
-                1 => Output, //= Configure pin as an output pin.
-            }
-            1 => INPUT: rw { //! Connect or disconnect input path.
-                0 => Connect, //= Connect input pin.
-                1 => Disconnect, //= Disconnect input pin.
-            }
-            2..3 => PULL: rw { //! Pull-up or -down configuration.
-                0x00 => Disabled, //= No pull.
-                0x01 => Pulldown, //= Pulldown on pin.
-                0x03 => Pullup, //= Pullup on pin.
-            }
-            8..10 => DRIVE: rw { //! Drive configuration.
-                0x00 => S0S1, //= Standard '0', Standard '1'.
-                0x01 => H0S1, //= High '0', Standard '1'.
-                0x02 => S0H1, //= Standard '0', High '1'.
-                0x03 => H0H1, //= High '0', High '1'.
-                0x04 => D0S1, //= Disconnected '0', Standard '1'.
-                0x05 => D0H1, //= Disconnected '0', High '1'.
-                0x06 => S0D1, //= Standard '0', Disconnected '1'.
-                0x07 => H0D1, //= High '0', Disconnected '1'.
-            }
-            16..17 => SENSE: rw { //! Pin sensing mechanism.
-                0x00 => Disabled, //= Disabled.
-                0x02 => High, //= Wakeup on high level.
-                0x03 => Low, //= Wakeup on low level.
-            }
+    0x700 => reg32 PIN_CNF[%s] { //! Configuration of GPIO pins.
+        0 => DIR: rw { //! Pin direction.
+            0 => Input, //= Configure pin as an input pin.
+            1 => Output, //= Configure pin as an output pin.
+        }
+        1 => INPUT: rw { //! Connect or disconnect input path.
+            0 => Connect, //= Connect input pin.
+            1 => Disconnect, //= Disconnect input pin.
+        }
+        2..3 => PULL: rw { //! Pull-up or -down configuration.
+            0x00 => Disabled, //= No pull.
+            0x01 => Pulldown, //= Pulldown on pin.
+            0x03 => Pullup, //= Pullup on pin.
+        }
+        8..10 => DRIVE: rw { //! Drive configuration.
+            0x00 => S0S1, //= Standard '0', Standard '1'.
+            0x01 => H0S1, //= High '0', Standard '1'.
+            0x02 => S0H1, //= Standard '0', High '1'.
+            0x03 => H0H1, //= High '0', High '1'.
+            0x04 => D0S1, //= Disconnected '0', Standard '1'.
+            0x05 => D0H1, //= Disconnected '0', High '1'.
+            0x06 => S0D1, //= Standard '0', Disconnected '1'.
+            0x07 => H0D1, //= High '0', Disconnected '1'.
+        }
+        16..17 => SENSE: rw { //! Pin sensing mechanism.
+            0x00 => Disabled, //= Disabled.
+            0x02 => High, //= Wakeup on high level.
+            0x03 => Low, //= Wakeup on low level.
         }
     }
 });

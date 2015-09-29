@@ -35,17 +35,10 @@ class CmsisSvdParser(Parser):
 		svd = cmsis.SvdFile(file)
 		svd.parse()
 
-		for p in [svd.periphs[name] for name in svd.derived_periphs]:
-			base = svd.periphs[p["derivedFrom"]].copy()
-			base["name"] = p["name"]
-			base["baseAddress"] = p["baseAddress"]
-			base["description"] = p["description"]
-			svd.periphs[p["name"]] = base
-
 		vars = {
 			"cpu": svd.cpu,
 			"device": svd.device,
-			"peripherals": [svd.periphs[name] for name in svd.periphs_order],
+			"peripherals": [svd.peripherals[name] for name in svd.peripherals_order],
 		}
 		return vars
 
@@ -64,3 +57,11 @@ def filter_bitrange(bitrange):
 		return "{}".format(lsb)
 	else:
 		return "{}..{}".format(lsb, msb)
+
+def filter_enums(enumvalues):
+	if enumvalues["read-write"]:
+		return enumvalues["read-write"]
+	if enumvalues["read"]:
+		return enumvalues["read"]
+	if enumvalues["write"]:
+		return enumvalues["write"]
