@@ -29,39 +29,39 @@ sys.path.append(".")
 import cmsis
 
 class CmsisSvdParser(Parser):
-	file_extension = [".svd"]
+    file_extension = [".svd"]
 
-	def parse(self, file):
-		svd = cmsis.SvdFile(file)
-		svd.parse()
+    def parse(self, file):
+        svd = cmsis.SvdFile(file)
+        svd.parse()
 
-		vars = {
-			"cpu": svd.cpu,
-			"device": svd.device,
-			"peripherals": [svd.peripherals[name] for name in svd.peripherals_order],
-		}
-		return vars
+        vars = {
+            "cpu": svd.cpu,
+            "device": svd.device,
+            "peripherals": [svd.peripherals[name] for name in svd.peripherals_order],
+        }
+        return vars
 
 def filter_access(access):
-	return {
-		"read-only": "ro",
-		"write-only": "wo",
-		"writeOnce": "wo",
-		"read-write": "rw",
-		"read-writeOnce": "rw",
-	}[access]
+    return {
+        "read-only": "ro",
+        "write-only": "wo",
+        "writeOnce": "wo",
+        "read-write": "rw",
+        "read-writeOnce": "rw",
+    }[access]
 
 def filter_bitrange(bitrange):
-	msb, lsb = bitrange[1:-1].split(":")
-	if msb == lsb:
-		return "{}".format(lsb)
-	else:
-		return "{}..{}".format(lsb, msb)
+    msb, lsb = bitrange[1:-1].split(":")
+    if msb == lsb:
+        return "{}".format(lsb)
+    else:
+        return "{}..{}".format(lsb, msb)
 
 def filter_enums(enumvalues):
-	if enumvalues["read-write"]:
-		return enumvalues["read-write"]
-	if enumvalues["read"]:
-		return enumvalues["read"]
-	if enumvalues["write"]:
-		return enumvalues["write"]
+    if enumvalues["read-write"]:
+        return enumvalues["read-write"]
+    if enumvalues["read"]:
+        return enumvalues["read"]
+    if enumvalues["write"]:
+        return enumvalues["write"]
