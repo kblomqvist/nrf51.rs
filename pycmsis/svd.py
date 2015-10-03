@@ -44,12 +44,18 @@ class File():
 
         for e in self.root.iter("peripheral"):
             p = Peripheral(e, self.device)
+
             try: # Because registers may be None
-                for e in e.find("registers"):
-                    if e.tag == "cluster":
-                        p.registers.append(Cluster(e, p))
-                    elif e.tag == "register":
-                        p.registers.append(Register(e, p))
+                for r in e.find("registers"):
+                    if r.tag == "cluster":
+                        p.registers.append(Cluster(r, p))
+                    elif r.tag == "register":
+                        p.registers.append(Register(r, p))
+            except: pass
+
+            try: # Because interrupt may be None
+                for i in e.findall("interrupt"):
+                    p.interrupts.append(Interrupt(i))
             except: pass
 
             if p.derivedFrom:
@@ -163,6 +169,7 @@ class Peripheral(Element):
 
     def init(self):
         self.registers = []
+        self.interrupts = []
         self.derivedFrom = None
         self.name = None
         self.version = None
@@ -299,3 +306,12 @@ class EnumeratedValue(Element):
         self.description = None
         self.value = None
         self.isDefault = None
+
+
+class Interrupt(Element):
+    type = "interrupt"
+    cast_to_integer = ["value"]
+
+    def init(self):
+        self.name = None
+        self.value = None
