@@ -71,4 +71,4 @@ def filter_enumlist(lst):
 def filter_enumvalue(value):
     if value < 256:
         return value
-    return "{:#05x}".format(value)
+    return "{:#x}".format(value)
