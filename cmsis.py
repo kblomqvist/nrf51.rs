@@ -27,7 +27,7 @@ import xml.etree.ElementTree as ET
 
 class SvdElement():
     type = "base_element"
-    cast_to_integers = []
+    cast_to_integer = []
 
     def __init__(self, element=None, defaults={}):
         self.init()
@@ -58,7 +58,7 @@ class SvdElement():
                 default = defaults[key] if key in defaults else None
                 value = element.get(key, default)
 
-            if value and key in self.cast_to_integers:
+            if value and key in self.cast_to_integer:
                 try:
                     value = int(value)
                 except: # It has to be hex
@@ -75,7 +75,7 @@ class SvdElement():
 
 class SvdDevice(SvdElement):
     type = "device"
-    cast_to_integers = ["size"]
+    cast_to_integer = ["size"]
 
     def init(self):
         self.name = None
@@ -116,7 +116,7 @@ class SvdCpu(SvdElement):
 
 class SvdPeripheral(SvdElement):
     type = "peripheral"
-    cast_to_integers = ["size", "baseAddress"]
+    cast_to_integer = ["size", "baseAddress"]
 
     def init(self):
         self.registers = []
@@ -138,7 +138,7 @@ class SvdPeripheral(SvdElement):
 
 class SvdRegister(SvdElement):
     type = "register"
-    cast_to_integers = ["size", "addressOffset"]
+    cast_to_integer = ["size", "addressOffset"]
 
     def init(self):
         self.fields = []
@@ -172,7 +172,7 @@ class SvdRegister(SvdElement):
 
 class SvdCluster(SvdElement):
     type = "cluster"
-    cast_to_integers = ["size", "addressOffset"]
+    cast_to_integer = ["size", "addressOffset"]
 
     def init(self):
         self.registers = []
@@ -199,7 +199,7 @@ class SvdCluster(SvdElement):
 
 class SvdField(SvdElement):
     type = "field"
-    #cast_to_integers = ["bitOffset", "bitWidth", "lsb", "msb", "bitRange"]
+    cast_to_integer = ["bitOffset", "bitWidth", "lsb", "msb"]
 
     def init(self):
         self.enumeratedValues = {
@@ -225,12 +225,11 @@ class SvdField(SvdElement):
 
         if self.bitRange:
             self.msb, self.lsb = self.bitRange[1:-1].split(":")
-        if self.msb and self.lsb:
             self.msb = int(self.msb)
             self.lsb = int(self.lsb)
-        else:
-            self.lsb = int(self.bitOffset)
-            self.msb = int(self.bitWidth) + self.lsb
+        elif self.bitOffset:
+            self.lsb = self.bitOffset
+            self.msb = self.bitWidth + self.lsb
         self.bitOffset = self.lsb
         self.bitWidth = self.msb - self.lsb + 1
         self.bitRange = "[{}:{}]".format(self.msb, self.lsb)
@@ -278,7 +277,7 @@ class SvdFile():
 
         for e in self.root.iter("peripheral"):
             p = SvdPeripheral(e, self.device)
-            try: # Registers may be None
+            try: # Because registers may be None
                 for e in e.find("registers"):
                     if e.tag == "cluster":
                         p.registers.append(SvdCluster(e, p))

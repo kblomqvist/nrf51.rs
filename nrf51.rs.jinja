@@ -38,9 +38,9 @@ use core::ops::Drop;
     {%- if not r.fields or NO_FIELDS %} {{ "{} " + description("//!", r) }}{% else %} {{ "{ " + description("//!", r) }}
     {%- for f in r.fields %}
     {{ f.bitRange|bitrange }} => {{ f.name }}{% if f.access %}: {{ f.access|access }}{% endif %}
-    {%- if not f.enumeratedValues|enums or NO_ENUMES %},{{ description(" //!", f) }}{% else %} {{ "{ " + description("//!", f) }}
-        {%- for e in f.enumeratedValues|enums %}
-        {{ e.value }} => {{ e.name }}, {{ description("//=", e) }}
+    {%- if not f.enumeratedValues|enumlist or NO_ENUMES %},{{ description(" //!", f) }}{% else %} {{ "{ " + description("//!", f) }}
+        {%- for e in f.enumeratedValues|enumlist %}
+        {{ e.value|enumvalue }} => {{ e.name }}, {{ description("//=", e) }}
         {%- endfor %}
     }{%- endif %}
     {%- endfor %}

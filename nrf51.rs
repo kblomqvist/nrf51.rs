@@ -81,10 +81,10 @@ ioregs! (POWER @ 0x40000000 = {
             1 => Enabled, //= Enabled.
         }
         1..2 => THRESHOLD: rw { //! Set threshold level.
-            0x00 => V21, //= Set threshold to 2.1Volts.
-            0x01 => V23, //= Set threshold to 2.3Volts.
-            0x02 => V25, //= Set threshold to 2.5Volts.
-            0x03 => V27, //= Set threshold to 2.7Volts.
+            0 => V21, //= Set threshold to 2.1Volts.
+            1 => V23, //= Set threshold to 2.3Volts.
+            2 => V25, //= Set threshold to 2.5Volts.
+            3 => V27, //= Set threshold to 2.7Volts.
         }
     }
     0x51c => reg32 GPREGRET { //! General purpose retention register. This register is a retained register.
@@ -251,8 +251,8 @@ ioregs! (CLOCK @ 0x40000000 = {
     }
     0x550 => reg32 XTALFREQ { //! Crystal frequency.
         0..7 => XTALFREQ: rw { //! External Xtal frequency selection.
-            0xFF => 16MHz, //= 16MHz xtal is used as source for the HFCLK oscillator.
-            0x00 => 32MHz, //= 32MHz xtal is used as source for the HFCLK oscillator.
+            0 => 32MHz, //= 32MHz xtal is used as source for the HFCLK oscillator.
+            255 => 16MHz, //= 16MHz xtal is used as source for the HFCLK oscillator.
         }
     }
 });
@@ -261,88 +261,88 @@ ioregs! (MPU @ 0x40000000 = {
     /// Memory Protection Unit.
     0x528 => reg32 PERR0 { //! Configuration of peripherals in mpu regions.
         0 => POWER_CLOCK: rw { //! POWER_CLOCK region configuration.
-            1 => InRegion0, //= Peripheral configured in region 0.
             0 => InRegion1, //= Peripheral configured in region 1.
+            1 => InRegion0, //= Peripheral configured in region 0.
         }
         1 => RADIO: rw { //! RADIO region configuration.
-            1 => InRegion0, //= Peripheral configured in region 0.
             0 => InRegion1, //= Peripheral configured in region 1.
+            1 => InRegion0, //= Peripheral configured in region 0.
         }
         2 => UART0: rw { //! UART0 region configuration.
-            1 => InRegion0, //= Peripheral configured in region 0.
             0 => InRegion1, //= Peripheral configured in region 1.
+            1 => InRegion0, //= Peripheral configured in region 0.
         }
         3 => SPI0_TWI0: rw { //! SPI0 and TWI0 region configuration.
-            1 => InRegion0, //= Peripheral configured in region 0.
             0 => InRegion1, //= Peripheral configured in region 1.
+            1 => InRegion0, //= Peripheral configured in region 0.
         }
         4 => SPI1_TWI1: rw { //! SPI1 and TWI1 region configuration.
-            1 => InRegion0, //= Peripheral configured in region 0.
             0 => InRegion1, //= Peripheral configured in region 1.
+            1 => InRegion0, //= Peripheral configured in region 0.
         }
         6 => GPIOTE: rw { //! GPIOTE region configuration.
-            1 => InRegion0, //= Peripheral configured in region 0.
             0 => InRegion1, //= Peripheral configured in region 1.
+            1 => InRegion0, //= Peripheral configured in region 0.
         }
         7 => ADC: rw { //! ADC region configuration.
-            1 => InRegion0, //= Peripheral configured in region 0.
             0 => InRegion1, //= Peripheral configured in region 1.
+            1 => InRegion0, //= Peripheral configured in region 0.
         }
         8 => TIMER0: rw { //! TIMER0 region configuration.
-            1 => InRegion0, //= Peripheral configured in region 0.
             0 => InRegion1, //= Peripheral configured in region 1.
+            1 => InRegion0, //= Peripheral configured in region 0.
         }
         9 => TIMER1: rw { //! TIMER1 region configuration.
-            1 => InRegion0, //= Peripheral configured in region 0.
             0 => InRegion1, //= Peripheral configured in region 1.
+            1 => InRegion0, //= Peripheral configured in region 0.
         }
         10 => TIMER2: rw { //! TIMER2 region configuration.
-            1 => InRegion0, //= Peripheral configured in region 0.
             0 => InRegion1, //= Peripheral configured in region 1.
+            1 => InRegion0, //= Peripheral configured in region 0.
         }
         11 => RTC0: rw { //! RTC0 region configuration.
-            1 => InRegion0, //= Peripheral configured in region 0.
             0 => InRegion1, //= Peripheral configured in region 1.
+            1 => InRegion0, //= Peripheral configured in region 0.
         }
         12 => TEMP: rw { //! TEMP region configuration.
-            1 => InRegion0, //= Peripheral configured in region 0.
             0 => InRegion1, //= Peripheral configured in region 1.
+            1 => InRegion0, //= Peripheral configured in region 0.
         }
         13 => RNG: rw { //! RNG region configuration.
-            1 => InRegion0, //= Peripheral configured in region 0.
             0 => InRegion1, //= Peripheral configured in region 1.
+            1 => InRegion0, //= Peripheral configured in region 0.
         }
         14 => ECB: rw { //! ECB region configuration.
-            1 => InRegion0, //= Peripheral configured in region 0.
             0 => InRegion1, //= Peripheral configured in region 1.
+            1 => InRegion0, //= Peripheral configured in region 0.
         }
         15 => CCM_AAR: rw { //! CCM and AAR region configuration.
-            1 => InRegion0, //= Peripheral configured in region 0.
             0 => InRegion1, //= Peripheral configured in region 1.
+            1 => InRegion0, //= Peripheral configured in region 0.
         }
         16 => WDT: rw { //! WDT region configuration.
-            1 => InRegion0, //= Peripheral configured in region 0.
             0 => InRegion1, //= Peripheral configured in region 1.
+            1 => InRegion0, //= Peripheral configured in region 0.
         }
         17 => RTC1: rw { //! RTC1 region configuration.
-            1 => InRegion0, //= Peripheral configured in region 0.
             0 => InRegion1, //= Peripheral configured in region 1.
+            1 => InRegion0, //= Peripheral configured in region 0.
         }
         18 => QDEC: rw { //! QDEC region configuration.
-            1 => InRegion0, //= Peripheral configured in region 0.
             0 => InRegion1, //= Peripheral configured in region 1.
+            1 => InRegion0, //= Peripheral configured in region 0.
         }
         19 => LPCOMP: rw { //! LPCOMP region configuration.
-            1 => InRegion0, //= Peripheral configured in region 0.
             0 => InRegion1, //= Peripheral configured in region 1.
+            1 => InRegion0, //= Peripheral configured in region 0.
         }
         30 => NVMC: rw { //! NVMC region configuration.
-            1 => InRegion0, //= Peripheral configured in region 0.
             0 => InRegion1, //= Peripheral configured in region 1.
+            1 => InRegion0, //= Peripheral configured in region 0.
         }
         31 => PPI: rw { //! PPI region configuration.
-            1 => InRegion0, //= Peripheral configured in region 0.
             0 => InRegion1, //= Peripheral configured in region 1.
+            1 => InRegion0, //= Peripheral configured in region 0.
         }
     }
     0x52c => reg32 RLENR0 {} //! Length of RAM region 0.
@@ -624,494 +624,494 @@ ioregs! (AMLI @ 0x40000000 = {
     0xe00 => group RAMPRI { //! RAM configurable priority configuration structure.
         0x000 => reg32 CPU0 { //! Configurable priority configuration register for CPU0.
             0..3 => RAM0: rw { //! Configuration field for RAM block 0.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             4..7 => RAM1: rw { //! Configuration field for RAM block 1.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             8..11 => RAM2: rw { //! Configuration field for RAM block 2.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             12..15 => RAM3: rw { //! Configuration field for RAM block 3.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             16..19 => RAM4: rw { //! Configuration field for RAM block 4.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             20..23 => RAM5: rw { //! Configuration field for RAM block 5.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             24..27 => RAM6: rw { //! Configuration field for RAM block 6.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             28..31 => RAM7: rw { //! Configuration field for RAM block 7.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
         }
         0x004 => reg32 SPIS1 { //! Configurable priority configuration register for SPIS1.
             0..3 => RAM0: rw { //! Configuration field for RAM block 0.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             4..7 => RAM1: rw { //! Configuration field for RAM block 1.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             8..11 => RAM2: rw { //! Configuration field for RAM block 2.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             12..15 => RAM3: rw { //! Configuration field for RAM block 3.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             16..19 => RAM4: rw { //! Configuration field for RAM block 4.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             20..23 => RAM5: rw { //! Configuration field for RAM block 5.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             24..27 => RAM6: rw { //! Configuration field for RAM block 6.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             28..31 => RAM7: rw { //! Configuration field for RAM block 7.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
         }
         0x008 => reg32 RADIO { //! Configurable priority configuration register for RADIO.
             0..3 => RAM0: rw { //! Configuration field for RAM block 0.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             4..7 => RAM1: rw { //! Configuration field for RAM block 1.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             8..11 => RAM2: rw { //! Configuration field for RAM block 2.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             12..15 => RAM3: rw { //! Configuration field for RAM block 3.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             16..19 => RAM4: rw { //! Configuration field for RAM block 4.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             20..23 => RAM5: rw { //! Configuration field for RAM block 5.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             24..27 => RAM6: rw { //! Configuration field for RAM block 6.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             28..31 => RAM7: rw { //! Configuration field for RAM block 7.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
         }
         0x00c => reg32 ECB { //! Configurable priority configuration register for ECB.
             0..3 => RAM0: rw { //! Configuration field for RAM block 0.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             4..7 => RAM1: rw { //! Configuration field for RAM block 1.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             8..11 => RAM2: rw { //! Configuration field for RAM block 2.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             12..15 => RAM3: rw { //! Configuration field for RAM block 3.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             16..19 => RAM4: rw { //! Configuration field for RAM block 4.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             20..23 => RAM5: rw { //! Configuration field for RAM block 5.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             24..27 => RAM6: rw { //! Configuration field for RAM block 6.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             28..31 => RAM7: rw { //! Configuration field for RAM block 7.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
         }
         0x010 => reg32 CCM { //! Configurable priority configuration register for CCM.
             0..3 => RAM0: rw { //! Configuration field for RAM block 0.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             4..7 => RAM1: rw { //! Configuration field for RAM block 1.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             8..11 => RAM2: rw { //! Configuration field for RAM block 2.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             12..15 => RAM3: rw { //! Configuration field for RAM block 3.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             16..19 => RAM4: rw { //! Configuration field for RAM block 4.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             20..23 => RAM5: rw { //! Configuration field for RAM block 5.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             24..27 => RAM6: rw { //! Configuration field for RAM block 6.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             28..31 => RAM7: rw { //! Configuration field for RAM block 7.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
         }
         0x014 => reg32 AAR { //! Configurable priority configuration register for AAR.
             0..3 => RAM0: rw { //! Configuration field for RAM block 0.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             4..7 => RAM1: rw { //! Configuration field for RAM block 1.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             8..11 => RAM2: rw { //! Configuration field for RAM block 2.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             12..15 => RAM3: rw { //! Configuration field for RAM block 3.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             16..19 => RAM4: rw { //! Configuration field for RAM block 4.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             20..23 => RAM5: rw { //! Configuration field for RAM block 5.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             24..27 => RAM6: rw { //! Configuration field for RAM block 6.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
             28..31 => RAM7: rw { //! Configuration field for RAM block 7.
-                0x0 => Pri0, //= Priority 0.
-                0x2 => Pri2, //= Priority 2.
-                0x4 => Pri4, //= Priority 4.
-                0x6 => Pri6, //= Priority 6.
-                0x8 => Pri8, //= Priority 8.
-                0xA => Pri10, //= Priority 10.
-                0xC => Pri12, //= Priority 12.
-                0xE => Pri14, //= Priority 14.
+                0 => Pri0, //= Priority 0.
+                2 => Pri2, //= Priority 2.
+                4 => Pri4, //= Priority 4.
+                6 => Pri6, //= Priority 6.
+                8 => Pri8, //= Priority 8.
+                10 => Pri10, //= Priority 10.
+                12 => Pri12, //= Priority 12.
+                14 => Pri14, //= Priority 14.
             }
         }
     }
@@ -1268,22 +1268,22 @@ ioregs! (RADIO @ 0x40001000 = {
     }
     0x50c => reg32 TXPOWER { //! Output power.
         0..7 => TXPOWER: rw { //! Radio output power. Decision point: TXEN task.
-            0x04 => Pos4dBm, //= +4dBm.
-            0x00 => 0dBm, //= 0dBm.
-            0xFC => Neg4dBm, //= -4dBm.
-            0xF8 => Neg8dBm, //= -8dBm.
-            0xF4 => Neg12dBm, //= -12dBm.
-            0xF0 => Neg16dBm, //= -16dBm.
-            0xEC => Neg20dBm, //= -20dBm.
-            0xD8 => Neg30dBm, //= -30dBm.
+            0 => 0dBm, //= 0dBm.
+            4 => Pos4dBm, //= +4dBm.
+            216 => Neg30dBm, //= -30dBm.
+            236 => Neg20dBm, //= -20dBm.
+            240 => Neg16dBm, //= -16dBm.
+            244 => Neg12dBm, //= -12dBm.
+            248 => Neg8dBm, //= -8dBm.
+            252 => Neg4dBm, //= -4dBm.
         }
     }
     0x510 => reg32 MODE { //! Data rate and modulation.
         0..1 => MODE: rw { //! Radio data rate and modulation setting. Decision point: TXEN or RXEN task.
-            0x00 => Nrf_1Mbit, //= 1Mbit/s Nordic propietary radio mode.
-            0x01 => Nrf_2Mbit, //= 2Mbit/s Nordic propietary radio mode.
-            0x02 => Nrf_250Kbit, //= 250kbit/s Nordic propietary radio mode.
-            0x03 => Ble_1Mbit, //= 1Mbit/s Bluetooth Low Energy
+            0 => Nrf_1Mbit, //= 1Mbit/s Nordic propietary radio mode.
+            1 => Nrf_2Mbit, //= 2Mbit/s Nordic propietary radio mode.
+            2 => Nrf_250Kbit, //= 250kbit/s Nordic propietary radio mode.
+            3 => Ble_1Mbit, //= 1Mbit/s Bluetooth Low Energy
         }
     }
     0x514 => reg32 PCNF0 { //! Packet configuration 0.
@@ -1391,15 +1391,15 @@ ioregs! (RADIO @ 0x40001000 = {
     }
     0x550 => reg32 STATE { //! Current radio state.
         0..3 => STATE: ro { //! Current radio state.
-            0x00 => Disabled, //= Radio is in the Disabled state.
-            0x01 => RxRu, //= Radio is in the Rx Ramp Up state.
-            0x02 => RxIdle, //= Radio is in the Rx Idle state.
-            0x03 => Rx, //= Radio is in the Rx state.
-            0x04 => RxDisable, //= Radio is in the Rx Disable state.
-            0x09 => TxRu, //= Radio is in the Tx Ramp Up state.
-            0x0A => TxIdle, //= Radio is in the Tx Idle state.
-            0x0B => Tx, //= Radio is in the Tx state.
-            0x0C => TxDisable, //= Radio is in the Tx Disable state.
+            0 => Disabled, //= Radio is in the Disabled state.
+            1 => RxRu, //= Radio is in the Rx Ramp Up state.
+            2 => RxIdle, //= Radio is in the Rx Idle state.
+            3 => Rx, //= Radio is in the Rx state.
+            4 => RxDisable, //= Radio is in the Rx Disable state.
+            9 => TxRu, //= Radio is in the Tx Ramp Up state.
+            10 => TxIdle, //= Radio is in the Tx Idle state.
+            11 => Tx, //= Radio is in the Tx state.
+            12 => TxDisable, //= Radio is in the Tx Disable state.
         }
     }
     0x554 => reg32 DATAWHITEIV { //! Data whitening initial value.
@@ -1574,8 +1574,8 @@ ioregs! (UART0 @ 0x40002000 = {
     }
     0x500 => reg32 ENABLE { //! Enable UART and acquire IOs.
         0..2 => ENABLE: rw { //! Enable or disable UART and acquire IOs.
-            0x00 => Disabled, //= UART disabled.
-            0x04 => Enabled, //= UART enabled.
+            0 => Disabled, //= UART disabled.
+            4 => Enabled, //= UART enabled.
         }
     }
     0x508 => reg32 PSELRTS {} //! Pin select for RTS.
@@ -1590,21 +1590,21 @@ ioregs! (UART0 @ 0x40002000 = {
     }
     0x524 => reg32 BAUDRATE { //! UART Baudrate.
         0..31 => BAUDRATE: rw { //! UART baudrate.
-            0x0004F000 => Baud1200, //= 1200 baud.
-            0x0009D000 => Baud2400, //= 2400 baud.
-            0x0013B000 => Baud4800, //= 4800 baud.
-            0x00275000 => Baud9600, //= 9600 baud.
-            0x003B0000 => Baud14400, //= 14400 baud.
-            0x004EA000 => Baud19200, //= 19200 baud.
-            0x0075F000 => Baud28800, //= 28800 baud.
-            0x009D5000 => Baud38400, //= 38400 baud.
-            0x00EBF000 => Baud57600, //= 57600 baud.
-            0x013A9000 => Baud76800, //= 76800 baud.
-            0x01D7E000 => Baud115200, //= 115200 baud.
-            0x03AFB000 => Baud230400, //= 230400 baud.
-            0x04000000 => Baud250000, //= 250000 baud.
-            0x075F7000 => Baud460800, //= 460800 baud.
-            0x0EBED000 => Baud921600, //= 921600 baud.
+            0x4f000 => Baud1200, //= 1200 baud.
+            0x9d000 => Baud2400, //= 2400 baud.
+            0x13b000 => Baud4800, //= 4800 baud.
+            0x275000 => Baud9600, //= 9600 baud.
+            0x3b0000 => Baud14400, //= 14400 baud.
+            0x4ea000 => Baud19200, //= 19200 baud.
+            0x75f000 => Baud28800, //= 28800 baud.
+            0x9d5000 => Baud38400, //= 38400 baud.
+            0xebf000 => Baud57600, //= 57600 baud.
+            0x13a9000 => Baud76800, //= 76800 baud.
+            0x1d7e000 => Baud115200, //= 115200 baud.
+            0x3afb000 => Baud230400, //= 230400 baud.
+            0x4000000 => Baud250000, //= 250000 baud.
+            0x75f7000 => Baud460800, //= 460800 baud.
+            0xebed000 => Baud921600, //= 921600 baud.
             0x10000000 => Baud1M, //= 1M baud.
         }
     }
@@ -1643,8 +1643,8 @@ ioregs! (SPI0 @ 0x40003000 = {
     }
     0x500 => reg32 ENABLE { //! Enable SPI.
         0..2 => ENABLE: rw { //! Enable or disable SPI.
-            0x00 => Disabled, //= Disabled SPI.
-            0x01 => Enabled, //= Enable SPI.
+            0 => Disabled, //= Disabled SPI.
+            1 => Enabled, //= Enable SPI.
         }
     }
     0x508 => reg32 PSELSCK {} //! Pin select for SCK.
@@ -1658,9 +1658,9 @@ ioregs! (SPI0 @ 0x40003000 = {
     }
     0x524 => reg32 FREQUENCY { //! SPI frequency
         0..31 => FREQUENCY: rw { //! SPI data rate.
-            0x02000000 => K125, //= 125kbps.
-            0x04000000 => K250, //= 250kbps.
-            0x08000000 => K500, //= 500kbps.
+            0x2000000 => K125, //= 125kbps.
+            0x4000000 => K250, //= 250kbps.
+            0x8000000 => K500, //= 500kbps.
             0x10000000 => M1, //= 1Mbps.
             0x20000000 => M2, //= 2Mbps.
             0x40000000 => M4, //= 4Mbps.
@@ -1780,8 +1780,8 @@ ioregs! (TWI0 @ 0x40003000 = {
     }
     0x500 => reg32 ENABLE { //! Enable two-wire master.
         0..2 => ENABLE: rw { //! Enable or disable W2M
-            0x00 => Disabled, //= Disabled.
-            0x05 => Enabled, //= Enabled.
+            0 => Disabled, //= Disabled.
+            5 => Enabled, //= Enabled.
         }
     }
     0x508 => reg32 PSELSCL {} //! Pin select for SCL.
@@ -1794,9 +1794,9 @@ ioregs! (TWI0 @ 0x40003000 = {
     }
     0x524 => reg32 FREQUENCY { //! Two-wire frequency.
         0..31 => FREQUENCY: rw { //! Two-wire master clock frequency.
-            0x01980000 => K100, //= 100 kbps.
-            0x04000000 => K250, //= 250 kbps.
-            0x06680000 => K400, //= 400 kbps.
+            0x1980000 => K100, //= 100 kbps.
+            0x4000000 => K250, //= 250 kbps.
+            0x6680000 => K400, //= 400 kbps.
         }
     }
     0x588 => reg32 ADDRESS { //! Address used in the two-wire transfer.
@@ -1827,8 +1827,8 @@ ioregs! (SPI1 @ 0x40004000 = {
     }
     0x500 => reg32 ENABLE { //! Enable SPI.
         0..2 => ENABLE: rw { //! Enable or disable SPI.
-            0x00 => Disabled, //= Disabled SPI.
-            0x01 => Enabled, //= Enable SPI.
+            0 => Disabled, //= Disabled SPI.
+            1 => Enabled, //= Enable SPI.
         }
     }
     0x508 => reg32 PSELSCK {} //! Pin select for SCK.
@@ -1842,9 +1842,9 @@ ioregs! (SPI1 @ 0x40004000 = {
     }
     0x524 => reg32 FREQUENCY { //! SPI frequency
         0..31 => FREQUENCY: rw { //! SPI data rate.
-            0x02000000 => K125, //= 125kbps.
-            0x04000000 => K250, //= 250kbps.
-            0x08000000 => K500, //= 500kbps.
+            0x2000000 => K125, //= 125kbps.
+            0x4000000 => K250, //= 250kbps.
+            0x8000000 => K500, //= 500kbps.
             0x10000000 => M1, //= 1Mbps.
             0x20000000 => M2, //= 2Mbps.
             0x40000000 => M4, //= 4Mbps.
@@ -1964,8 +1964,8 @@ ioregs! (TWI1 @ 0x40004000 = {
     }
     0x500 => reg32 ENABLE { //! Enable two-wire master.
         0..2 => ENABLE: rw { //! Enable or disable W2M
-            0x00 => Disabled, //= Disabled.
-            0x05 => Enabled, //= Enabled.
+            0 => Disabled, //= Disabled.
+            5 => Enabled, //= Enabled.
         }
     }
     0x508 => reg32 PSELSCL {} //! Pin select for SCL.
@@ -1978,9 +1978,9 @@ ioregs! (TWI1 @ 0x40004000 = {
     }
     0x524 => reg32 FREQUENCY { //! Two-wire frequency.
         0..31 => FREQUENCY: rw { //! Two-wire master clock frequency.
-            0x01980000 => K100, //= 100 kbps.
-            0x04000000 => K250, //= 250 kbps.
-            0x06680000 => K400, //= 400 kbps.
+            0x1980000 => K100, //= 100 kbps.
+            0x4000000 => K250, //= 250 kbps.
+            0x6680000 => K400, //= 400 kbps.
         }
     }
     0x588 => reg32 ADDRESS { //! Address used in the two-wire transfer.
@@ -2028,10 +2028,10 @@ ioregs! (SPIS1 @ 0x40004000 = {
     }
     0x400 => reg32 SEMSTAT { //! Semaphore status.
         0..1 => SEMSTAT: ro { //! Semaphore status.
-            0x00 => Free, //= Semaphore is free.
-            0x01 => CPU, //= Semaphore is assigned to the CPU.
-            0x02 => SPIS, //= Semaphore is assigned to the SPIS.
-            0x03 => CPUPending, //= Semaphore is assigned to the SPIS, but a handover to the CPU is pending.
+            0 => Free, //= Semaphore is free.
+            1 => CPU, //= Semaphore is assigned to the CPU.
+            2 => SPIS, //= Semaphore is assigned to the SPIS.
+            3 => CPUPending, //= Semaphore is assigned to the SPIS, but a handover to the CPU is pending.
         }
     }
     0x440 => reg32 STATUS { //! Status from last transaction.
@@ -2046,8 +2046,8 @@ ioregs! (SPIS1 @ 0x40004000 = {
     }
     0x500 => reg32 ENABLE { //! Enable SPIS.
         0..2 => ENABLE: rw { //! Enable or disable SPIS.
-            0x00 => Disabled, //= Disabled SPIS.
-            0x02 => Enabled, //= Enable SPIS.
+            0 => Disabled, //= Disabled SPIS.
+            2 => Enabled, //= Enable SPIS.
         }
     }
     0x508 => reg32 PSELSCK {} //! Pin select for SCK.
@@ -2144,8 +2144,8 @@ ioregs! (SPIM1 @ 0x40004000 = {
     }
     0x500 => reg32 ENABLE { //! Enable SPIM.
         0..3 => ENABLE: rw { //! Enable or disable SPIM.
-            0x00 => Disabled, //= Disabled SPIM.
-            0x07 => Enabled, //= Enable SPIM.
+            0 => Disabled, //= Disabled SPIM.
+            7 => Enabled, //= Enable SPIM.
         }
     }
     0x508 => group PSEL { //! Pin select configuration.
@@ -2155,9 +2155,9 @@ ioregs! (SPIM1 @ 0x40004000 = {
     }
     0x524 => reg32 FREQUENCY { //! SPI frequency.
         0..31 => FREQUENCY: rw { //! SPI master data rate.
-            0x02000000 => K125, //= 125 kbps.
-            0x04000000 => K250, //= 250 kbps.
-            0x08000000 => K500, //= 500 kbps.
+            0x2000000 => K125, //= 125 kbps.
+            0x4000000 => K250, //= 250 kbps.
+            0x8000000 => K500, //= 500 kbps.
             0x10000000 => M1, //= 1 Mbps.
             0x20000000 => M2, //= 2 Mbps.
             0x40000000 => M4, //= 4 Mbps.
@@ -2262,16 +2262,16 @@ ioregs! (GPIOTE @ 0x40006000 = {
     }
     0x510 => reg32 CONFIG[4] { //! Channel configuration registers.
         0..1 => MODE: rw { //! Mode
-            0x00 => Disabled, //= Disabled.
-            0x01 => Event, //= Channel configure in event mode.
-            0x03 => Task, //= Channel configure in task mode.
+            0 => Disabled, //= Disabled.
+            1 => Event, //= Channel configure in event mode.
+            3 => Task, //= Channel configure in task mode.
         }
         8..12 => PSEL: rw, //! Pin select.
         16..17 => POLARITY: rw { //! Effects on output when in Task mode, or events on input that generates an event.
-            0x00 => None, //= No task or event.
-            0x01 => LoToHi, //= Low to high.
-            0x02 => HiToLo, //= High to low.
-            0x03 => Toggle, //= Toggle.
+            0 => None, //= No task or event.
+            1 => LoToHi, //= Low to high.
+            2 => HiToLo, //= High to low.
+            3 => Toggle, //= Toggle.
         }
         20 => OUTINIT: rw { //! Initial value of the output when the GPIOTE channel is configured as a Task.
             0 => Low, //= Initial low output when in task mode.
@@ -2311,28 +2311,28 @@ ioregs! (ADC @ 0x40007000 = {
     }
     0x500 => reg32 ENABLE { //! ADC enable.
         0..1 => ENABLE: rw { //! ADC enable.
-            0x00 => Disabled, //= ADC is disabled.
-            0x01 => Enabled, //= ADC is enabled. If an analog input pin is selected as source of the conversion, the selected pin is configured as an analog input.
+            0 => Disabled, //= ADC is disabled.
+            1 => Enabled, //= ADC is enabled. If an analog input pin is selected as source of the conversion, the selected pin is configured as an analog input.
         }
     }
     0x504 => reg32 CONFIG { //! ADC configuration register.
         0..1 => RES: rw { //! ADC resolution.
-            0x00 => 8bit, //= 8bit ADC resolution.
-            0x01 => 9bit, //= 9bit ADC resolution.
-            0x02 => 10bit, //= 10bit ADC resolution.
+            0 => 8bit, //= 8bit ADC resolution.
+            1 => 9bit, //= 9bit ADC resolution.
+            2 => 10bit, //= 10bit ADC resolution.
         }
         2..4 => INPSEL: rw { //! ADC input selection.
-            0x00 => AnalogInputNoPrescaling, //= Analog input specified by PSEL with no prescaling used as input for the conversion.
-            0x01 => AnalogInputTwoThirdsPrescaling, //= Analog input specified by PSEL with 2/3 prescaling used as input for the conversion.
-            0x02 => AnalogInputOneThirdPrescaling, //= Analog input specified by PSEL with 1/3 prescaling used as input for the conversion.
-            0x05 => SupplyTwoThirdsPrescaling, //= Supply voltage with 2/3 prescaling used as input for the conversion.
-            0x06 => SupplyOneThirdPrescaling, //= Supply voltage with 1/3 prescaling used as input for the conversion.
+            0 => AnalogInputNoPrescaling, //= Analog input specified by PSEL with no prescaling used as input for the conversion.
+            1 => AnalogInputTwoThirdsPrescaling, //= Analog input specified by PSEL with 2/3 prescaling used as input for the conversion.
+            2 => AnalogInputOneThirdPrescaling, //= Analog input specified by PSEL with 1/3 prescaling used as input for the conversion.
+            5 => SupplyTwoThirdsPrescaling, //= Supply voltage with 2/3 prescaling used as input for the conversion.
+            6 => SupplyOneThirdPrescaling, //= Supply voltage with 1/3 prescaling used as input for the conversion.
         }
         5..6 => REFSEL: rw { //! ADC reference selection.
-            0x00 => VBG, //= Use internal 1.2V bandgap voltage as reference for conversion.
-            0x01 => External, //= Use external source configured by EXTREFSEL as reference for conversion.
-            0x02 => SupplyOneHalfPrescaling, //= Use supply voltage with 1/2 prescaling as reference for conversion. Only usable when supply voltage is between 1.7V and 2.6V.
-            0x03 => SupplyOneThirdPrescaling, //= Use supply voltage with 1/3 prescaling as reference for conversion. Only usable when supply voltage is between 2.5V and 3.6V.
+            0 => VBG, //= Use internal 1.2V bandgap voltage as reference for conversion.
+            1 => External, //= Use external source configured by EXTREFSEL as reference for conversion.
+            2 => SupplyOneHalfPrescaling, //= Use supply voltage with 1/2 prescaling as reference for conversion. Only usable when supply voltage is between 1.7V and 2.6V.
+            3 => SupplyOneThirdPrescaling, //= Use supply voltage with 1/3 prescaling as reference for conversion. Only usable when supply voltage is between 2.5V and 3.6V.
         }
         8..15 => PSEL: rw { //! ADC analog pin selection.
             0 => Disabled, //= Analog input pins disabled.
@@ -2443,16 +2443,16 @@ ioregs! (TIMER0 @ 0x40008000 = {
     }
     0x504 => reg32 MODE { //! Timer Mode selection.
         0 => MODE: rw { //! Select Normal or Counter mode.
-            1 => Counter, //= Timer in Counter mode.
             0 => Timer, //= Timer in Normal mode.
+            1 => Counter, //= Timer in Counter mode.
         }
     }
     0x508 => reg32 BITMODE { //! Sets timer behaviour.
         0..1 => BITMODE: rw { //! Sets timer behaviour ro be like the implementation of a timer with width as indicated.
-            0x00 => 16Bit, //= 16-bit timer behaviour.
-            0x01 => 08Bit, //= 8-bit timer behaviour.
-            0x02 => 24Bit, //= 24-bit timer behaviour.
-            0x03 => 32Bit, //= 32-bit timer behaviour.
+            0 => 16Bit, //= 16-bit timer behaviour.
+            1 => 08Bit, //= 8-bit timer behaviour.
+            2 => 24Bit, //= 24-bit timer behaviour.
+            3 => 32Bit, //= 32-bit timer behaviour.
         }
     }
     0x510 => reg32 PRESCALER { //! 4-bit prescaler to source clock frequency (max value 9). Source clock frequency is divided by 2^SCALE.
@@ -2548,16 +2548,16 @@ ioregs! (TIMER1 @ 0x40009000 = {
     }
     0x504 => reg32 MODE { //! Timer Mode selection.
         0 => MODE: rw { //! Select Normal or Counter mode.
-            1 => Counter, //= Timer in Counter mode.
             0 => Timer, //= Timer in Normal mode.
+            1 => Counter, //= Timer in Counter mode.
         }
     }
     0x508 => reg32 BITMODE { //! Sets timer behaviour.
         0..1 => BITMODE: rw { //! Sets timer behaviour ro be like the implementation of a timer with width as indicated.
-            0x00 => 16Bit, //= 16-bit timer behaviour.
-            0x01 => 08Bit, //= 8-bit timer behaviour.
-            0x02 => 24Bit, //= 24-bit timer behaviour.
-            0x03 => 32Bit, //= 32-bit timer behaviour.
+            0 => 16Bit, //= 16-bit timer behaviour.
+            1 => 08Bit, //= 8-bit timer behaviour.
+            2 => 24Bit, //= 24-bit timer behaviour.
+            3 => 32Bit, //= 32-bit timer behaviour.
         }
     }
     0x510 => reg32 PRESCALER { //! 4-bit prescaler to source clock frequency (max value 9). Source clock frequency is divided by 2^SCALE.
@@ -2653,16 +2653,16 @@ ioregs! (TIMER2 @ 0x4000a000 = {
     }
     0x504 => reg32 MODE { //! Timer Mode selection.
         0 => MODE: rw { //! Select Normal or Counter mode.
-            1 => Counter, //= Timer in Counter mode.
             0 => Timer, //= Timer in Normal mode.
+            1 => Counter, //= Timer in Counter mode.
         }
     }
     0x508 => reg32 BITMODE { //! Sets timer behaviour.
         0..1 => BITMODE: rw { //! Sets timer behaviour ro be like the implementation of a timer with width as indicated.
-            0x00 => 16Bit, //= 16-bit timer behaviour.
-            0x01 => 08Bit, //= 8-bit timer behaviour.
-            0x02 => 24Bit, //= 24-bit timer behaviour.
-            0x03 => 32Bit, //= 32-bit timer behaviour.
+            0 => 16Bit, //= 16-bit timer behaviour.
+            1 => 08Bit, //= 8-bit timer behaviour.
+            2 => 24Bit, //= 24-bit timer behaviour.
+            3 => 32Bit, //= 32-bit timer behaviour.
         }
     }
     0x510 => reg32 PRESCALER { //! 4-bit prescaler to source clock frequency (max value 9). Source clock frequency is divided by 2^SCALE.
@@ -2974,8 +2974,8 @@ ioregs! (AAR @ 0x4000f000 = {
     }
     0x500 => reg32 ENABLE { //! Enable AAR.
         0..1 => ENABLE: rw { //! Enable AAR.
-            0x00 => Disabled, //= Disabled AAR.
-            0x03 => Enabled, //= Enable AAR.
+            0 => Disabled, //= Disabled AAR.
+            3 => Enabled, //= Enable AAR.
         }
     }
     0x504 => reg32 NIRK { //! Number of Identity root Keys in the IRK data structure.
@@ -3042,8 +3042,8 @@ ioregs! (CCM @ 0x4000f000 = {
     }
     0x500 => reg32 ENABLE { //! CCM enable.
         0..1 => ENABLE: rw { //! CCM enable.
-            0x00 => Disabled, //= CCM is disabled.
-            0x02 => Enabled, //= CCM is enabled.
+            0 => Disabled, //= CCM is disabled.
+            2 => Enabled, //= CCM is enabled.
         }
     }
     0x504 => reg32 MODE { //! Operation mode.
@@ -3167,7 +3167,7 @@ ioregs! (WDT @ 0x40010000 = {
     }
     0x600 => reg32 RR[8] { //! Reload requests registers.
         0..31 => RR: wo { //! Reload register.
-            0x6E524635 => Reload, //= Value to request a reload of the watchdog timer.
+            0x6e524635 => Reload, //= Value to request a reload of the watchdog timer.
         }
     }
     0xffc => reg32 POWER { //! Peripheral power control.
@@ -3394,14 +3394,14 @@ ioregs! (QDEC @ 0x40012000 = {
     }
     0x508 => reg32 SAMPLEPER { //! Sample period.
         0..2 => SAMPLEPER: rw { //! Sample period.
-            0x00 => 128us, //= 128us sample period.
-            0x01 => 256us, //= 256us sample period.
-            0x02 => 512us, //= 512us sample period.
-            0x03 => 1024us, //= 1024us sample period.
-            0x04 => 2048us, //= 2048us sample period.
-            0x05 => 4096us, //= 4096us sample period.
-            0x06 => 8192us, //= 8192us sample period.
-            0x07 => 16384us, //= 16384us sample period.
+            0 => 128us, //= 128us sample period.
+            1 => 256us, //= 256us sample period.
+            2 => 512us, //= 512us sample period.
+            3 => 1024us, //= 1024us sample period.
+            4 => 2048us, //= 2048us sample period.
+            5 => 4096us, //= 4096us sample period.
+            6 => 8192us, //= 8192us sample period.
+            7 => 16384us, //= 16384us sample period.
         }
     }
     0x50c => reg32 SAMPLE { //! Motion sample value.
@@ -3409,14 +3409,14 @@ ioregs! (QDEC @ 0x40012000 = {
     }
     0x510 => reg32 REPORTPER { //! Number of samples to generate an EVENT_REPORTRDY.
         0..2 => REPORTPER: rw { //! Number of samples to generate an EVENT_REPORTRDY.
-            0x00 => 10Smpl, //= 10 samples per report.
-            0x01 => 40Smpl, //= 40 samples per report.
-            0x02 => 80Smpl, //= 80 samples per report.
-            0x03 => 120Smpl, //= 120 samples per report.
-            0x04 => 160Smpl, //= 160 samples per report.
-            0x05 => 200Smpl, //= 200 samples per report.
-            0x06 => 240Smpl, //= 240 samples per report.
-            0x07 => 280Smpl, //= 280 samples per report.
+            0 => 10Smpl, //= 10 samples per report.
+            1 => 40Smpl, //= 40 samples per report.
+            2 => 80Smpl, //= 80 samples per report.
+            3 => 120Smpl, //= 120 samples per report.
+            4 => 160Smpl, //= 160 samples per report.
+            5 => 200Smpl, //= 200 samples per report.
+            6 => 240Smpl, //= 240 samples per report.
+            7 => 280Smpl, //= 280 samples per report.
         }
     }
     0x514 => reg32 ACC {} //! Accumulated valid transitions register.
@@ -3522,8 +3522,8 @@ ioregs! (LPCOMP @ 0x40013000 = {
     }
     0x500 => reg32 ENABLE { //! Enable the LPCOMP.
         0..1 => ENABLE: rw { //! Enable or disable LPCOMP.
-            0x00 => Disabled, //= Disabled LPCOMP.
-            0x01 => Enabled, //= Enable LPCOMP.
+            0 => Disabled, //= Disabled LPCOMP.
+            1 => Enabled, //= Enable LPCOMP.
         }
     }
     0x504 => reg32 PSEL { //! Input pin select.
@@ -3586,9 +3586,9 @@ ioregs! (NVMC @ 0x4001e000 = {
     }
     0x504 => reg32 CONFIG { //! Configuration register.
         0..1 => WEN: rw { //! Program write enable.
-            0x00 => Ren, //= Read only access.
-            0x01 => Wen, //= Write enabled.
-            0x02 => Een, //= Erase enabled.
+            0 => Ren, //= Read only access.
+            1 => Wen, //= Write enabled.
+            2 => Een, //= Erase enabled.
         }
     }
     0x508 => reg32 ERASEPAGE {} //! Register for erasing a non-protected non-volatile memory page.
@@ -4083,8 +4083,8 @@ ioregs! (FICR @ 0x10000000 = {
     0x028 => reg32 CLENR0 {} //! Length of code region 0 in bytes.
     0x02c => reg32 PPFC { //! Pre-programmed factory code present.
         0..7 => PPFC: ro { //! Pre-programmed factory code present.
-            0xFF => NotPresent, //= Not present.
-            0x00 => Present, //= Present.
+            0 => Present, //= Present.
+            255 => NotPresent, //= Not present.
         }
     }
     0x034 => reg32 NUMRAMBLOCK {} //! Number of individualy controllable RAM blocks.
@@ -4123,18 +4123,18 @@ ioregs! (UICR @ 0x10001000 = {
     0x000 => reg32 CLENR0 {} //! Length of code region 0.
     0x004 => reg32 RBPCONF { //! Readback protection configuration.
         0..7 => PR0: rw { //! Readback protect region 0. Will be ignored if pre-programmed factory code is present on the chip.
-            0xFF => Disabled, //= Disabled.
-            0x00 => Enabled, //= Enabled.
+            0 => Enabled, //= Enabled.
+            255 => Disabled, //= Disabled.
         }
         8..15 => PALL: rw { //! Readback protect all code in the device.
-            0xFF => Disabled, //= Disabled.
-            0x00 => Enabled, //= Enabled.
+            0 => Enabled, //= Enabled.
+            255 => Disabled, //= Disabled.
         }
     }
     0x008 => reg32 XTALFREQ { //! Reset value for CLOCK XTALFREQ register.
         0..7 => XTALFREQ: rw { //! Reset value for CLOCK XTALFREQ register.
-            0xFF => 16MHz, //= 16MHz Xtal is used.
-            0x00 => 32MHz, //= 32MHz Xtal is used.
+            0 => 32MHz, //= 32MHz Xtal is used.
+            255 => 16MHz, //= 16MHz Xtal is used.
         }
     }
     0x010 => reg32 FWID { //! Firmware ID.
@@ -5068,24 +5068,24 @@ ioregs! (GPIO @ 0x50000000 = {
             1 => Disconnect, //= Disconnect input pin.
         }
         2..3 => PULL: rw { //! Pull-up or -down configuration.
-            0x00 => Disabled, //= No pull.
-            0x01 => Pulldown, //= Pulldown on pin.
-            0x03 => Pullup, //= Pullup on pin.
+            0 => Disabled, //= No pull.
+            1 => Pulldown, //= Pulldown on pin.
+            3 => Pullup, //= Pullup on pin.
         }
         8..10 => DRIVE: rw { //! Drive configuration.
-            0x00 => S0S1, //= Standard '0', Standard '1'.
-            0x01 => H0S1, //= High '0', Standard '1'.
-            0x02 => S0H1, //= Standard '0', High '1'.
-            0x03 => H0H1, //= High '0', High '1'.
-            0x04 => D0S1, //= Disconnected '0', Standard '1'.
-            0x05 => D0H1, //= Disconnected '0', High '1'.
-            0x06 => S0D1, //= Standard '0', Disconnected '1'.
-            0x07 => H0D1, //= High '0', Disconnected '1'.
+            0 => S0S1, //= Standard '0', Standard '1'.
+            1 => H0S1, //= High '0', Standard '1'.
+            2 => S0H1, //= Standard '0', High '1'.
+            3 => H0H1, //= High '0', High '1'.
+            4 => D0S1, //= Disconnected '0', Standard '1'.
+            5 => D0H1, //= Disconnected '0', High '1'.
+            6 => S0D1, //= Standard '0', Disconnected '1'.
+            7 => H0D1, //= High '0', Disconnected '1'.
         }
         16..17 => SENSE: rw { //! Pin sensing mechanism.
-            0x00 => Disabled, //= Disabled.
-            0x02 => High, //= Wakeup on high level.
-            0x03 => Low, //= Wakeup on low level.
+            0 => Disabled, //= Disabled.
+            2 => High, //= Wakeup on high level.
+            3 => Low, //= Wakeup on low level.
         }
     }
 });

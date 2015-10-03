@@ -58,10 +58,17 @@ def filter_bitrange(bitrange):
     else:
         return "{}..{}".format(lsb, msb)
 
-def filter_enums(enumvalues):
-    if enumvalues["read-write"]:
-        return enumvalues["read-write"]
-    if enumvalues["read"]:
-        return enumvalues["read"]
-    if enumvalues["write"]:
-        return enumvalues["write"]
+def filter_enumlist(lst):
+    values = []
+    if lst["read-write"]:
+        values = lst["read-write"]
+    elif lst["read"]:
+        values = lst["read"]
+    elif lst["write"]:
+        values = lst["write"]
+    return sorted(values, key=lambda x: x.value)
+
+def filter_enumvalue(value):
+    if value < 256:
+        return value
+    return "{:#05x}".format(value)
