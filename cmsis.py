@@ -26,6 +26,12 @@ import xml.etree.ElementTree as ET
 
 
 class SvdElement():
+    cast_to_integers = [
+        "baseAddress",
+        "addressOffset",
+        "size",
+    ]
+
     def __init__(self, element=None, defaults={}):
         self.init()
         if element:
@@ -45,15 +51,23 @@ class SvdElement():
             defaults = vars(defaults)
         except: pass
 
-        for key, default in vars(self).items():
-            if isinstance(default, list) or isinstance(default, dict):
+        for key, value in vars(self).items():
+            if isinstance(value, list) or isinstance(value, dict):
                 continue
+
             try:
-                setattr(self, key, element.find(key).text)
+                value = element.find(key).text
             except: # Maybe it's attribute?
-                if key in defaults:
-                    default = defaults[key]
-                setattr(self, key, element.get(key, default))
+                default = defaults[key] if key in defaults else None
+                value = element.get(key, default)
+
+            if value and key in self.cast_to_integers:
+                try:
+                    value = int(value)
+                except: # It has to be hex
+                    value = int(value, 16)
+
+            setattr(self, key, value)
 
     def inherit_from(self, element):
         for key, value in vars(self).items():

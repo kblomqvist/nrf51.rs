@@ -2149,9 +2149,9 @@ ioregs! (SPIM1 @ 0x40004000 = {
         }
     }
     0x508 => group PSEL { //! Pin select configuration.
-        0x0 => reg32 SCK {} //! Pin select for SCK.
-        0x4 => reg32 MOSI {} //! Pin select for MOSI.
-        0x8 => reg32 MISO {} //! Pin select for MISO.
+        0x000 => reg32 SCK {} //! Pin select for SCK.
+        0x004 => reg32 MOSI {} //! Pin select for MOSI.
+        0x008 => reg32 MISO {} //! Pin select for MISO.
     }
     0x524 => reg32 FREQUENCY { //! SPI frequency.
         0..31 => FREQUENCY: rw { //! SPI master data rate.
@@ -2165,24 +2165,24 @@ ioregs! (SPIM1 @ 0x40004000 = {
         }
     }
     0x534 => group RXD { //! RXD EasyDMA configuration and status.
-        0x0 => reg32 PTR { //! Data pointer.
+        0x000 => reg32 PTR { //! Data pointer.
             0..31 => PTR: rw, //! Data pointer.
         }
-        0x4 => reg32 MAXCNT { //! Maximum number of buffer bytes to receive.
+        0x004 => reg32 MAXCNT { //! Maximum number of buffer bytes to receive.
             0..7 => MAXCNT: rw, //! Maximum number of buffer bytes to receive.
         }
-        0x8 => reg32 AMOUNT { //! Number of bytes received in the last transaction.
+        0x008 => reg32 AMOUNT { //! Number of bytes received in the last transaction.
             0..7 => AMOUNT: ro, //! Number of bytes received in the last transaction.
         }
     }
     0x544 => group TXD { //! TXD EasyDMA configuration and status.
-        0x0 => reg32 PTR { //! Data pointer.
+        0x000 => reg32 PTR { //! Data pointer.
             0..31 => PTR: rw, //! Data pointer.
         }
-        0x4 => reg32 MAXCNT { //! Maximum number of buffer bytes to send.
+        0x004 => reg32 MAXCNT { //! Maximum number of buffer bytes to send.
             0..7 => MAXCNT: rw, //! Maximum number of buffer bytes to send.
         }
-        0x8 => reg32 AMOUNT { //! Number of bytes sent in the last transaction.
+        0x008 => reg32 AMOUNT { //! Number of bytes sent in the last transaction.
             0..7 => AMOUNT: ro, //! Number of bytes sent in the last transaction.
         }
     }
