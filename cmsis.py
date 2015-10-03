@@ -63,6 +63,8 @@ class SvdElement():
 
 
 class SvdDevice(SvdElement):
+    type = "device"
+
     def init(self):
         self.name = None
         self.version = None
@@ -82,6 +84,8 @@ class SvdDevice(SvdElement):
 
 
 class SvdCpu(SvdElement):
+    type = "cpu"
+
     def init(self):
         self.name = None
         self.revision = None
@@ -99,6 +103,8 @@ class SvdCpu(SvdElement):
 
 
 class SvdPeripheral(SvdElement):
+    type = "peripheral"
+
     def init(self):
         self.registers = []
         self.derivedFrom = None
@@ -118,6 +124,8 @@ class SvdPeripheral(SvdElement):
 
 
 class SvdRegister(SvdElement):
+    type = "register"
+
     def init(self):
         self.fields = []
         self.derivedFrom = None
@@ -149,6 +157,8 @@ class SvdRegister(SvdElement):
 
 
 class SvdCluster(SvdElement):
+    type = "cluster"
+
     def init(self):
         self.registers = []
         self.derivedFrom = None
@@ -171,13 +181,10 @@ class SvdCluster(SvdElement):
                     self.registers.append(SvdRegister(e, defaults))
         except: pass
 
-        # Normalize cluster name and dimension
-        if not self.name.endswith("[%s]"):
-            self.name = self.name + "[%s]"
-            self.dim = 1
-
 
 class SvdField(SvdElement):
+    type = "field"
+
     def init(self):
         self.enumeratedValues = {
             "read": [],
@@ -225,6 +232,8 @@ class SvdField(SvdElement):
 
 
 class SvdEnumeratedValue(SvdElement):
+    type = "enumeratedValue"
+
     def init(self):
         self.derivedFrom = None
         self.name = None

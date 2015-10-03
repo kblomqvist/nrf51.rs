@@ -34,7 +34,7 @@ use core::ops::Drop;
 {%- endmacro -%}
 
 {%- macro register(r) -%}
-{{ r.addressOffset }} => {{ "reg" + r.size }} {{ r.name }}
+{{ r.addressOffset }} => {{ "reg" + r.size }} {{ r.name|replace("%s", r.dim) }}
     {%- if not r.fields or NO_FIELDS %} {{ "{} " + description("//!", r) }}{% else %} {{ "{ " + description("//!", r) }}
     {%- for f in r.fields %}
     {{ f.bitRange|bitrange }} => {{ f.name }}{% if f.access %}: {{ f.access|access }}{% endif %}

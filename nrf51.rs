@@ -621,7 +621,7 @@ ioregs! (MPU @ 0x40000000 = {
 
 ioregs! (AMLI @ 0x40000000 = {
     /// AHB Multi-Layer Interface.
-    0xE00 => group RAMPRI[1] { //! RAM configurable priority configuration structure.
+    0xE00 => group RAMPRI { //! RAM configurable priority configuration structure.
         0x000 => reg32 CPU0 { //! Configurable priority configuration register for CPU0.
             0..3 => RAM0: rw { //! Configuration field for RAM block 0.
                 0x0 => Pri0, //= Priority 0.
@@ -1406,8 +1406,8 @@ ioregs! (RADIO @ 0x40001000 = {
         0..6 => DATAWHITEIV: rw, //! Data whitening initial value. Bit 0 corresponds to Position 0 of the LSFR, Bit 1 to position 5... Decision point: TXEN or RXEN task.
     }
     0x560 => reg32 BCC {} //! Bit counter compare.
-    0x600 => reg32 DAB[%s] {} //! Device address base segment.
-    0x620 => reg32 DAP[%s] { //! Device address prefix.
+    0x600 => reg32 DAB[8] {} //! Device address base segment.
+    0x620 => reg32 DAP[8] { //! Device address prefix.
         0..15 => DAP: rw, //! Device address prefix.
     }
     0x640 => reg32 DACNF { //! Device address match configuration.
@@ -2148,7 +2148,7 @@ ioregs! (SPIM1 @ 0x40004000 = {
             0x07 => Enabled, //= Enable SPIM.
         }
     }
-    0x508 => group PSEL[1] { //! Pin select configuration.
+    0x508 => group PSEL { //! Pin select configuration.
         0x0 => reg32 SCK {} //! Pin select for SCK.
         0x4 => reg32 MOSI {} //! Pin select for MOSI.
         0x8 => reg32 MISO {} //! Pin select for MISO.
@@ -2164,7 +2164,7 @@ ioregs! (SPIM1 @ 0x40004000 = {
             0x80000000 => M8, //= 8 Mbps.
         }
     }
-    0x534 => group RXD[1] { //! RXD EasyDMA configuration and status.
+    0x534 => group RXD { //! RXD EasyDMA configuration and status.
         0x0 => reg32 PTR { //! Data pointer.
             0..31 => PTR: rw, //! Data pointer.
         }
@@ -2175,7 +2175,7 @@ ioregs! (SPIM1 @ 0x40004000 = {
             0..7 => AMOUNT: ro, //! Number of bytes received in the last transaction.
         }
     }
-    0x544 => group TXD[1] { //! TXD EasyDMA configuration and status.
+    0x544 => group TXD { //! TXD EasyDMA configuration and status.
         0x0 => reg32 PTR { //! Data pointer.
             0..31 => PTR: rw, //! Data pointer.
         }
@@ -2213,8 +2213,8 @@ ioregs! (SPIM1 @ 0x40004000 = {
 
 ioregs! (GPIOTE @ 0x40006000 = {
     /// GPIO tasks and events.
-    0x000 => reg32 TASKS_OUT[%s] {} //! Tasks asssociated with GPIOTE channels.
-    0x100 => reg32 EVENTS_IN[%s] {} //! Tasks asssociated with GPIOTE channels.
+    0x000 => reg32 TASKS_OUT[4] {} //! Tasks asssociated with GPIOTE channels.
+    0x100 => reg32 EVENTS_IN[4] {} //! Tasks asssociated with GPIOTE channels.
     0x17C => reg32 EVENTS_PORT {} //! Event generated from multiple pins.
     0x304 => reg32 INTENSET { //! Interrupt enable set register.
         0 => IN0: rw { //! Enable interrupt on IN[0] event.
@@ -2260,7 +2260,7 @@ ioregs! (GPIOTE @ 0x40006000 = {
             1 => Enabled, //= Interrupt enabled.
         }
     }
-    0x510 => reg32 CONFIG[%s] { //! Channel configuration registers.
+    0x510 => reg32 CONFIG[4] { //! Channel configuration registers.
         0..1 => MODE: rw { //! Mode
             0x00 => Disabled, //= Disabled.
             0x01 => Event, //= Channel configure in event mode.
@@ -2369,8 +2369,8 @@ ioregs! (TIMER0 @ 0x40008000 = {
     0x008 => reg32 TASKS_COUNT {} //! Increment Timer (In counter mode).
     0x00C => reg32 TASKS_CLEAR {} //! Clear timer.
     0x010 => reg32 TASKS_SHUTDOWN {} //! Shutdown timer.
-    0x040 => reg32 TASKS_CAPTURE[%s] {} //! Capture Timer value to CC[n] registers.
-    0x140 => reg32 EVENTS_COMPARE[%s] {} //! Compare event on CC[n] match.
+    0x040 => reg32 TASKS_CAPTURE[4] {} //! Capture Timer value to CC[n] registers.
+    0x140 => reg32 EVENTS_COMPARE[4] {} //! Compare event on CC[n] match.
     0x200 => reg32 SHORTS { //! Shortcuts for Timer.
         0 => COMPARE0_CLEAR: rw { //! Shortcut between CC[0] event and the CLEAR task.
             0 => Disabled, //= Shortcut disabled.
@@ -2458,7 +2458,7 @@ ioregs! (TIMER0 @ 0x40008000 = {
     0x510 => reg32 PRESCALER { //! 4-bit prescaler to source clock frequency (max value 9). Source clock frequency is divided by 2^SCALE.
         0..3 => PRESCALER: rw, //! Timer PRESCALER value. Max value is 9.
     }
-    0x540 => reg32 CC[%s] {} //! Capture/compare registers.
+    0x540 => reg32 CC[4] {} //! Capture/compare registers.
     0xFFC => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
@@ -2474,8 +2474,8 @@ ioregs! (TIMER1 @ 0x40009000 = {
     0x008 => reg32 TASKS_COUNT {} //! Increment Timer (In counter mode).
     0x00C => reg32 TASKS_CLEAR {} //! Clear timer.
     0x010 => reg32 TASKS_SHUTDOWN {} //! Shutdown timer.
-    0x040 => reg32 TASKS_CAPTURE[%s] {} //! Capture Timer value to CC[n] registers.
-    0x140 => reg32 EVENTS_COMPARE[%s] {} //! Compare event on CC[n] match.
+    0x040 => reg32 TASKS_CAPTURE[4] {} //! Capture Timer value to CC[n] registers.
+    0x140 => reg32 EVENTS_COMPARE[4] {} //! Compare event on CC[n] match.
     0x200 => reg32 SHORTS { //! Shortcuts for Timer.
         0 => COMPARE0_CLEAR: rw { //! Shortcut between CC[0] event and the CLEAR task.
             0 => Disabled, //= Shortcut disabled.
@@ -2563,7 +2563,7 @@ ioregs! (TIMER1 @ 0x40009000 = {
     0x510 => reg32 PRESCALER { //! 4-bit prescaler to source clock frequency (max value 9). Source clock frequency is divided by 2^SCALE.
         0..3 => PRESCALER: rw, //! Timer PRESCALER value. Max value is 9.
     }
-    0x540 => reg32 CC[%s] {} //! Capture/compare registers.
+    0x540 => reg32 CC[4] {} //! Capture/compare registers.
     0xFFC => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
@@ -2579,8 +2579,8 @@ ioregs! (TIMER2 @ 0x4000A000 = {
     0x008 => reg32 TASKS_COUNT {} //! Increment Timer (In counter mode).
     0x00C => reg32 TASKS_CLEAR {} //! Clear timer.
     0x010 => reg32 TASKS_SHUTDOWN {} //! Shutdown timer.
-    0x040 => reg32 TASKS_CAPTURE[%s] {} //! Capture Timer value to CC[n] registers.
-    0x140 => reg32 EVENTS_COMPARE[%s] {} //! Compare event on CC[n] match.
+    0x040 => reg32 TASKS_CAPTURE[4] {} //! Capture Timer value to CC[n] registers.
+    0x140 => reg32 EVENTS_COMPARE[4] {} //! Compare event on CC[n] match.
     0x200 => reg32 SHORTS { //! Shortcuts for Timer.
         0 => COMPARE0_CLEAR: rw { //! Shortcut between CC[0] event and the CLEAR task.
             0 => Disabled, //= Shortcut disabled.
@@ -2668,7 +2668,7 @@ ioregs! (TIMER2 @ 0x4000A000 = {
     0x510 => reg32 PRESCALER { //! 4-bit prescaler to source clock frequency (max value 9). Source clock frequency is divided by 2^SCALE.
         0..3 => PRESCALER: rw, //! Timer PRESCALER value. Max value is 9.
     }
-    0x540 => reg32 CC[%s] {} //! Capture/compare registers.
+    0x540 => reg32 CC[4] {} //! Capture/compare registers.
     0xFFC => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
@@ -2685,7 +2685,7 @@ ioregs! (RTC0 @ 0x4000B000 = {
     0x00C => reg32 TASKS_TRIGOVRFLW {} //! Set COUNTER to 0xFFFFFFF0.
     0x100 => reg32 EVENTS_TICK {} //! Event on COUNTER increment.
     0x104 => reg32 EVENTS_OVRFLW {} //! Event on COUNTER overflow.
-    0x140 => reg32 EVENTS_COMPARE[%s] {} //! Compare event on CC[n] match.
+    0x140 => reg32 EVENTS_COMPARE[4] {} //! Compare event on CC[n] match.
     0x304 => reg32 INTENSET { //! Interrupt enable set register.
         0 => TICK: rw { //! Enable interrupt on TICK event.
             0 => Disabled, //= Interrupt disabled.
@@ -2822,7 +2822,7 @@ ioregs! (RTC0 @ 0x4000B000 = {
     0x508 => reg32 PRESCALER { //! 12-bit prescaler for COUNTER frequency (32768/(PRESCALER+1)). Must be written when RTC is STOPed.
         0..11 => PRESCALER: rw, //! RTC PRESCALER value.
     }
-    0x540 => reg32 CC[%s] { //! Capture/compare registers.
+    0x540 => reg32 CC[4] { //! Capture/compare registers.
         0..23 => COMPARE: rw, //! Compare value.
     }
     0xFFC => reg32 POWER { //! Peripheral power control.
@@ -3165,7 +3165,7 @@ ioregs! (WDT @ 0x40010000 = {
             1 => Run, //= Do not pause watchdog while the CPU is halted by the debugger.
         }
     }
-    0x600 => reg32 RR[%s] { //! Reload requests registers.
+    0x600 => reg32 RR[8] { //! Reload requests registers.
         0..31 => RR: wo { //! Reload register.
             0x6E524635 => Reload, //= Value to request a reload of the watchdog timer.
         }
@@ -3186,7 +3186,7 @@ ioregs! (RTC1 @ 0x40011000 = {
     0x00C => reg32 TASKS_TRIGOVRFLW {} //! Set COUNTER to 0xFFFFFFF0.
     0x100 => reg32 EVENTS_TICK {} //! Event on COUNTER increment.
     0x104 => reg32 EVENTS_OVRFLW {} //! Event on COUNTER overflow.
-    0x140 => reg32 EVENTS_COMPARE[%s] {} //! Compare event on CC[n] match.
+    0x140 => reg32 EVENTS_COMPARE[4] {} //! Compare event on CC[n] match.
     0x304 => reg32 INTENSET { //! Interrupt enable set register.
         0 => TICK: rw { //! Enable interrupt on TICK event.
             0 => Disabled, //= Interrupt disabled.
@@ -3323,7 +3323,7 @@ ioregs! (RTC1 @ 0x40011000 = {
     0x508 => reg32 PRESCALER { //! 12-bit prescaler for COUNTER frequency (32768/(PRESCALER+1)). Must be written when RTC is STOPed.
         0..11 => PRESCALER: rw, //! RTC PRESCALER value.
     }
-    0x540 => reg32 CC[%s] { //! Capture/compare registers.
+    0x540 => reg32 CC[4] { //! Capture/compare registers.
         0..23 => COMPARE: rw, //! Compare value.
     }
     0xFFC => reg32 POWER { //! Peripheral power control.
@@ -3960,7 +3960,7 @@ ioregs! (PPI @ 0x4001F000 = {
         0x000 => reg32 EEP {} //! Channel event end-point.
         0x004 => reg32 TEP {} //! Channel task end-point.
     }
-    0x800 => reg32 CHG[%s] { //! Channel group configuration.
+    0x800 => reg32 CHG[4] { //! Channel group configuration.
         0 => CH0: rw { //! Include CH0 in channel group.
             0 => Excluded, //= Channel excluded.
             1 => Included, //= Channel included.
@@ -4089,21 +4089,21 @@ ioregs! (FICR @ 0x10000000 = {
     }
     0x034 => reg32 NUMRAMBLOCK {} //! Number of individualy controllable RAM blocks.
     0x038 => reg32 SIZERAMBLOCKS {} //! Size of RAM blocks in bytes.
-    0x038 => reg32 SIZERAMBLOCK[%s] {} //! Deprecated array of size of RAM block in bytes. This name is kept for backward compatinility purposes. Use SIZERAMBLOCKS instead.
+    0x038 => reg32 SIZERAMBLOCK[4] {} //! Deprecated array of size of RAM block in bytes. This name is kept for backward compatinility purposes. Use SIZERAMBLOCKS instead.
     0x05C => reg32 CONFIGID { //! Configuration identifier.
         0..15 => HWID: ro, //! Hardware Identification Number.
         16..31 => FWID: ro, //! Firmware Identification Number pre-loaded into the flash.
     }
-    0x060 => reg32 DEVICEID[%s] {} //! Device identifier.
-    0x080 => reg32 ER[%s] {} //! Encryption root.
-    0x090 => reg32 IR[%s] {} //! Identity root.
+    0x060 => reg32 DEVICEID[2] {} //! Device identifier.
+    0x080 => reg32 ER[4] {} //! Encryption root.
+    0x090 => reg32 IR[4] {} //! Identity root.
     0x0A0 => reg32 DEVICEADDRTYPE { //! Device address type.
         0 => DEVICEADDRTYPE: ro { //! Device address type.
             0 => Public, //= Public address.
             1 => Random, //= Random address.
         }
     }
-    0x0A4 => reg32 DEVICEADDR[%s] {} //! Device address.
+    0x0A4 => reg32 DEVICEADDR[2] {} //! Device address.
     0x0AC => reg32 OVERRIDEEN { //! Radio calibration override enable.
         0 => NRF_1MBIT: ro { //! Override default values for NRF_1Mbit mode.
             0 => Override, //= Override the default values for NRF_1Mbit mode.
@@ -4114,8 +4114,8 @@ ioregs! (FICR @ 0x10000000 = {
             1 => NotOverride, //= Do not override the default values for BLE_1Mbit mode.
         }
     }
-    0x0B0 => reg32 NRF_1MBIT[%s] {} //! Override values for the OVERRIDEn registers in RADIO for NRF_1Mbit mode.
-    0x0EC => reg32 BLE_1MBIT[%s] {} //! Override values for the OVERRIDEn registers in RADIO for BLE_1Mbit mode.
+    0x0B0 => reg32 NRF_1MBIT[5] {} //! Override values for the OVERRIDEn registers in RADIO for NRF_1Mbit mode.
+    0x0EC => reg32 BLE_1MBIT[5] {} //! Override values for the OVERRIDEn registers in RADIO for BLE_1Mbit mode.
 });
 
 ioregs! (UICR @ 0x10001000 = {
@@ -4141,9 +4141,9 @@ ioregs! (UICR @ 0x10001000 = {
         0..15 => FWID: ro, //! Identification number for the firmware loaded into the chip.
     }
     0x014 => reg32 BOOTLOADERADDR {} //! Bootloader start address.
-    0x014 => reg32 NRFFW[%s] {} //! Reserved for Nordic firmware design.
-    0x050 => reg32 NRFHW[%s] {} //! Reserved for Nordic hardware design.
-    0x080 => reg32 CUSTOMER[%s] {} //! Reserved for customer.
+    0x014 => reg32 NRFFW[15] {} //! Reserved for Nordic firmware design.
+    0x050 => reg32 NRFHW[12] {} //! Reserved for Nordic hardware design.
+    0x080 => reg32 CUSTOMER[32] {} //! Reserved for customer.
 });
 
 ioregs! (GPIO @ 0x50000000 = {
@@ -5058,7 +5058,7 @@ ioregs! (GPIO @ 0x50000000 = {
             1 => Output, //= Pin set as output.
         }
     }
-    0x700 => reg32 PIN_CNF[%s] { //! Configuration of GPIO pins.
+    0x700 => reg32 PIN_CNF[32] { //! Configuration of GPIO pins.
         0 => DIR: rw { //! Pin direction.
             0 => Input, //= Configure pin as an input pin.
             1 => Output, //= Configure pin as an output pin.
