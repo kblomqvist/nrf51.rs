@@ -26,19 +26,19 @@ from yasha.parsers import Parser
 
 import sys
 sys.path.append(".")
-import cmsis
+from pycmsis import svd
 
 class CmsisSvdParser(Parser):
     file_extension = [".svd"]
 
     def parse(self, file):
-        svd = cmsis.SvdFile(file)
-        svd.parse()
+        f = svd.File(file)
+        f.parse()
 
         vars = {
-            "cpu": svd.cpu,
-            "device": svd.device,
-            "peripherals": [svd.peripherals[name] for name in svd.peripherals_order],
+            "cpu": f.cpu,
+            "device": f.device,
+            "peripherals": [f.peripherals[name] for name in f.peripherals_order],
         }
         return vars
 

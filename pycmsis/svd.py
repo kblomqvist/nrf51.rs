@@ -25,7 +25,50 @@ THE SOFTWARE.
 import xml.etree.ElementTree as ET
 
 
-class SvdElement():
+class File():
+    def __init__(self, file):
+        if type(file) is str:
+            self.root = ET.fromstring(file)
+        else:
+            tree = ET.parse(file)
+            self.root = tree.getroot()
+
+    def parse(self):
+        self.cpu = Cpu(self.root.find("cpu"))
+        self.device = Device(self.root)
+
+        self.peripherals = {}
+        self.peripherals_order = []
+        self.derived_peripherals = []
+        self.peripheral_groups = {}
+
+        for e in self.root.iter("peripheral"):
+            p = Peripheral(e, self.device)
+            try: # Because registers may be None
+                for e in e.find("registers"):
+                    if e.tag == "cluster":
+                        p.registers.append(Cluster(e, p))
+                    elif e.tag == "register":
+                        p.registers.append(Register(e, p))
+            except: pass
+
+            if p.derivedFrom:
+                self.derived_peripherals.append(p.name)
+            if p.groupName:
+            	try:
+            		self.peripheral_groups[p.groupName].append(p.name)
+            	except:
+            		self.peripheral_groups[p.groupName] = [p.name]
+
+            self.peripherals[p.name] = p
+            self.peripherals_order.append(p.name)
+
+        for p in [self.peripherals[name] for name in self.derived_peripherals]:
+            base = self.peripherals[p.derivedFrom]
+            p.inherit_from(base)
+
+
+class Element():
     type = "base_element"
     cast_to_integer = []
 
@@ -73,7 +116,7 @@ class SvdElement():
                 setattr(self, key, value)
 
 
-class SvdDevice(SvdElement):
+class Device(Element):
     type = "device"
     cast_to_integer = ["size"]
 
@@ -95,7 +138,7 @@ class SvdDevice(SvdElement):
         self.headerDefinitionsPrefix = None
 
 
-class SvdCpu(SvdElement):
+class Cpu(Element):
     type = "cpu"
 
     def init(self):
@@ -114,7 +157,7 @@ class SvdCpu(SvdElement):
         self.vendorSystickConfig = None
 
 
-class SvdPeripheral(SvdElement):
+class Peripheral(Element):
     type = "peripheral"
     cast_to_integer = ["size", "baseAddress"]
 
@@ -136,7 +179,7 @@ class SvdPeripheral(SvdElement):
         self.alternatePeripheral = None
 
 
-class SvdRegister(SvdElement):
+class Register(Element):
     type = "register"
     cast_to_integer = ["size", "addressOffset"]
 
@@ -161,16 +204,16 @@ class SvdRegister(SvdElement):
         self.dataType = None
 
     def from_element(self, element, defaults={}):
-        SvdElement.from_element(self, element, defaults)
+        Element.from_element(self, element, defaults)
 
         try: # Because fields may be None
             for e in element.find("fields"):
-                field = SvdField(e, self)
+                field = Field(e, self)
                 self.fields.append(field)
         except: pass
 
 
-class SvdCluster(SvdElement):
+class Cluster(Element):
     type = "cluster"
     cast_to_integer = ["size", "addressOffset"]
 
@@ -187,17 +230,17 @@ class SvdCluster(SvdElement):
         self.addressOffset = None
 
     def from_element(self, element, defaults={}):
-        SvdElement.from_element(self, element, {})
+        Element.from_element(self, element, {})
         try:
             for e in element.findall("*"):
                 if e.tag == "cluster": # Cluster may include yet another cluster
-                    self.registers.append(SvdCluster(e, defaults))
+                    self.registers.append(Cluster(e, defaults))
                 elif e.tag == "register":
-                    self.registers.append(SvdRegister(e, defaults))
+                    self.registers.append(Register(e, defaults))
         except: pass
 
 
-class SvdField(SvdElement):
+class Field(Element):
     type = "field"
     cast_to_integer = ["bitOffset", "bitWidth", "lsb", "msb"]
 
@@ -221,7 +264,7 @@ class SvdField(SvdElement):
         self.readAction = None
 
     def from_element(self, element, defaults={}):
-        SvdElement.from_element(self, element, defaults)
+        Element.from_element(self, element, defaults)
 
         if self.bitRange:
             self.msb, self.lsb = self.bitRange[1:-1].split(":")
@@ -241,12 +284,12 @@ class SvdField(SvdElement):
                 except:
                     usage = "read-write"
                 for e in e.findall("enumeratedValue"):
-                    enum = SvdEnumeratedValue(e, {})
+                    enum = EnumeratedValue(e, {})
                     self.enumeratedValues[usage].append(enum)
         except: pass
 
 
-class SvdEnumeratedValue(SvdElement):
+class EnumeratedValue(Element):
     type = "enumeratedValue"
     cast_to_integer = ["value"]
 
@@ -256,41 +299,3 @@ class SvdEnumeratedValue(SvdElement):
         self.description = None
         self.value = None
         self.isDefault = None
-
-
-class SvdFile():
-    def __init__(self, file):
-        if type(file) is str:
-            self.root = ET.fromstring(file)
-        else:
-            tree = ET.parse(file)
-            self.root = tree.getroot()
-
-    def parse(self):
-        self.cpu = SvdCpu(self.root.find("cpu"))
-        self.device = SvdDevice(self.root)
-
-        self.peripherals = {}
-        self.peripherals_order = []
-        self.derived_peripherals = []
-        self.peripheral_groups = {}
-
-        for e in self.root.iter("peripheral"):
-            p = SvdPeripheral(e, self.device)
-            try: # Because registers may be None
-                for e in e.find("registers"):
-                    if e.tag == "cluster":
-                        p.registers.append(SvdCluster(e, p))
-                    elif e.tag == "register":
-                        p.registers.append(SvdRegister(e, p))
-            except: pass
-
-            if p.derivedFrom:
-                self.derived_peripherals.append(p.name)
-
-            self.peripherals[p.name] = p
-            self.peripherals_order.append(p.name)
-
-        for p in [self.peripherals[name] for name in self.derived_peripherals]:
-            base = self.peripherals[p.derivedFrom]
-            p.inherit_from(base)
