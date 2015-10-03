@@ -55,10 +55,10 @@ class File():
             if p.derivedFrom:
                 self.derived_peripherals.append(p.name)
             if p.groupName:
-            	try:
-            		self.peripheral_groups[p.groupName].append(p.name)
-            	except:
-            		self.peripheral_groups[p.groupName] = [p.name]
+                try:
+                    self.peripheral_groups[p.groupName].append(p.name)
+                except:
+                    self.peripheral_groups[p.groupName] = [p.name]
 
             self.peripherals[p.name] = p
             self.peripherals_order.append(p.name)
