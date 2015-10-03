@@ -8,7 +8,7 @@ use core::ops::Drop;
 ioregs! (POWER @ 0x40000000 = {
     /// Power Control.
     0x078 => reg32 TASKS_CONSTLAT {} //! Enable constant latency mode.
-    0x07C => reg32 TASKS_LOWPWR {} //! Enable low power mode (variable latency).
+    0x07c => reg32 TASKS_LOWPWR {} //! Enable low power mode (variable latency).
     0x108 => reg32 EVENTS_POFWARN {} //! Power failure warning.
     0x304 => reg32 INTENSET { //! Interrupt enable set register.
         2 => POFWARN: rw { //! Enable interrupt on POFWARN event.
@@ -87,7 +87,7 @@ ioregs! (POWER @ 0x40000000 = {
             0x03 => V27, //= Set threshold to 2.7Volts.
         }
     }
-    0x51C => reg32 GPREGRET { //! General purpose retention register. This register is a retained register.
+    0x51c => reg32 GPREGRET { //! General purpose retention register. This register is a retained register.
         0..7 => GPREGRET: rw, //! General purpose retention register.
     }
     0x524 => reg32 RAMON { //! Ram on/off.
@@ -138,7 +138,7 @@ ioregs! (POWER @ 0x40000000 = {
             1 => Enabled, //= DCDC converter enabled.
         }
     }
-    0xA08 => reg32 DCDCFORCE { //! DCDC power-up force register.
+    0xa08 => reg32 DCDCFORCE { //! DCDC power-up force register.
         0 => FORCEOFF: rw { //! DCDC power-up force off.
             0 => NoForce, //= No force.
             1 => Force, //= Force.
@@ -155,13 +155,13 @@ ioregs! (CLOCK @ 0x40000000 = {
     0x000 => reg32 TASKS_HFCLKSTART {} //! Start HFCLK clock source.
     0x004 => reg32 TASKS_HFCLKSTOP {} //! Stop HFCLK clock source.
     0x008 => reg32 TASKS_LFCLKSTART {} //! Start LFCLK clock source.
-    0x00C => reg32 TASKS_LFCLKSTOP {} //! Stop LFCLK clock source.
+    0x00c => reg32 TASKS_LFCLKSTOP {} //! Stop LFCLK clock source.
     0x010 => reg32 TASKS_CAL {} //! Start calibration of LFCLK RC oscillator.
     0x014 => reg32 TASKS_CTSTART {} //! Start calibration timer.
     0x018 => reg32 TASKS_CTSTOP {} //! Stop calibration timer.
     0x100 => reg32 EVENTS_HFCLKSTARTED {} //! HFCLK oscillator started.
     0x104 => reg32 EVENTS_LFCLKSTARTED {} //! LFCLK oscillator started.
-    0x10C => reg32 EVENTS_DONE {} //! Calibration of LFCLK RC oscillator completed.
+    0x10c => reg32 EVENTS_DONE {} //! Calibration of LFCLK RC oscillator completed.
     0x110 => reg32 EVENTS_CTTO {} //! Calibration timer timeout.
     0x304 => reg32 INTENSET { //! Interrupt enable set register.
         0 => HFCLKSTARTED: rw { //! Enable interrupt on HFCLKSTARTED event.
@@ -205,7 +205,7 @@ ioregs! (CLOCK @ 0x40000000 = {
             1 => Triggered, //= Task HFCLKSTART has been triggered.
         }
     }
-    0x40C => reg32 HFCLKSTAT { //! High frequency clock status.
+    0x40c => reg32 HFCLKSTAT { //! High frequency clock status.
         0 => SRC: ro { //! Active clock source for the HF clock.
             0 => RC, //= Internal 16MHz RC oscillator running and generating the HFCLK clock.
             1 => Xtal, //= External 16MHz/32MHz crystal oscillator running and generating the HFCLK clock.
@@ -232,7 +232,7 @@ ioregs! (CLOCK @ 0x40000000 = {
             1 => Running, //= LFCLK clock running.
         }
     }
-    0x41C => reg32 LFCLKSRCCOPY { //! Clock source for the LFCLK clock, set when task LKCLKSTART is triggered.
+    0x41c => reg32 LFCLKSRCCOPY { //! Clock source for the LFCLK clock, set when task LKCLKSTART is triggered.
         0..1 => SRC: ro { //! Clock source for the LFCLK clock, set when task LKCLKSTART is triggered.
             0 => RC, //= Internal 32KiHz RC oscillator.
             1 => Xtal, //= External 32KiHz crystal.
@@ -345,7 +345,7 @@ ioregs! (MPU @ 0x40000000 = {
             0 => InRegion1, //= Peripheral configured in region 1.
         }
     }
-    0x52C => reg32 RLENR0 {} //! Length of RAM region 0.
+    0x52c => reg32 RLENR0 {} //! Length of RAM region 0.
     0x600 => reg32 PROTENSET0 { //! Erase and write protection bit enable set register.
         0 => PROTREG0: rw { //! Protection enable for region 0.
             0 => Disabled, //= Protection disabled.
@@ -612,7 +612,7 @@ ioregs! (MPU @ 0x40000000 = {
             1 => Disabled, //= Protection disabled.
         }
     }
-    0x60C => reg32 PROTBLOCKSIZE { //! Erase and write protection block size.
+    0x60c => reg32 PROTBLOCKSIZE { //! Erase and write protection block size.
         0..1 => PROTBLOCKSIZE: rw { //! Erase and write protection block size.
             0 => 4k, //= Erase and write protection block size is 4k.
         }
@@ -621,7 +621,7 @@ ioregs! (MPU @ 0x40000000 = {
 
 ioregs! (AMLI @ 0x40000000 = {
     /// AHB Multi-Layer Interface.
-    0xE00 => group RAMPRI { //! RAM configurable priority configuration structure.
+    0xe00 => group RAMPRI { //! RAM configurable priority configuration structure.
         0x000 => reg32 CPU0 { //! Configurable priority configuration register for CPU0.
             0..3 => RAM0: rw { //! Configuration field for RAM block 0.
                 0x0 => Pri0, //= Priority 0.
@@ -868,7 +868,7 @@ ioregs! (AMLI @ 0x40000000 = {
                 0xE => Pri14, //= Priority 14.
             }
         }
-        0x00C => reg32 ECB { //! Configurable priority configuration register for ECB.
+        0x00c => reg32 ECB { //! Configurable priority configuration register for ECB.
             0..3 => RAM0: rw { //! Configuration field for RAM block 0.
                 0x0 => Pri0, //= Priority 0.
                 0x2 => Pri2, //= Priority 2.
@@ -1122,20 +1122,20 @@ ioregs! (RADIO @ 0x40001000 = {
     0x000 => reg32 TASKS_TXEN {} //! Enable radio in TX mode.
     0x004 => reg32 TASKS_RXEN {} //! Enable radio in RX mode.
     0x008 => reg32 TASKS_START {} //! Start radio.
-    0x00C => reg32 TASKS_STOP {} //! Stop radio.
+    0x00c => reg32 TASKS_STOP {} //! Stop radio.
     0x010 => reg32 TASKS_DISABLE {} //! Disable radio.
     0x014 => reg32 TASKS_RSSISTART {} //! Start the RSSI and take one sample of the receive signal strength.
     0x018 => reg32 TASKS_RSSISTOP {} //! Stop the RSSI measurement.
-    0x01C => reg32 TASKS_BCSTART {} //! Start the bit counter.
+    0x01c => reg32 TASKS_BCSTART {} //! Start the bit counter.
     0x020 => reg32 TASKS_BCSTOP {} //! Stop the bit counter.
     0x100 => reg32 EVENTS_READY {} //! Ready event.
     0x104 => reg32 EVENTS_ADDRESS {} //! Address event.
     0x108 => reg32 EVENTS_PAYLOAD {} //! Payload event.
-    0x10C => reg32 EVENTS_END {} //! End event.
+    0x10c => reg32 EVENTS_END {} //! End event.
     0x110 => reg32 EVENTS_DISABLED {} //! Disable event.
     0x114 => reg32 EVENTS_DEVMATCH {} //! A device address match occurred on the last received packet.
     0x118 => reg32 EVENTS_DEVMISS {} //! No device address match occurred on the last received packet.
-    0x11C => reg32 EVENTS_RSSIEND {} //! Sampling of the receive signal strength complete. A new RSSI sample is ready for readout at the RSSISAMPLE register.
+    0x11c => reg32 EVENTS_RSSIEND {} //! Sampling of the receive signal strength complete. A new RSSI sample is ready for readout at the RSSISAMPLE register.
     0x128 => reg32 EVENTS_BCMATCH {} //! Bit counter reached bit count value specified in BCC register.
     0x200 => reg32 SHORTS { //! Shortcuts for the radio.
         0 => READY_START: rw { //! Shortcut between READY event and START task.
@@ -1256,7 +1256,7 @@ ioregs! (RADIO @ 0x40001000 = {
     0x408 => reg32 RXMATCH { //! Received address.
         0..2 => RXMATCH: ro, //! Logical address in which previous packet was received.
     }
-    0x40C => reg32 RXCRC { //! Received CRC.
+    0x40c => reg32 RXCRC { //! Received CRC.
         0..23 => RXCRC: ro, //! CRC field of previously received packet.
     }
     0x410 => reg32 DAI { //! Device address match index.
@@ -1266,7 +1266,7 @@ ioregs! (RADIO @ 0x40001000 = {
     0x508 => reg32 FREQUENCY { //! Frequency.
         0..6 => FREQUENCY: rw, //! Radio channel frequency offset in MHz: RF Frequency = 2400 + FREQUENCY (MHz). Decision point: TXEN or RXEN task. 
     }
-    0x50C => reg32 TXPOWER { //! Output power.
+    0x50c => reg32 TXPOWER { //! Output power.
         0..7 => TXPOWER: rw { //! Radio output power. Decision point: TXEN task.
             0x04 => Pos4dBm, //= +4dBm.
             0x00 => 0dBm, //= 0dBm.
@@ -1304,7 +1304,7 @@ ioregs! (RADIO @ 0x40001000 = {
             1 => Enabled, //= Whitening enabled.
         }
     }
-    0x51C => reg32 BASE0 {} //! Radio base address 0. Decision point: START task.
+    0x51c => reg32 BASE0 {} //! Radio base address 0. Decision point: START task.
     0x520 => reg32 BASE1 {} //! Radio base address 1. Decision point: START task.
     0x524 => reg32 PREFIX0 { //! Prefixes bytes for logical addresses 0 to 3.
         0..7 => AP0: rw, //! Address prefix 0. Decision point: START task.
@@ -1318,7 +1318,7 @@ ioregs! (RADIO @ 0x40001000 = {
         16..23 => AP6: rw, //! Address prefix 6. Decision point: START task.
         24..31 => AP7: rw, //! Address prefix 7. Decision point: START task.
     }
-    0x52C => reg32 TXADDRESS { //! Transmit address select.
+    0x52c => reg32 TXADDRESS { //! Transmit address select.
         0..2 => TXADDRESS: rw, //! Logical address to be used when transmitting a packet. Decision point: START task.
     }
     0x530 => reg32 RXADDRESSES { //! Receive address select.
@@ -1370,7 +1370,7 @@ ioregs! (RADIO @ 0x40001000 = {
     0x538 => reg32 CRCPOLY { //! CRC polynomial.
         0..23 => CRCPOLY: rw, //! CRC polynomial. Decision point: START task.
     }
-    0x53C => reg32 CRCINIT { //! CRC initial value.
+    0x53c => reg32 CRCINIT { //! CRC initial value.
         0..23 => CRCINIT: rw, //! Initial value for CRC calculation. Decision point: START task.
     }
     0x540 => reg32 TEST { //! Test features enable register.
@@ -1458,7 +1458,7 @@ ioregs! (RADIO @ 0x40001000 = {
     0x728 => reg32 OVERRIDE1 { //! Trim value override register 1.
         0..31 => OVERRIDE1: rw, //! Trim value override 1.
     }
-    0x72C => reg32 OVERRIDE2 { //! Trim value override register 2.
+    0x72c => reg32 OVERRIDE2 { //! Trim value override register 2.
         0..31 => OVERRIDE2: rw, //! Trim value override 2.
     }
     0x730 => reg32 OVERRIDE3 { //! Trim value override register 3.
@@ -1471,7 +1471,7 @@ ioregs! (RADIO @ 0x40001000 = {
             1 => Enabled, //= Override trim values enabled.
         }
     }
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -1484,12 +1484,12 @@ ioregs! (UART0 @ 0x40002000 = {
     0x000 => reg32 TASKS_STARTRX {} //! Start UART receiver.
     0x004 => reg32 TASKS_STOPRX {} //! Stop UART receiver.
     0x008 => reg32 TASKS_STARTTX {} //! Start UART transmitter.
-    0x00C => reg32 TASKS_STOPTX {} //! Stop UART transmitter.
-    0x01C => reg32 TASKS_SUSPEND {} //! Suspend UART.
+    0x00c => reg32 TASKS_STOPTX {} //! Stop UART transmitter.
+    0x01c => reg32 TASKS_SUSPEND {} //! Suspend UART.
     0x100 => reg32 EVENTS_CTS {} //! CTS activated.
     0x104 => reg32 EVENTS_NCTS {} //! CTS deactivated.
     0x108 => reg32 EVENTS_RXDRDY {} //! Data received in RXD.
-    0x11C => reg32 EVENTS_TXDRDY {} //! Data sent from TXD.
+    0x11c => reg32 EVENTS_TXDRDY {} //! Data sent from TXD.
     0x124 => reg32 EVENTS_ERROR {} //! Error detected.
     0x144 => reg32 EVENTS_RXTO {} //! Receiver timeout.
     0x200 => reg32 SHORTS { //! Shortcuts for UART.
@@ -1579,13 +1579,13 @@ ioregs! (UART0 @ 0x40002000 = {
         }
     }
     0x508 => reg32 PSELRTS {} //! Pin select for RTS.
-    0x50C => reg32 PSELTXD {} //! Pin select for TXD.
+    0x50c => reg32 PSELTXD {} //! Pin select for TXD.
     0x510 => reg32 PSELCTS {} //! Pin select for CTS.
     0x514 => reg32 PSELRXD {} //! Pin select for RXD.
     0x518 => reg32 RXD { //! RXD register. On read action the buffer pointer is displaced. Once read the character is consumed. If read when no character available, the UART will stop working.
         0..7 => RXD: ro, //! RX data from previous transfer. Double buffered.
     }
-    0x51C => reg32 TXD { //! TXD register.
+    0x51c => reg32 TXD { //! TXD register.
         0..7 => TXD: wo, //! TX data for transfer.
     }
     0x524 => reg32 BAUDRATE { //! UART Baudrate.
@@ -1608,7 +1608,7 @@ ioregs! (UART0 @ 0x40002000 = {
             0x10000000 => Baud1M, //= 1M baud.
         }
     }
-    0x56C => reg32 CONFIG { //! Configuration of parity and hardware flow control register.
+    0x56c => reg32 CONFIG { //! Configuration of parity and hardware flow control register.
         0 => HWFC: rw { //! Hardware flow control.
             0 => Disabled, //= Hardware flow control disabled.
             1 => Enabled, //= Hardware flow control enabled.
@@ -1618,7 +1618,7 @@ ioregs! (UART0 @ 0x40002000 = {
             7 => Included, //= Parity bit included.
         }
     }
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -1648,12 +1648,12 @@ ioregs! (SPI0 @ 0x40003000 = {
         }
     }
     0x508 => reg32 PSELSCK {} //! Pin select for SCK.
-    0x50C => reg32 PSELMOSI {} //! Pin select for MOSI.
+    0x50c => reg32 PSELMOSI {} //! Pin select for MOSI.
     0x510 => reg32 PSELMISO {} //! Pin select for MISO.
     0x518 => reg32 RXD { //! RX data.
         0..7 => RXD: ro, //! RX data from last transfer.
     }
-    0x51C => reg32 TXD { //! TX data.
+    0x51c => reg32 TXD { //! TX data.
         0..7 => TXD: rw, //! TX data for next transfer.
     }
     0x524 => reg32 FREQUENCY { //! SPI frequency
@@ -1681,7 +1681,7 @@ ioregs! (SPI0 @ 0x40003000 = {
             1 => ActiveLow, //= Active low.
         }
     }
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -1694,11 +1694,11 @@ ioregs! (TWI0 @ 0x40003000 = {
     0x000 => reg32 TASKS_STARTRX {} //! Start 2-Wire master receive sequence.
     0x008 => reg32 TASKS_STARTTX {} //! Start 2-Wire master transmit sequence.
     0x014 => reg32 TASKS_STOP {} //! Stop 2-Wire transaction.
-    0x01C => reg32 TASKS_SUSPEND {} //! Suspend 2-Wire transaction.
+    0x01c => reg32 TASKS_SUSPEND {} //! Suspend 2-Wire transaction.
     0x020 => reg32 TASKS_RESUME {} //! Resume 2-Wire transaction.
     0x104 => reg32 EVENTS_STOPPED {} //! Two-wire stopped.
     0x108 => reg32 EVENTS_RXDREADY {} //! Two-wire ready to deliver new RXD byte received.
-    0x11C => reg32 EVENTS_TXDSENT {} //! Two-wire finished sending last TXD byte.
+    0x11c => reg32 EVENTS_TXDSENT {} //! Two-wire finished sending last TXD byte.
     0x124 => reg32 EVENTS_ERROR {} //! Two-wire error detected.
     0x138 => reg32 EVENTS_BB {} //! Two-wire byte boundary.
     0x148 => reg32 EVENTS_SUSPENDED {} //! Two-wire suspended.
@@ -1764,7 +1764,7 @@ ioregs! (TWI0 @ 0x40003000 = {
             1 => Enabled, //= Interrupt enabled.
         }
     }
-    0x4C4 => reg32 ERRORSRC { //! Two-wire error source. Write error field to 1 to clear error.
+    0x4c4 => reg32 ERRORSRC { //! Two-wire error source. Write error field to 1 to clear error.
         0 => OVERRUN: rw { //! Byte received in RXD register before read of the last received byte (data loss).
             0 => NotPresent, //= Error not present.
             1 => Present, //= Error present.
@@ -1785,11 +1785,11 @@ ioregs! (TWI0 @ 0x40003000 = {
         }
     }
     0x508 => reg32 PSELSCL {} //! Pin select for SCL.
-    0x50C => reg32 PSELSDA {} //! Pin select for SDA.
+    0x50c => reg32 PSELSDA {} //! Pin select for SDA.
     0x518 => reg32 RXD { //! RX data register.
         0..7 => RXD: ro, //! RX data from last transfer.
     }
-    0x51C => reg32 TXD { //! TX data register.
+    0x51c => reg32 TXD { //! TX data register.
         0..7 => TXD: rw, //! TX data for next transfer.
     }
     0x524 => reg32 FREQUENCY { //! Two-wire frequency.
@@ -1802,7 +1802,7 @@ ioregs! (TWI0 @ 0x40003000 = {
     0x588 => reg32 ADDRESS { //! Address used in the two-wire transfer.
         0..6 => ADDRESS: rw, //! Two-wire address.
     }
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -1832,12 +1832,12 @@ ioregs! (SPI1 @ 0x40004000 = {
         }
     }
     0x508 => reg32 PSELSCK {} //! Pin select for SCK.
-    0x50C => reg32 PSELMOSI {} //! Pin select for MOSI.
+    0x50c => reg32 PSELMOSI {} //! Pin select for MOSI.
     0x510 => reg32 PSELMISO {} //! Pin select for MISO.
     0x518 => reg32 RXD { //! RX data.
         0..7 => RXD: ro, //! RX data from last transfer.
     }
-    0x51C => reg32 TXD { //! TX data.
+    0x51c => reg32 TXD { //! TX data.
         0..7 => TXD: rw, //! TX data for next transfer.
     }
     0x524 => reg32 FREQUENCY { //! SPI frequency
@@ -1865,7 +1865,7 @@ ioregs! (SPI1 @ 0x40004000 = {
             1 => ActiveLow, //= Active low.
         }
     }
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -1878,11 +1878,11 @@ ioregs! (TWI1 @ 0x40004000 = {
     0x000 => reg32 TASKS_STARTRX {} //! Start 2-Wire master receive sequence.
     0x008 => reg32 TASKS_STARTTX {} //! Start 2-Wire master transmit sequence.
     0x014 => reg32 TASKS_STOP {} //! Stop 2-Wire transaction.
-    0x01C => reg32 TASKS_SUSPEND {} //! Suspend 2-Wire transaction.
+    0x01c => reg32 TASKS_SUSPEND {} //! Suspend 2-Wire transaction.
     0x020 => reg32 TASKS_RESUME {} //! Resume 2-Wire transaction.
     0x104 => reg32 EVENTS_STOPPED {} //! Two-wire stopped.
     0x108 => reg32 EVENTS_RXDREADY {} //! Two-wire ready to deliver new RXD byte received.
-    0x11C => reg32 EVENTS_TXDSENT {} //! Two-wire finished sending last TXD byte.
+    0x11c => reg32 EVENTS_TXDSENT {} //! Two-wire finished sending last TXD byte.
     0x124 => reg32 EVENTS_ERROR {} //! Two-wire error detected.
     0x138 => reg32 EVENTS_BB {} //! Two-wire byte boundary.
     0x148 => reg32 EVENTS_SUSPENDED {} //! Two-wire suspended.
@@ -1948,7 +1948,7 @@ ioregs! (TWI1 @ 0x40004000 = {
             1 => Enabled, //= Interrupt enabled.
         }
     }
-    0x4C4 => reg32 ERRORSRC { //! Two-wire error source. Write error field to 1 to clear error.
+    0x4c4 => reg32 ERRORSRC { //! Two-wire error source. Write error field to 1 to clear error.
         0 => OVERRUN: rw { //! Byte received in RXD register before read of the last received byte (data loss).
             0 => NotPresent, //= Error not present.
             1 => Present, //= Error present.
@@ -1969,11 +1969,11 @@ ioregs! (TWI1 @ 0x40004000 = {
         }
     }
     0x508 => reg32 PSELSCL {} //! Pin select for SCL.
-    0x50C => reg32 PSELSDA {} //! Pin select for SDA.
+    0x50c => reg32 PSELSDA {} //! Pin select for SDA.
     0x518 => reg32 RXD { //! RX data register.
         0..7 => RXD: ro, //! RX data from last transfer.
     }
-    0x51C => reg32 TXD { //! TX data register.
+    0x51c => reg32 TXD { //! TX data register.
         0..7 => TXD: rw, //! TX data for next transfer.
     }
     0x524 => reg32 FREQUENCY { //! Two-wire frequency.
@@ -1986,7 +1986,7 @@ ioregs! (TWI1 @ 0x40004000 = {
     0x588 => reg32 ADDRESS { //! Address used in the two-wire transfer.
         0..6 => ADDRESS: rw, //! Two-wire address.
     }
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -2051,21 +2051,21 @@ ioregs! (SPIS1 @ 0x40004000 = {
         }
     }
     0x508 => reg32 PSELSCK {} //! Pin select for SCK.
-    0x50C => reg32 PSELMISO {} //! Pin select for MISO.
+    0x50c => reg32 PSELMISO {} //! Pin select for MISO.
     0x510 => reg32 PSELMOSI {} //! Pin select for MOSI.
     0x514 => reg32 PSELCSN {} //! Pin select for CSN.
     0x534 => reg32 RXDPTR {} //! RX data pointer.
     0x538 => reg32 MAXRX { //! Maximum number of bytes in the receive buffer.
         0..7 => MAXRX: rw, //! Maximum number of bytes in the receive buffer.
     }
-    0x53C => reg32 AMOUNTRX { //! Number of bytes received in last granted transaction.
+    0x53c => reg32 AMOUNTRX { //! Number of bytes received in last granted transaction.
         0..7 => AMOUNTRX: ro, //! Number of bytes received in last granted transaction.
     }
     0x544 => reg32 TXDPTR {} //! TX data pointer.
     0x548 => reg32 MAXTX { //! Maximum number of bytes in the transmit buffer.
         0..7 => MAXTX: rw, //! Maximum number of bytes in the transmit buffer.
     }
-    0x54C => reg32 AMOUNTTX { //! Number of bytes transmitted in last granted transaction.
+    0x54c => reg32 AMOUNTTX { //! Number of bytes transmitted in last granted transaction.
         0..7 => AMOUNTTX: ro, //! Number of bytes transmitted in last granted transaction.
     }
     0x554 => reg32 CONFIG { //! Configuration register.
@@ -2082,13 +2082,13 @@ ioregs! (SPIS1 @ 0x40004000 = {
             1 => ActiveLow, //= Active low.
         }
     }
-    0x55C => reg32 DEF { //! Default character.
+    0x55c => reg32 DEF { //! Default character.
         0..7 => DEF: rw, //! Default character.
     }
-    0x5C0 => reg32 ORC { //! Over-read character.
+    0x5c0 => reg32 ORC { //! Over-read character.
         0..7 => ORC: rw, //! Over-read character.
     }
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -2100,12 +2100,12 @@ ioregs! (SPIM1 @ 0x40004000 = {
     /// SPI master with easyDMA 1.
     0x010 => reg32 TASKS_START {} //! Start SPI transaction.
     0x014 => reg32 TASKS_STOP {} //! Stop SPI transaction.
-    0x01C => reg32 TASKS_SUSPEND {} //! Suspend SPI transaction.
+    0x01c => reg32 TASKS_SUSPEND {} //! Suspend SPI transaction.
     0x020 => reg32 TASKS_RESUME {} //! Resume SPI transaction.
     0x104 => reg32 EVENTS_STOPPED {} //! SPI transaction has stopped.
     0x110 => reg32 EVENTS_ENDRX {} //! End of RXD buffer reached.
     0x120 => reg32 EVENTS_ENDTX {} //! End of TXD buffer reached.
-    0x14C => reg32 EVENTS_STARTED {} //! Transaction started.
+    0x14c => reg32 EVENTS_STARTED {} //! Transaction started.
     0x304 => reg32 INTENSET { //! Interrupt enable set register.
         1 => STOPPED: rw { //! Enable interrupt on STOPPED event.
             0 => Disabled, //= Interrupt disabled.
@@ -2200,10 +2200,10 @@ ioregs! (SPIM1 @ 0x40004000 = {
             1 => ActiveLow, //= Active low.
         }
     }
-    0x5C0 => reg32 ORC { //! Over-read character.
+    0x5c0 => reg32 ORC { //! Over-read character.
         0..7 => ORC: rw, //! Over-read character.
     }
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -2215,7 +2215,7 @@ ioregs! (GPIOTE @ 0x40006000 = {
     /// GPIO tasks and events.
     0x000 => reg32 TASKS_OUT[4] {} //! Tasks asssociated with GPIOTE channels.
     0x100 => reg32 EVENTS_IN[4] {} //! Tasks asssociated with GPIOTE channels.
-    0x17C => reg32 EVENTS_PORT {} //! Event generated from multiple pins.
+    0x17c => reg32 EVENTS_PORT {} //! Event generated from multiple pins.
     0x304 => reg32 INTENSET { //! Interrupt enable set register.
         0 => IN0: rw { //! Enable interrupt on IN[0] event.
             0 => Disabled, //= Interrupt disabled.
@@ -2278,7 +2278,7 @@ ioregs! (GPIOTE @ 0x40006000 = {
             1 => High, //= Initial high output when in task mode.
         }
     }
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -2354,7 +2354,7 @@ ioregs! (ADC @ 0x40007000 = {
     0x508 => reg32 RESULT { //! Result of ADC conversion.
         0..9 => RESULT: ro, //! Result of ADC conversion.
     }
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -2367,7 +2367,7 @@ ioregs! (TIMER0 @ 0x40008000 = {
     0x000 => reg32 TASKS_START {} //! Start Timer.
     0x004 => reg32 TASKS_STOP {} //! Stop Timer.
     0x008 => reg32 TASKS_COUNT {} //! Increment Timer (In counter mode).
-    0x00C => reg32 TASKS_CLEAR {} //! Clear timer.
+    0x00c => reg32 TASKS_CLEAR {} //! Clear timer.
     0x010 => reg32 TASKS_SHUTDOWN {} //! Shutdown timer.
     0x040 => reg32 TASKS_CAPTURE[4] {} //! Capture Timer value to CC[n] registers.
     0x140 => reg32 EVENTS_COMPARE[4] {} //! Compare event on CC[n] match.
@@ -2459,7 +2459,7 @@ ioregs! (TIMER0 @ 0x40008000 = {
         0..3 => PRESCALER: rw, //! Timer PRESCALER value. Max value is 9.
     }
     0x540 => reg32 CC[4] {} //! Capture/compare registers.
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -2472,7 +2472,7 @@ ioregs! (TIMER1 @ 0x40009000 = {
     0x000 => reg32 TASKS_START {} //! Start Timer.
     0x004 => reg32 TASKS_STOP {} //! Stop Timer.
     0x008 => reg32 TASKS_COUNT {} //! Increment Timer (In counter mode).
-    0x00C => reg32 TASKS_CLEAR {} //! Clear timer.
+    0x00c => reg32 TASKS_CLEAR {} //! Clear timer.
     0x010 => reg32 TASKS_SHUTDOWN {} //! Shutdown timer.
     0x040 => reg32 TASKS_CAPTURE[4] {} //! Capture Timer value to CC[n] registers.
     0x140 => reg32 EVENTS_COMPARE[4] {} //! Compare event on CC[n] match.
@@ -2564,7 +2564,7 @@ ioregs! (TIMER1 @ 0x40009000 = {
         0..3 => PRESCALER: rw, //! Timer PRESCALER value. Max value is 9.
     }
     0x540 => reg32 CC[4] {} //! Capture/compare registers.
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -2572,12 +2572,12 @@ ioregs! (TIMER1 @ 0x40009000 = {
     }
 });
 
-ioregs! (TIMER2 @ 0x4000A000 = {
+ioregs! (TIMER2 @ 0x4000a000 = {
     /// Timer 2.
     0x000 => reg32 TASKS_START {} //! Start Timer.
     0x004 => reg32 TASKS_STOP {} //! Stop Timer.
     0x008 => reg32 TASKS_COUNT {} //! Increment Timer (In counter mode).
-    0x00C => reg32 TASKS_CLEAR {} //! Clear timer.
+    0x00c => reg32 TASKS_CLEAR {} //! Clear timer.
     0x010 => reg32 TASKS_SHUTDOWN {} //! Shutdown timer.
     0x040 => reg32 TASKS_CAPTURE[4] {} //! Capture Timer value to CC[n] registers.
     0x140 => reg32 EVENTS_COMPARE[4] {} //! Compare event on CC[n] match.
@@ -2669,7 +2669,7 @@ ioregs! (TIMER2 @ 0x4000A000 = {
         0..3 => PRESCALER: rw, //! Timer PRESCALER value. Max value is 9.
     }
     0x540 => reg32 CC[4] {} //! Capture/compare registers.
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -2677,12 +2677,12 @@ ioregs! (TIMER2 @ 0x4000A000 = {
     }
 });
 
-ioregs! (RTC0 @ 0x4000B000 = {
+ioregs! (RTC0 @ 0x4000b000 = {
     /// Real time counter 0.
     0x000 => reg32 TASKS_START {} //! Start RTC Counter.
     0x004 => reg32 TASKS_STOP {} //! Stop RTC Counter.
     0x008 => reg32 TASKS_CLEAR {} //! Clear RTC Counter.
-    0x00C => reg32 TASKS_TRIGOVRFLW {} //! Set COUNTER to 0xFFFFFFF0.
+    0x00c => reg32 TASKS_TRIGOVRFLW {} //! Set COUNTER to 0xFFFFFFF0.
     0x100 => reg32 EVENTS_TICK {} //! Event on COUNTER increment.
     0x104 => reg32 EVENTS_OVRFLW {} //! Event on COUNTER overflow.
     0x140 => reg32 EVENTS_COMPARE[4] {} //! Compare event on CC[n] match.
@@ -2825,7 +2825,7 @@ ioregs! (RTC0 @ 0x4000B000 = {
     0x540 => reg32 CC[4] { //! Capture/compare registers.
         0..23 => COMPARE: rw, //! Compare value.
     }
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -2833,7 +2833,7 @@ ioregs! (RTC0 @ 0x4000B000 = {
     }
 });
 
-ioregs! (TEMP @ 0x4000C000 = {
+ioregs! (TEMP @ 0x4000c000 = {
     /// Temperature Sensor.
     0x000 => reg32 TASKS_START {} //! Start temperature measurement.
     0x004 => reg32 TASKS_STOP {} //! Stop temperature measurement.
@@ -2851,7 +2851,7 @@ ioregs! (TEMP @ 0x4000C000 = {
         }
     }
     0x508 => reg32 TEMP {} //! Die temperature in degC, 2's complement format, 0.25 degC pecision.
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -2859,7 +2859,7 @@ ioregs! (TEMP @ 0x4000C000 = {
     }
 });
 
-ioregs! (RNG @ 0x4000D000 = {
+ioregs! (RNG @ 0x4000d000 = {
     /// Random Number Generator.
     0x000 => reg32 TASKS_START {} //! Start the random number generator.
     0x004 => reg32 TASKS_STOP {} //! Stop the random number generator.
@@ -2891,7 +2891,7 @@ ioregs! (RNG @ 0x4000D000 = {
     0x508 => reg32 VALUE { //! RNG random number.
         0..7 => VALUE: ro, //! Generated random number.
     }
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -2899,7 +2899,7 @@ ioregs! (RNG @ 0x4000D000 = {
     }
 });
 
-ioregs! (ECB @ 0x4000E000 = {
+ioregs! (ECB @ 0x4000e000 = {
     /// AES ECB Mode Encryption.
     0x000 => reg32 TASKS_STARTECB {} //! Start ECB block encrypt. If a crypto operation is running, this will not initiate a new encryption and the ERRORECB event will be triggered.
     0x004 => reg32 TASKS_STOPECB {} //! Stop current ECB encryption. If a crypto operation is running, this will will trigger the ERRORECB event.
@@ -2926,7 +2926,7 @@ ioregs! (ECB @ 0x4000E000 = {
         }
     }
     0x504 => reg32 ECBDATAPTR {} //! ECB block encrypt memory pointer.
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -2934,7 +2934,7 @@ ioregs! (ECB @ 0x4000E000 = {
     }
 });
 
-ioregs! (AAR @ 0x4000F000 = {
+ioregs! (AAR @ 0x4000f000 = {
     /// Accelerated Address Resolver.
     0x000 => reg32 TASKS_START {} //! Start resolving addresses based on IRKs specified in the IRK data structure.
     0x008 => reg32 TASKS_STOP {} //! Stop resolving addresses.
@@ -2984,7 +2984,7 @@ ioregs! (AAR @ 0x4000F000 = {
     0x508 => reg32 IRKPTR {} //! Pointer to the IRK data structure.
     0x510 => reg32 ADDRPTR {} //! Pointer to the resolvable address (6 bytes).
     0x514 => reg32 SCRATCHPTR {} //! Pointer to a "scratch" data area used for temporary storage during resolution. A minimum of 3 bytes must be reserved.
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -2992,7 +2992,7 @@ ioregs! (AAR @ 0x4000F000 = {
     }
 });
 
-ioregs! (CCM @ 0x4000F000 = {
+ioregs! (CCM @ 0x4000f000 = {
     /// AES CCM Mode Encryption.
     0x000 => reg32 TASKS_KSGEN {} //! Start generation of key-stream. This operation will stop by itself when completed.
     0x004 => reg32 TASKS_CRYPT {} //! Start encrypt/decrypt. This operation will stop by itself when completed.
@@ -3053,10 +3053,10 @@ ioregs! (CCM @ 0x4000F000 = {
         }
     }
     0x508 => reg32 CNFPTR {} //! Pointer to a data structure holding AES key and NONCE vector.
-    0x50C => reg32 INPTR {} //! Pointer to the input packet.
+    0x50c => reg32 INPTR {} //! Pointer to the input packet.
     0x510 => reg32 OUTPTR {} //! Pointer to the output packet.
     0x514 => reg32 SCRATCHPTR {} //! Pointer to a "scratch" data area used for temporary storage during resolution. A minimum of 43 bytes must be reserved.
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -3155,7 +3155,7 @@ ioregs! (WDT @ 0x40010000 = {
             1 => Enabled, //= RR[7] register is enabled.
         }
     }
-    0x50C => reg32 CONFIG { //! Configuration register.
+    0x50c => reg32 CONFIG { //! Configuration register.
         0 => SLEEP: rw { //! Configure the watchdog to pause or not while the CPU is sleeping.
             0 => Pause, //= Pause watchdog while the CPU is asleep.
             1 => Run, //= Do not pause watchdog while the CPU is asleep.
@@ -3170,7 +3170,7 @@ ioregs! (WDT @ 0x40010000 = {
             0x6E524635 => Reload, //= Value to request a reload of the watchdog timer.
         }
     }
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -3183,7 +3183,7 @@ ioregs! (RTC1 @ 0x40011000 = {
     0x000 => reg32 TASKS_START {} //! Start RTC Counter.
     0x004 => reg32 TASKS_STOP {} //! Stop RTC Counter.
     0x008 => reg32 TASKS_CLEAR {} //! Clear RTC Counter.
-    0x00C => reg32 TASKS_TRIGOVRFLW {} //! Set COUNTER to 0xFFFFFFF0.
+    0x00c => reg32 TASKS_TRIGOVRFLW {} //! Set COUNTER to 0xFFFFFFF0.
     0x100 => reg32 EVENTS_TICK {} //! Event on COUNTER increment.
     0x104 => reg32 EVENTS_OVRFLW {} //! Event on COUNTER overflow.
     0x140 => reg32 EVENTS_COMPARE[4] {} //! Compare event on CC[n] match.
@@ -3326,7 +3326,7 @@ ioregs! (RTC1 @ 0x40011000 = {
     0x540 => reg32 CC[4] { //! Capture/compare registers.
         0..23 => COMPARE: rw, //! Compare value.
     }
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -3404,7 +3404,7 @@ ioregs! (QDEC @ 0x40012000 = {
             0x07 => 16384us, //= 16384us sample period.
         }
     }
-    0x50C => reg32 SAMPLE { //! Motion sample value.
+    0x50c => reg32 SAMPLE { //! Motion sample value.
         0..31 => SAMPLE: ro, //! Last sample taken in compliment to 2.
     }
     0x510 => reg32 REPORTPER { //! Number of samples to generate an EVENT_REPORTRDY.
@@ -3421,7 +3421,7 @@ ioregs! (QDEC @ 0x40012000 = {
     }
     0x514 => reg32 ACC {} //! Accumulated valid transitions register.
     0x518 => reg32 ACCREAD {} //! Snapshot of ACC register. Value generated by the TASKS_READCLEACC task.
-    0x51C => reg32 PSELLED {} //! Pin select for LED output.
+    0x51c => reg32 PSELLED {} //! Pin select for LED output.
     0x520 => reg32 PSELA {} //! Pin select for phase A input.
     0x524 => reg32 PSELB {} //! Pin select for phase B input.
     0x528 => reg32 DBFEN { //! Enable debouncer input filters.
@@ -3439,7 +3439,7 @@ ioregs! (QDEC @ 0x40012000 = {
     0x548 => reg32 ACCDBLREAD { //! Snapshot of ACCDBL register. Value generated by the TASKS_READCLEACC task.
         0..3 => ACCDBLREAD: ro, //! Snapshot of accumulated double (error) transitions.
     }
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -3455,7 +3455,7 @@ ioregs! (LPCOMP @ 0x40013000 = {
     0x100 => reg32 EVENTS_READY {} //! LPCOMP is ready and output is valid.
     0x104 => reg32 EVENTS_DOWN {} //! Input voltage crossed the threshold going down.
     0x108 => reg32 EVENTS_UP {} //! Input voltage crossed the threshold going up.
-    0x10C => reg32 EVENTS_CROSS {} //! Input voltage crossed the threshold in any direction.
+    0x10c => reg32 EVENTS_CROSS {} //! Input voltage crossed the threshold in any direction.
     0x200 => reg32 SHORTS { //! Shortcuts for the LPCOMP.
         0 => READY_SAMPLE: rw { //! Shortcut between READY event and SAMPLE task.
             0 => Disabled, //= Shortcut disabled.
@@ -3550,7 +3550,7 @@ ioregs! (LPCOMP @ 0x40013000 = {
             7 => ARef, //= Use external analog reference as reference.
         }
     }
-    0x50C => reg32 EXTREFSEL { //! External reference select.
+    0x50c => reg32 EXTREFSEL { //! External reference select.
         0 => EXTREFSEL: rw { //! External analog reference pin selection.
             0 => AnalogReference0, //= Use analog reference 0 as reference.
             1 => AnalogReference1, //= Use analog reference 1 as reference.
@@ -3563,7 +3563,7 @@ ioregs! (LPCOMP @ 0x40013000 = {
             2 => Down, //= Generate ANADETEC on downwards crossing only.
         }
     }
-    0xFFC => reg32 POWER { //! Peripheral power control.
+    0xffc => reg32 POWER { //! Peripheral power control.
         0 => POWER: rw { //! Peripheral power control.
             0 => Disabled, //= Module power disabled.
             1 => Enabled, //= Module power enabled.
@@ -3576,7 +3576,7 @@ ioregs! (SWI @ 0x40014000 = {
     0x000 => reg32 UNUSED {} //! Unused.
 });
 
-ioregs! (NVMC @ 0x4001E000 = {
+ioregs! (NVMC @ 0x4001e000 = {
     /// Non Volatile Memory Controller.
     0x400 => reg32 READY { //! Ready flag.
         0 => READY: ro { //! NVMC ready.
@@ -3593,7 +3593,7 @@ ioregs! (NVMC @ 0x4001E000 = {
     }
     0x508 => reg32 ERASEPAGE {} //! Register for erasing a non-protected non-volatile memory page.
     0x508 => reg32 ERASEPCR1 {} //! Register for erasing a non-protected non-volatile memory page.
-    0x50C => reg32 ERASEALL { //! Register for erasing all non-volatile user memory.
+    0x50c => reg32 ERASEALL { //! Register for erasing all non-volatile user memory.
         0 => ERASEALL: rw { //! Starts the erasing of all user NVM (code region 0/1 and UICR registers).
             0 => NoOperation, //= No operation.
             1 => Erase, //= Start chip erase.
@@ -3608,7 +3608,7 @@ ioregs! (NVMC @ 0x4001E000 = {
     }
 });
 
-ioregs! (PPI @ 0x4001F000 = {
+ioregs! (PPI @ 0x4001f000 = {
     /// PPI controller.
     0x000 => group TASKS_CHG[4] { //! Channel group tasks.
         0x000 => reg32 EN {} //! Enable channel group.
@@ -4081,7 +4081,7 @@ ioregs! (FICR @ 0x10000000 = {
     0x010 => reg32 CODEPAGESIZE {} //! Code memory page size in bytes.
     0x014 => reg32 CODESIZE {} //! Code memory size in pages.
     0x028 => reg32 CLENR0 {} //! Length of code region 0 in bytes.
-    0x02C => reg32 PPFC { //! Pre-programmed factory code present.
+    0x02c => reg32 PPFC { //! Pre-programmed factory code present.
         0..7 => PPFC: ro { //! Pre-programmed factory code present.
             0xFF => NotPresent, //= Not present.
             0x00 => Present, //= Present.
@@ -4090,21 +4090,21 @@ ioregs! (FICR @ 0x10000000 = {
     0x034 => reg32 NUMRAMBLOCK {} //! Number of individualy controllable RAM blocks.
     0x038 => reg32 SIZERAMBLOCKS {} //! Size of RAM blocks in bytes.
     0x038 => reg32 SIZERAMBLOCK[4] {} //! Deprecated array of size of RAM block in bytes. This name is kept for backward compatinility purposes. Use SIZERAMBLOCKS instead.
-    0x05C => reg32 CONFIGID { //! Configuration identifier.
+    0x05c => reg32 CONFIGID { //! Configuration identifier.
         0..15 => HWID: ro, //! Hardware Identification Number.
         16..31 => FWID: ro, //! Firmware Identification Number pre-loaded into the flash.
     }
     0x060 => reg32 DEVICEID[2] {} //! Device identifier.
     0x080 => reg32 ER[4] {} //! Encryption root.
     0x090 => reg32 IR[4] {} //! Identity root.
-    0x0A0 => reg32 DEVICEADDRTYPE { //! Device address type.
+    0x0a0 => reg32 DEVICEADDRTYPE { //! Device address type.
         0 => DEVICEADDRTYPE: ro { //! Device address type.
             0 => Public, //= Public address.
             1 => Random, //= Random address.
         }
     }
-    0x0A4 => reg32 DEVICEADDR[2] {} //! Device address.
-    0x0AC => reg32 OVERRIDEEN { //! Radio calibration override enable.
+    0x0a4 => reg32 DEVICEADDR[2] {} //! Device address.
+    0x0ac => reg32 OVERRIDEEN { //! Radio calibration override enable.
         0 => NRF_1MBIT: ro { //! Override default values for NRF_1Mbit mode.
             0 => Override, //= Override the default values for NRF_1Mbit mode.
             1 => NotOverride, //= Do not override the default values for NRF_1Mbit mode.
@@ -4114,8 +4114,8 @@ ioregs! (FICR @ 0x10000000 = {
             1 => NotOverride, //= Do not override the default values for BLE_1Mbit mode.
         }
     }
-    0x0B0 => reg32 NRF_1MBIT[5] {} //! Override values for the OVERRIDEn registers in RADIO for NRF_1Mbit mode.
-    0x0EC => reg32 BLE_1MBIT[5] {} //! Override values for the OVERRIDEn registers in RADIO for BLE_1Mbit mode.
+    0x0b0 => reg32 NRF_1MBIT[5] {} //! Override values for the OVERRIDEn registers in RADIO for NRF_1Mbit mode.
+    0x0ec => reg32 BLE_1MBIT[5] {} //! Override values for the OVERRIDEn registers in RADIO for BLE_1Mbit mode.
 });
 
 ioregs! (UICR @ 0x10001000 = {
@@ -4408,7 +4408,7 @@ ioregs! (GPIO @ 0x50000000 = {
             1 => High, //= Pin driver is high.
         }
     }
-    0x50C => reg32 OUTCLR { //! Clear individual bits in GPIO port.
+    0x50c => reg32 OUTCLR { //! Clear individual bits in GPIO port.
         0 => PIN0: rw { //! Pin 0.
             0 => Low, //= Pin driver is low.
             1 => High, //= Pin driver is high.
@@ -4928,7 +4928,7 @@ ioregs! (GPIO @ 0x50000000 = {
             1 => Output, //= Pin set as output.
         }
     }
-    0x51C => reg32 DIRCLR { //! DIR clear register.
+    0x51c => reg32 DIRCLR { //! DIR clear register.
         0 => PIN0: rw { //! Set as input pin 0.
             0 => Input, //= Pin set as input.
             1 => Output, //= Pin set as output.
