@@ -26,11 +26,8 @@ import xml.etree.ElementTree as ET
 
 
 class SvdElement():
-    cast_to_integers = [
-        "baseAddress",
-        "addressOffset",
-        "size",
-    ]
+    type = "base_element"
+    cast_to_integers = []
 
     def __init__(self, element=None, defaults={}):
         self.init()
@@ -78,6 +75,7 @@ class SvdElement():
 
 class SvdDevice(SvdElement):
     type = "device"
+    cast_to_integers = ["size"]
 
     def init(self):
         self.name = None
@@ -118,6 +116,7 @@ class SvdCpu(SvdElement):
 
 class SvdPeripheral(SvdElement):
     type = "peripheral"
+    cast_to_integers = ["size", "baseAddress"]
 
     def init(self):
         self.registers = []
@@ -139,6 +138,7 @@ class SvdPeripheral(SvdElement):
 
 class SvdRegister(SvdElement):
     type = "register"
+    cast_to_integers = ["size", "addressOffset"]
 
     def init(self):
         self.fields = []
@@ -172,6 +172,7 @@ class SvdRegister(SvdElement):
 
 class SvdCluster(SvdElement):
     type = "cluster"
+    cast_to_integers = ["size", "addressOffset"]
 
     def init(self):
         self.registers = []
@@ -198,6 +199,7 @@ class SvdCluster(SvdElement):
 
 class SvdField(SvdElement):
     type = "field"
+    #cast_to_integers = ["bitOffset", "bitWidth", "lsb", "msb", "bitRange"]
 
     def init(self):
         self.enumeratedValues = {
@@ -247,6 +249,7 @@ class SvdField(SvdElement):
 
 class SvdEnumeratedValue(SvdElement):
     type = "enumeratedValue"
+    cast_to_integer = ["value"]
 
     def init(self):
         self.derivedFrom = None
