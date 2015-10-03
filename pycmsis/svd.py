@@ -46,11 +46,15 @@ class File():
             p = Peripheral(e, self.device)
 
             try: # Because registers may be None
-                for r in e.find("registers"):
-                    if r.tag == "cluster":
-                        p.registers.append(Cluster(r, p))
-                    elif r.tag == "register":
-                        p.registers.append(Register(r, p))
+                for r_elem in e.find("registers"):
+                    if r_elem.tag == "cluster":
+                        p.registers.append(Cluster(r_elem, p))
+                    elif r_elem.tag == "register":
+                        r = Register(r_elem, p)
+                        if r.dim:
+                            p.registers.extend(r.duplicate())
+                        else:
+                            p.registers.append(r)
             except: pass
 
             try: # Because interrupt may be None
@@ -188,7 +192,7 @@ class Peripheral(Element):
 
 class Register(Element):
     type = "register"
-    cast_to_integer = ["size", "addressOffset"]
+    cast_to_integer = ["size", "addressOffset", "dim", "dimIncrement"]
 
     def init(self):
         self.fields = []
@@ -213,16 +217,47 @@ class Register(Element):
     def from_element(self, element, defaults={}):
         Element.from_element(self, element, defaults)
 
+        if self.dim:
+            try:
+                self.dimIndex = int(self.dimIndex)
+            except:
+                try:
+                    start, end = self.dimIndex.split("-")
+                    self.dimIndex = range(int(start), int(end))
+                except:
+                    self.dimIndex = self.dimIndex.split(",")
+
         try: # Because fields may be None
             for e in element.find("fields"):
                 field = Field(e, self)
                 self.fields.append(field)
         except: pass
 
+    def duplicate(self):
+        """Duplicate if dimElementGroup is set"""
+        if not self.dim:
+            return []
+
+        if type(self.dimIndex) is int:
+            self.name.replace("%s", self.dimIndex)
+            return [self]
+        if self.name.endswith("[%s]"): # Hack
+            self.name = self.name.replace("%s", str(self.dim))
+            return [self]
+
+        x = 1
+        registers = []
+        for i in self.dimIndex:
+            r = self.copy()
+            r.name = r.name.replace("%s", str(i))
+            r.addressOffset += x * r.dimIncrement
+            registers.append(r)
+            x += 1
+        return registers
 
 class Cluster(Element):
     type = "cluster"
-    cast_to_integer = ["size", "addressOffset"]
+    cast_to_integer = ["size", "addressOffset", "dim", "dimIncrement"]
 
     def init(self):
         self.registers = []
@@ -238,12 +273,18 @@ class Cluster(Element):
 
     def from_element(self, element, defaults={}):
         Element.from_element(self, element, {})
+        self.name = self.name.replace("%s", str(self.dim)) # Hack
+
         try:
             for e in element.findall("*"):
                 if e.tag == "cluster": # Cluster may include yet another cluster
                     self.registers.append(Cluster(e, defaults))
                 elif e.tag == "register":
-                    self.registers.append(Register(e, defaults))
+                    r = Register(e, defaults)
+                    if r.dim:
+                        self.registers.extend(r.duplicate())
+                    else:
+                        self.registers.append(r)
         except: pass
 
 

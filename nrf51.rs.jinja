@@ -34,7 +34,7 @@ use core::ops::Drop;
 {%- endmacro -%}
 
 {%- macro register(r) -%}
-{{ "%#05x"|format(r.addressOffset) }} => {{ "reg%s"|format(r.size) }} {{ r.name|replace("%s", r.dim) }}
+{{ "%#05x"|format(r.addressOffset) }} => {{ "reg%s"|format(r.size) }} {{ r.name }}
     {%- if not r.fields or NO_FIELDS %} {{ "{} " + description("//!", r) }}{% else %} {{ "{ " + description("//!", r) }}
     {%- for f in r.fields %}
     {{ f.bitRange|bitrange }} => {{ f.name }}{% if f.access %}: {{ f.access|access }}{% endif %}
@@ -48,7 +48,7 @@ use core::ops::Drop;
 {%- endmacro -%}
 
 {%- macro cluster(c) -%}
-{{ "%#05x"|format(c.addressOffset) }} => group {{ c.name|replace("%s", c.dim) }} {{ "{ " + description("//!", c) }}
+{{ "%#05x"|format(c.addressOffset) }} => group {{ c.name }} {{ "{ " + description("//!", c) }}
     {%- for r in c.registers %}
     {{ register(r)|indent }}
     {%- endfor %}
