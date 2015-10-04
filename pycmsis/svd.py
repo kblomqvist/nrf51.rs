@@ -245,7 +245,7 @@ class Register(Element):
             self.name = self.name.replace("%s", str(self.dim))
             return [self]
 
-        x = 1
+        x = 0
         registers = []
         for i in self.dimIndex:
             r = self.copy()
