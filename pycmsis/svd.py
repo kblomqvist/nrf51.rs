@@ -223,7 +223,7 @@ class Register(Element):
             except:
                 try:
                     start, end = self.dimIndex.split("-")
-                    self.dimIndex = range(int(start), int(end))
+                    self.dimIndex = list(range(int(start), int(end)))
                 except:
                     self.dimIndex = self.dimIndex.split(",")
 
@@ -241,19 +241,17 @@ class Register(Element):
         if type(self.dimIndex) is int:
             self.name.replace("%s", self.dimIndex)
             return [self]
-        if self.name.endswith("[%s]"): # Hack
+        if self.name.endswith("[%s]"): # If it's C array like don't duplicate.
             self.name = self.name.replace("%s", str(self.dim))
             return [self]
 
-        x = 0
-        registers = []
-        for i in self.dimIndex:
+        duplicates = []
+        for increment, index in enumerate(self.dimIndex):
             r = self.copy()
-            r.name = r.name.replace("%s", str(i))
-            r.addressOffset += x * r.dimIncrement
-            registers.append(r)
-            x += 1
-        return registers
+            r.name = r.name.replace("%s", str(index))
+            r.addressOffset += increment * r.dimIncrement
+            duplicates.append(r)
+        return duplicates
 
 class Cluster(Element):
     type = "cluster"
