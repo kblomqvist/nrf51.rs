@@ -93,7 +93,13 @@ class SvdElement():
         raise NotImplementedError("Please implement")
 
     def from_element(self, element, defaults={}):
-        """Populate object variables from element text/attrib"""
+        """Populate object variables from SVD element"""
+
+        def to_mixed_case(snake_case):
+            """Return snake_case formatted string in mixedCase"""
+            tokens = snake_case.split("_")
+            return tokens[0] + "".join(s[0].upper() + s[1:] for s in tokens[1:])
+
         try:
             defaults = vars(defaults)
         except: pass
@@ -101,12 +107,11 @@ class SvdElement():
         for key, value in vars(self).items():
             if isinstance(value, list) or isinstance(value, dict):
                 continue
-
             try:
-                value = element.find(key).text
+                value = element.find(to_mixed_case(key)).text
             except: # Maybe it's attribute?
                 default = defaults[key] if key in defaults else None
-                value = element.get(key, default)
+                value = element.get(to_mixed_case(key), default)
 
             if value and key in self.cast_to_integer:
                 try:
@@ -189,7 +194,7 @@ class Peripheral(SvdElement):
 
 class Register(SvdElement):
     type = "register"
-    cast_to_integer = ["size", "addressOffset", "dim", "dimIncrement"]
+    cast_to_integer = ["size", "addressOffset", "dim", "dimIncrement", "resetValue", "resetMask"]
 
     def init(self):
         self.fields = []
