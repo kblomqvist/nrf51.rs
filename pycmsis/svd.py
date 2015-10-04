@@ -75,8 +75,8 @@ class File():
             p.inherit_from(base)
 
 
-class Element():
-    type = "base_element"
+class SvdElement():
+    type = "svd_element"
     cast_to_integer = []
 
     def __init__(self, element=None, defaults={}):
@@ -123,7 +123,7 @@ class Element():
                 setattr(self, key, value)
 
 
-class Device(Element):
+class Device(SvdElement):
     type = "device"
     cast_to_integer = ["size"]
 
@@ -145,7 +145,7 @@ class Device(Element):
         self.headerDefinitionsPrefix = None
 
 
-class Cpu(Element):
+class Cpu(SvdElement):
     type = "cpu"
 
     def init(self):
@@ -164,7 +164,7 @@ class Cpu(Element):
         self.vendorSystickConfig = None
 
 
-class Peripheral(Element):
+class Peripheral(SvdElement):
     type = "peripheral"
     cast_to_integer = ["size", "baseAddress"]
 
@@ -187,7 +187,7 @@ class Peripheral(Element):
         self.alternatePeripheral = None
 
 
-class Register(Element):
+class Register(SvdElement):
     type = "register"
     cast_to_integer = ["size", "addressOffset", "dim", "dimIncrement"]
 
@@ -212,7 +212,7 @@ class Register(Element):
         self.dataType = None
 
     def from_element(self, element, defaults={}):
-        Element.from_element(self, element, defaults)
+        SvdElement.from_element(self, element, defaults)
 
         if self.dim:
             try:
@@ -259,7 +259,7 @@ class Register(Element):
         return replicates
 
 
-class Cluster(Element):
+class Cluster(SvdElement):
     type = "cluster"
     cast_to_integer = ["size", "addressOffset", "dim", "dimIncrement"]
 
@@ -276,7 +276,7 @@ class Cluster(Element):
         self.addressOffset = None
 
     def from_element(self, element, defaults={}):
-        Element.from_element(self, element, {})
+        SvdElement.from_element(self, element, {})
 
         # TODO: Should work like Register.to_array(), if there's self.dim
         self.name = self.name.replace("%s", str(self.dim))
@@ -291,7 +291,7 @@ class Cluster(Element):
         except: pass
 
 
-class Field(Element):
+class Field(SvdElement):
     type = "field"
     cast_to_integer = ["bitOffset", "bitWidth", "lsb", "msb"]
 
@@ -315,7 +315,7 @@ class Field(Element):
         self.readAction = None
 
     def from_element(self, element, defaults={}):
-        Element.from_element(self, element, defaults)
+        SvdElement.from_element(self, element, defaults)
 
         if self.bitRange:
             self.msb, self.lsb = self.bitRange[1:-1].split(":")
@@ -340,7 +340,7 @@ class Field(Element):
         except: pass
 
 
-class EnumeratedValue(Element):
+class EnumeratedValue(SvdElement):
     type = "enumeratedValue"
     cast_to_integer = ["value"]
 
@@ -352,7 +352,7 @@ class EnumeratedValue(Element):
         self.isDefault = None
 
 
-class Interrupt(Element):
+class Interrupt(SvdElement):
     type = "interrupt"
     cast_to_integer = ["value"]
 
