@@ -237,19 +237,20 @@ class Register(SvdElement):
 
     def to_array(self):
         """Replicate the register in accordance with it's dimensions
-        and return a list these replicates.
+        and return a list of these replicates.
 
         - If the register is dimensionless, the returned list just
           contains the register itself unchanged.
 
-        - If the dimension defines a C array like structure the returned
-          list contains the register itself, where only the '%s' placeholder
-          in it's name has been replaced with the dim element value.
+        - In case the register name looks like a C array, the returned
+          list contains the register itself, where nothing else than
+          the '%s' placeholder in it's name has been replaced with value
+          of the dim element.
         """
         if not self.dim:
             return [self]
         if type(self.dimIndex) is int:
-            self.name.replace("%s", self.dimIndex)
+            self.name = self.name.replace("%s", self.dimIndex)
             return [self]
         if self.name.endswith("[%s]"): # C array like
             self.name = self.name.replace("%s", str(self.dim))
@@ -260,6 +261,7 @@ class Register(SvdElement):
             r = self.copy()
             r.name = r.name.replace("%s", str(index))
             r.addressOffset += increment * r.dimIncrement
+            r.dim = r.dimIndex = r.dimIncrement = None
             replicates.append(r)
         return replicates
 
