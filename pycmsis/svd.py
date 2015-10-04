@@ -81,7 +81,7 @@ class SvdElement():
 
     def __init__(self, element=None, defaults={}):
         self.init()
-        if element:
+        if element is not None:
             self.from_element(element, defaults)
 
     def __repr__(self):
@@ -91,6 +91,10 @@ class SvdElement():
     def init(self):
         """Define object variables within this method"""
         raise NotImplementedError("Please implement")
+
+    def copy(self):
+        import copy
+        return copy.copy(self)
 
     def from_element(self, element, defaults={}):
         """Populate object variables from SVD element"""
@@ -249,11 +253,9 @@ class Register(SvdElement):
         """
         if not self.dim:
             return [self]
-        if type(self.dimIndex) is int:
-            self.name = self.name.replace("%s", self.dimIndex)
-            return [self]
         if self.name.endswith("[%s]"): # C array like
             self.name = self.name.replace("%s", str(self.dim))
+            self.dim = self.dimIndex = self.dimIncrement = None
             return [self]
 
         replicates = []
