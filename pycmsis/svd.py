@@ -51,10 +51,7 @@ class File():
                         p.registers.append(Cluster(r_elem, p))
                     elif r_elem.tag == "register":
                         r = Register(r_elem, p)
-                        if r.dim:
-                            p.registers.extend(r.duplicate())
-                        else:
-                            p.registers.append(r)
+                        p.registers.extend(r.to_array())
             except: pass
 
             try: # Because interrupt may be None
@@ -233,25 +230,34 @@ class Register(Element):
                 self.fields.append(field)
         except: pass
 
-    def duplicate(self):
-        """Duplicate if dimElementGroup is set"""
-        if not self.dim:
-            return []
+    def to_array(self):
+        """Replicate the register in accordance with it's dimensions
+        and return a list these replicates.
 
+        - If the register is dimensionless, the returned list just
+          contains the register itself unchanged.
+
+        - If the dimension defines a C array like structure the returned
+          list contains the register itself, where only the '%s' placeholder
+          in it's name has been replaced with the dim element value.
+        """
+        if not self.dim:
+            return [self]
         if type(self.dimIndex) is int:
             self.name.replace("%s", self.dimIndex)
             return [self]
-        if self.name.endswith("[%s]"): # If it's C array like don't duplicate.
+        if self.name.endswith("[%s]"): # C array like
             self.name = self.name.replace("%s", str(self.dim))
             return [self]
 
-        duplicates = []
+        replicates = []
         for increment, index in enumerate(self.dimIndex):
             r = self.copy()
             r.name = r.name.replace("%s", str(index))
             r.addressOffset += increment * r.dimIncrement
-            duplicates.append(r)
-        return duplicates
+            replicates.append(r)
+        return replicates
+
 
 class Cluster(Element):
     type = "cluster"
@@ -271,7 +277,9 @@ class Cluster(Element):
 
     def from_element(self, element, defaults={}):
         Element.from_element(self, element, {})
-        self.name = self.name.replace("%s", str(self.dim)) # Hack
+
+        # TODO: Should work like Register.to_array(), if there's self.dim
+        self.name = self.name.replace("%s", str(self.dim))
 
         try:
             for e in element.findall("*"):
@@ -279,10 +287,7 @@ class Cluster(Element):
                     self.registers.append(Cluster(e, defaults))
                 elif e.tag == "register":
                     r = Register(e, defaults)
-                    if r.dim:
-                        self.registers.extend(r.duplicate())
-                    else:
-                        self.registers.append(r)
+                    self.registers.extend(r.to_array())
         except: pass
 
 
