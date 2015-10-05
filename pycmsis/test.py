@@ -26,7 +26,7 @@ import svd
 import pytest
 import xml.etree.ElementTree as et
 
-def test_register_folding_commasparated_index():
+def test_register_folding_commaseparated_index():
     r = svd.Register(et.fromstring(
         """
         <register>
