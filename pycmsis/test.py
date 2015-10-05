@@ -58,7 +58,6 @@ def test_register_folding_integerrange_index():
         """
     ))
     a = r.to_array() # or maybe fold() would be more descriptive?
-    print(a)
 
     assert len(a) == 4
     assert a[0].name == "IRQ3"
