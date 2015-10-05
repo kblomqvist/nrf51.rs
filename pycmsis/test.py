@@ -27,19 +27,42 @@ import pytest
 import xml.etree.ElementTree as et
 
 def test_register_folding_commasparated_index():
-	r = svd.Register(et.fromstring(
-		"""
-		<register>
-			<dim>3</dim>
-			<dimIncrement>4</dimIncrement>
-			<dimIndex>A,B,C</dimIndex>
-			<name>FOO_%s</name>
-			<addressOffset>4</addressOffset>
-		</register>
-		"""
-	))
-	a = r.to_array() # or maybe fold() would be more descriptive?
+    r = svd.Register(et.fromstring(
+        """
+        <register>
+            <dim>3</dim>
+            <dimIncrement>4</dimIncrement>
+            <dimIndex>A,B,C</dimIndex>
+            <name>GPIO_%s</name>
+            <addressOffset>4</addressOffset>
+        </register>
+        """
+    ))
+    a = r.to_array() # or maybe fold() would be more descriptive?
 
-	assert a[0].name == "FOO_A"
-	assert a[1].name == "FOO_B"
-	assert a[2].name == "FOO_C"
+    assert len(a) == 3
+    assert a[0].name == "GPIO_A"
+    assert a[1].name == "GPIO_B"
+    assert a[2].name == "GPIO_C"
+
+def test_register_folding_integerrange_index():
+    r = svd.Register(et.fromstring(
+        """
+        <register>
+            <dim>4</dim>
+            <dimIncrement>4</dimIncrement>
+            <dimIndex>3-6</dimIndex>
+            <name>IRQ%s</name>
+            <addressOffset>4</addressOffset>
+        </register>
+        """
+    ))
+    a = r.to_array() # or maybe fold() would be more descriptive?
+    print(a)
+
+    assert len(a) == 4
+    assert a[0].name == "IRQ3"
+    assert a[1].name == "IRQ4"
+    assert a[2].name == "IRQ5"
+    assert a[3].name == "IRQ6"
+    assert a[2].addressOffset == 4 + (2 * 4)

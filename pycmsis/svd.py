@@ -228,8 +228,8 @@ class Register(SvdElement):
                 self.dimIndex = int(self.dimIndex)
             except:
                 try:
-                    start, end = self.dimIndex.split("-")
-                    self.dimIndex = list(range(int(start), int(end)))
+                    start, stop = self.dimIndex.split("-")
+                    self.dimIndex = list(range(int(start), int(stop)+1))
                 except:
                     self.dimIndex = self.dimIndex.split(",")
 
