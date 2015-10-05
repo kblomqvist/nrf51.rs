@@ -65,3 +65,20 @@ def test_register_folding_integerrange_index():
     assert a[2].name == "IRQ5"
     assert a[3].name == "IRQ6"
     assert a[2].addressOffset == 4 + (2 * 4)
+
+def test_register_is_dimensionless_after_fold_up():
+    r = svd.Register(et.fromstring(
+        """
+        <register>
+            <dim>4</dim>
+            <dimIncrement>4</dimIncrement>
+            <dimIndex>3-6</dimIndex>
+            <name>IRQ%s</name>
+            <addressOffset>4</addressOffset>
+        </register>
+        """
+    ))
+    for r in r.to_array():
+        assert r.dim == None
+        assert r.dimIndex == None
+        assert r.dimIncrement == None
