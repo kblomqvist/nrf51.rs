@@ -45,6 +45,7 @@ def test_register_folding_commaseparated_index():
     assert a[1].name == "GPIO_B"
     assert a[2].name == "GPIO_C"
 
+
 def test_register_folding_integerrange_index():
     r = svd.Register(et.fromstring(
         """
@@ -64,7 +65,10 @@ def test_register_folding_integerrange_index():
     assert a[1].name == "IRQ4"
     assert a[2].name == "IRQ5"
     assert a[3].name == "IRQ6"
-    assert a[2].addressOffset == 4 + (2 * 4)
+
+    for i in range(4):
+        assert a[i].addressOffset == 4 + (i * 4)
+
 
 def test_register_is_dimensionless_after_fold_up():
     r = svd.Register(et.fromstring(
@@ -82,3 +86,49 @@ def test_register_is_dimensionless_after_fold_up():
         assert r.dim == None
         assert r.dimIndex == None
         assert r.dimIncrement == None
+
+
+def test_peripheral_interrupt_inheritance():
+    timer0 = svd.Peripheral(et.fromstring(
+        """
+        <peripheral>
+            <name>TIMER0</name>
+            <baseAddress>0x40000</baseAddress>
+            <interrupt>
+                <name>TIMER0_INT</name>
+                <value>42</value>
+            </interrupt>
+        </peripheral>
+        """
+    ))
+    timer1 = svd.Peripheral(et.fromstring(
+        """
+        <peripheral derivedFrom="TIMER0">
+            <name>TIMER1</name>
+            <baseAddress>0x40400</baseAddress>
+            <interrupt>
+                <name>TIMER1_INT</name>
+                <value>43</value>
+            </interrupt>
+        </peripheral>
+        """
+    ))
+    timer1.inherit_from(timer0)
+
+    assert len(timer1.interrupts) == 1
+    assert timer1.interrupts[0].name == "TIMER1_INT"
+    assert timer1.interrupts[0].value == 43
+
+    timer1 = svd.Peripheral(et.fromstring(
+        """
+        <peripheral derivedFrom="TIMER0">
+            <name>TIMER1</name>
+            <baseAddress>0x40400</baseAddress>
+        </peripheral>
+        """
+    ))
+    timer1.inherit_from(timer0)
+
+    assert len(timer1.interrupts) == 1
+    assert timer1.interrupts[0].name == "TIMER0_INT"
+    assert timer1.interrupts[0].value == 42

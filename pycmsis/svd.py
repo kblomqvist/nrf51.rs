@@ -44,31 +44,17 @@ class File():
 
         for e in self.root.iter("peripheral"):
             p = Peripheral(e, self.device)
-
-            try: # Because registers may be None
-                for r_elem in e.find("registers"):
-                    if r_elem.tag == "cluster":
-                        p.registers.append(Cluster(r_elem, p))
-                    elif r_elem.tag == "register":
-                        r = Register(r_elem, p)
-                        p.registers.extend(r.to_array())
-            except: pass
-
-            try: # Because interrupt may be None
-                for i in e.findall("interrupt"):
-                    p.interrupts.append(Interrupt(i))
-            except: pass
+            self.peripherals[p.name] = p
+            self.peripherals_order.append(p.name)
 
             if p.derivedFrom:
                 self.derived_peripherals.append(p.name)
+
             if p.groupName:
                 try:
                     self.peripheral_groups[p.groupName].append(p.name)
                 except:
                     self.peripheral_groups[p.groupName] = [p.name]
-
-            self.peripherals[p.name] = p
-            self.peripherals_order.append(p.name)
 
         for p in [self.peripherals[name] for name in self.derived_peripherals]:
             base = self.peripherals[p.derivedFrom]
@@ -195,6 +181,23 @@ class Peripheral(SvdElement):
         self.resetMask = None
         self.alternatePeripheral = None
 
+    def from_element(self, element, defaults={}):
+        SvdElement.from_element(self, element, defaults)
+
+        try: # Because registers may be None
+            for r in element.find("registers"):
+                if r.tag == "cluster":
+                    self.registers.append(Cluster(r, self))
+                elif r.tag == "register":
+                    r = Register(r, self)
+                    self.registers.extend(r.to_array())
+        except: pass
+
+        try: # Because interrupt may be None
+            for i in element.findall("interrupt"):
+                self.interrupts.append(Interrupt(i))
+        except: pass
+
 
 class Register(SvdElement):
     type = "register"
@@ -229,7 +232,8 @@ class Register(SvdElement):
             except:
                 try:
                     start, stop = self.dimIndex.split("-")
-                    self.dimIndex = list(range(int(start), int(stop)+1))
+                    start, stop = (int(start), int(stop)+1)
+                    self.dimIndex = list(range(start, stop))
                 except:
                     self.dimIndex = self.dimIndex.split(",")
 
