@@ -1,0 +1,44 @@
+{%- macro register(r, prefix) -%}
+  [[{{ prefix }}register]]
+    name = "{{ r.name }}"
+    size = {{ r.size }}
+    address_offset = {{ r.addressOffset }} # {{ "%#x"|format(r.addressOffset) }}
+    {% for f in r.fields %}
+    [[{{ prefix }}register.field]]
+      name = "{{ f.name }}"
+      access = "{{ f.access|access }}"
+      {% for e in f.enumeratedValues["read"] %}
+      [[{{ prefix }}register.field.enum.read]]
+        name = "{{ e.name }}"
+        value = {{ e.value }}
+      {% endfor -%}
+      {% for e in f.enumeratedValues["write"] %}
+      [[{{ prefix }}register.field.enum.write]]
+        name = "{{ e.name }}"
+        value = {{ e.value }}
+      {% endfor -%}
+      {% for e in f.enumeratedValues["read-write"] %}
+      [[{{ prefix }}register.field.enum.readwrite]]
+        name = "{{ e.name }}"
+        value = {{ e.value }}
+      {% endfor -%}
+    {% endfor -%}
+{%- endmacro -%}
+
+{% for p in peripherals %}
+[[peripheral]] # {{ p.description }}
+  name = "{{ p.name }}"
+  base_address = {{ p.baseAddress }} # {{ "%#x"|format(p.baseAddress) }}
+  {% for r in p.registers %}
+  {% if not r.registers -%}
+  {{ register(r, "peripheral.") }}
+  {%- else -%}
+  [[peripheral.cluster]]
+    name = "{{ r.name }}"
+    address_offset = {{ r.addressOffset }} # {{ "%#x"|format(r.addressOffset) }}
+    {% for r in r.registers %}
+    {{ register(r, "peripheral.cluster.")|indent(2) }}
+    {% endfor -%}
+  {%- endif -%}
+{% endfor %}
+{% endfor %}
