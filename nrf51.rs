@@ -4,7 +4,6 @@
 use volatile_cell::VolatileCell;
 use core::ops::Drop;
 
-
 ioregs! (POWER @ 0x40000000 = {
     /// Power Control.
     0x078 => reg32 TASKS_CONSTLAT {} //! Enable constant latency mode.
@@ -1146,7 +1145,7 @@ ioregs! (RADIO @ 0x40001000 = {
             0 => Disabled, //= Shortcut disabled.
             1 => Enabled, //= Shortcut enabled.
         }
-        2 => DISABLED_TXEN: rw { //! Shortcut between DISABLED event and TXEN task. 
+        2 => DISABLED_TXEN: rw { //! Shortcut between DISABLED event and TXEN task.
             0 => Disabled, //= Shortcut disabled.
             1 => Enabled, //= Shortcut enabled.
         }
@@ -1264,7 +1263,7 @@ ioregs! (RADIO @ 0x40001000 = {
     }
     0x504 => reg32 PACKETPTR {} //! Packet pointer. Decision point: START task.
     0x508 => reg32 FREQUENCY { //! Frequency.
-        0..6 => FREQUENCY: rw, //! Radio channel frequency offset in MHz: RF Frequency = 2400 + FREQUENCY (MHz). Decision point: TXEN or RXEN task. 
+        0..6 => FREQUENCY: rw, //! Radio channel frequency offset in MHz: RF Frequency = 2400 + FREQUENCY (MHz). Decision point: TXEN or RXEN task.
     }
     0x50c => reg32 TXPOWER { //! Output power.
         0..7 => TXPOWER: rw { //! Radio output power. Decision point: TXEN task.
