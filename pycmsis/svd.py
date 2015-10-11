@@ -274,7 +274,7 @@ class Register(SvdElement):
 
 class Cluster(SvdElement):
     type = "cluster"
-    cast_to_integer = ["size", "addressOffset", "dim", "dimIncrement"]
+    cast_to_integer = ["addressOffset", "dim", "dimIncrement"]
 
     def init(self):
         self.registers = []
