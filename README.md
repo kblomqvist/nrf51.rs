@@ -1,3 +1,9 @@
+
+## Development of the CMSIS-SVD parser moved
+It's now part of the default parsers of Yasha https://github.com/kblomqvist/yasha
+
+---
+
 Usage:
 
 ```
